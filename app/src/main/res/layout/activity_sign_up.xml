@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgroundMain"
+    tools:context=".SignUp">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingVertical="100dp">
+
+                <TextView
+                    android:id="@+id/titleSignUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@string/fontTopicSignUp"
+                    android:text="@string/textoTittleSignUp"
+                    android:textAlignment="@integer/textAlignmentTitleSignUp"
+                    android:textColor="@color/textColorTitleSignUp"
+                    android:textSize="@dimen/sizeTextTitleSignUp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="30dp">
+
+                    <LinearLayout
+                        android:id="@+id/retInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/userMailInfoSignUp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@string/fontInfoSignUp"
+                                android:text="@string/textMailSignUp"
+                                android:textAlignment="@integer/textAlignmentInfoSignUp"
+                                android:textColor="@color/textColorInfoSignUp"
+                                android:textSize="@dimen/sizeTextInfoSignUp" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/userMailSignUp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="@dimen/marginVFormularioLogin"
+                                    android:background="@drawable/backgroundFormularioLogin"
+                                    android:elegantTextHeight="@bool/elegantTextHeightHintSignUp"
+                                    android:fontFamily="@string/fontHintSignUp"
+                                    android:hint="@string/hintMailSignUp"
+                                    android:inputType="textEmailAddress"
+                                    android:minHeight="@dimen/minHeigtFormularioLogin"
+                                    android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
+                                    android:textAlignment="@integer/textAlignmentHintSignUp"
+                                    android:textColor="@color/textColorHintTextSignUp"
+                                    android:textColorHint="@color/textColorHintSignUp"
+                                    android:textSize="@dimen/sizeTextHintSignUp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
+                                <LinearLayout
+                                    android:id="@+id/resetText1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:paddingHorizontal="@dimen/paddingIconFormularioLogin"
+                                    android:paddingVertical="@dimen/paddingIconFormularioLogin"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/iconCancel"
+                                        tools:ignore="TooDeepLayout" />
+
+                                </LinearLayout>
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:id="@+id/userPasswordInfoSignUp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@string/fontInfoSignUp"
+                                android:text="@string/textPasswordSignUp"
+                                android:textAlignment="@integer/textAlignmentInfoSignUp"
+                                android:textColor="@color/textColorInfoSignUp"
+                                android:textSize="@dimen/sizeTextInfoSignUp" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/userPasswordSignUp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="@dimen/marginVFormularioLogin"
+                                    android:background="@drawable/backgroundFormularioLogin"
+                                    android:elegantTextHeight="@bool/elegantTextHeightHintSignUp"
+                                    android:fontFamily="@string/fontHintSignUp"
+                                    android:hint="@string/hintPasswordSignUp"
+                                    android:inputType="textPassword"
+                                    android:minHeight="@dimen/minHeigtFormularioLogin"
+                                    android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
+                                    android:textAlignment="@integer/textAlignmentHintSignUp"
+                                    android:textColor="@color/textColorHintTextSignUp"
+                                    android:textColorHint="@color/textColorHintSignUp"
+                                    android:textSize="@dimen/sizeTextHintSignUp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
+                                <LinearLayout
+                                    android:id="@+id/resetText2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:paddingHorizontal="@dimen/paddingIconFormularioLogin"
+                                    android:paddingVertical="@dimen/paddingIconFormularioLogin"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/iconCancel"
+                                        tools:ignore="TooDeepLayout" />
+
+                                </LinearLayout>
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/btSignUp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/marginVBtFormularioLogin"
+                            android:background="@drawable/colorBtBgSignUp"
+                            android:fontFamily="@string/fontBtFormularioLogin"
+                            android:paddingVertical="@dimen/paddingVBtFormularioLogin"
+                            android:text="@string/textoBotonSignUp"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorBtFormularioLogin"
+                            android:textSize="@dimen/sizeTxBtFormularioLogin"
+                            tools:ignore="TextContrastCheck" />
+
+
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgroundMain"
+    tools:context=".EditProfile">
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:id="@+id/scrollView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints,UselessParent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="30dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingVertical="10dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/imgUserProfileChange"
+                            android:layout_width="@dimen/sizePerfilUser"
+                            android:layout_height="@dimen/sizePerfilUser"
+                            app:cardCornerRadius="@dimen/sizeRadiusImageUser"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <LinearLayout
+                                    android:id="@+id/selectImageEditProfile"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/backgroundColorSelectImageEditProfile"
+                                    android:elevation="@dimen/elevationSelectImageEditProfile"
+                                    android:orientation="vertical"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:ignore="UnusedAttribute">
+
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
+
+                                        <TextView
+                                            android:id="@+id/textView6"
+                                            android:layout_width="30sp"
+                                            android:layout_height="30sp"
+                                            android:background="@drawable/icon_camera"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                </LinearLayout>
+
+                                <ImageView
+                                    android:id="@+id/imgPhotoUserEditProfile"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/colorImgPerfilUser"
+                                    android:contentDescription="@string/descriptionImg"
+                                    android:rotation="@integer/sizeRotationImageUser"
+                                    android:scaleType="centerCrop"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        </androidx.cardview.widget.CardView>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="30dp"
+                    android:paddingVertical="40dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/userNameInfoEditProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/textUserNameEditProfile"
+                            android:textColor="@color/textColorInfoEditProfile"
+                            android:textSize="@dimen/sizeTextInfoEditProfile" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/userNameEditProfile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="@dimen/marginVFormularioLogin"
+                                android:background="@drawable/backgroundFormularioLogin"
+                                android:elegantTextHeight="@bool/elegantTextHeightEditProfile"
+                                android:fontFamily="@string/fontFormularioLogin"
+                                android:hint="@string/hintUserNameEditProfile"
+                                android:inputType="textPersonName"
+                                android:minHeight="@dimen/minHeigtFormularioLogin"
+                                android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
+                                android:textAlignment="@integer/textAlignmentEditProfile"
+                                android:textColor="@color/colorTxFormularioLogin"
+                                android:textColorHint="@color/textColorHintEditProfile"
+                                android:textSize="@dimen/sizeTxFormularioLogin"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/userInfoEditProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/textNameEditProfile"
+                            android:textColor="@color/textColorInfoEditProfile"
+                            android:textSize="@dimen/sizeTextInfoEditProfile" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/userEditProfile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="@dimen/marginVFormularioLogin"
+                                android:background="@drawable/backgroundFormularioLogin"
+                                android:elegantTextHeight="@bool/elegantTextHeightEditProfile"
+                                android:fontFamily="@string/fontFormularioLogin"
+                                android:hint="@string/hintNameEditProfile"
+                                android:inputType="textPersonName"
+                                android:minHeight="@dimen/minHeigtFormularioLogin"
+                                android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
+                                android:textAlignment="@integer/textAlignmentEditProfile"
+                                android:textColor="@color/colorTxFormularioLogin"
+                                android:textColorHint="@color/textColorHintEditProfile"
+                                android:textSize="@dimen/sizeTxFormularioLogin"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/botonGuardarDatosEditProfile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bgBotonGuardarDatosEditProfile"
+                                android:paddingHorizontal="@dimen/paddingHorizontalBotonEditProfile"
+                                android:paddingVertical="@dimen/paddingVerticalBotonEditProfile"
+                                android:text="@string/textoBotonEditProfile"
+                                android:textAlignment="@integer/textAlignmentBotonEditProfile"
+                                android:textColor="@color/textColorBotonUpdateDataEditProfile"
+                                android:textSize="@dimen/sizeTextBotonEditProfile"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="30dp"
+                        android:orientation="vertical">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/botonCerrarSesionEditProfile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bgBotonCerrarSesionEditProfile"
+                                android:paddingHorizontal="@dimen/paddingHorizontalBotonEditProfile"
+                                android:paddingVertical="@dimen/paddingVerticalBotonEditProfile"
+                                android:text="@string/textoBotonCerrarSesionEditProfile"
+                                android:textAlignment="@integer/textAlignmentBotonEditProfile"
+                                android:textColor="@color/textColorBotonUpdateDataEditProfile"
+                                android:textSize="@dimen/sizeTextBotonEditProfile"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="30dp"
+                    android:paddingVertical="50dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/userPasswordInfoEditProfile2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/textPasswordEditProfile"
+                            android:textColor="@color/textColorInfoEditProfile"
+                            android:textSize="@dimen/sizeTextInfoEditProfile" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/userPasswordEditProfile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginVertical="@dimen/marginVFormularioLogin"
+                                android:background="@drawable/backgroundFormularioLogin"
+                                android:elegantTextHeight="@bool/elegantTextHeightEditProfile"
+                                android:fontFamily="@string/fontFormularioLogin"
+                                android:hint="@string/hintPasswordEditProfile"
+                                android:inputType="textPassword"
+                                android:minHeight="@dimen/minHeigtFormularioLogin"
+                                android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
+                                android:textAlignment="@integer/textAlignmentEditProfile"
+                                android:textColor="@color/colorTxFormularioLogin"
+                                android:textColorHint="@color/textColorHintEditProfile"
+                                android:textSize="@dimen/sizeTxFormularioLogin"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
+                            <LinearLayout
+                                android:id="@+id/showPassword"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:paddingHorizontal="@dimen/paddingIconFormularioLogin"
+                                android:paddingVertical="@dimen/paddingIconFormularioLogin"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/iconEye"
+                                    tools:ignore="TooDeepLayout" />
+
+                            </LinearLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/botonGuardarPasswordEditProfile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bgBotonGuardarPasswordEditProfile"
+                                android:paddingHorizontal="@dimen/paddingHorizontalBotonEditProfile"
+                                android:paddingVertical="@dimen/paddingVerticalBotonEditProfile"
+                                android:text="Borrar la cuenta"
+                                android:textAlignment="@integer/textAlignmentBotonEditProfile"
+                                android:textColor="@color/textColorBotonBorrarEditProfile"
+                                android:textSize="@dimen/sizeTextBotonEditProfile"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

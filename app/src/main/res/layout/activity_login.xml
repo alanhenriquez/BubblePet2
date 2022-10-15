@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgroundMain"
+    tools:context=".Login">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="40dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingVertical="50dp"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/logoBubblePet"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:fontFamily="@font/lobster_two_regular"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorTextMain"
+                    android:textSize="70sp"
+                    android:textStyle="bold"
+                    android:background="@drawable/img_dog_login"
+                    tools:ignore="TextContrastCheck" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                tools:ignore="MissingConstraints">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/retInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="30dp"
+                        android:paddingVertical="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/txtEmailLog"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="@dimen/marginVFormularioLogin"
+                                    android:background="@drawable/backgroundFormularioLogin"
+                                    android:elegantTextHeight="true"
+                                    android:fontFamily="@string/fontFormularioLogin"
+                                    android:hint="@string/mailUser"
+                                    android:inputType="textEmailAddress"
+                                    android:minHeight="@dimen/minHeigtFormularioLogin"
+                                    android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
+                                    android:textAlignment="textStart"
+                                    android:textColor="@color/colorTxFormularioLogin"
+                                    android:textColorHint="@color/colorTxFormularioLogin"
+                                    android:textSize="@dimen/sizeTxFormularioLogin"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
+                                <LinearLayout
+                                    android:id="@+id/resetText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:paddingHorizontal="@dimen/paddingIconFormularioLogin"
+                                    android:paddingVertical="@dimen/paddingIconFormularioLogin"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/iconCancel"
+                                        tools:ignore="TooDeepLayout" />
+
+                                </LinearLayout>
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/txtPasswordLog"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="@dimen/marginVFormularioLogin"
+                                    android:background="@drawable/backgroundFormularioLogin"
+                                    android:elegantTextHeight="true"
+                                    android:fontFamily="@string/fontFormularioLogin"
+                                    android:hint="@string/password"
+                                    android:inputType="textPassword"
+                                    android:minHeight="@dimen/minHeigtFormularioLogin"
+                                    android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
+                                    android:textAlignment="textStart"
+                                    android:textColor="@color/colorTxFormularioLogin"
+                                    android:textColorHint="@color/colorTxFormularioLogin"
+                                    android:textSize="@dimen/sizeTxFormularioLogin"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
+                                <LinearLayout
+                                    android:id="@+id/showPassword"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:paddingHorizontal="@dimen/paddingIconFormularioLogin"
+                                    android:paddingVertical="@dimen/paddingIconFormularioLogin"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/iconEye"
+                                        tools:ignore="TooDeepLayout" />
+
+                                </LinearLayout>
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/btnLoginUser"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/marginVBtFormularioLogin"
+                            android:background="@drawable/colorBtBgFormularioLogin"
+                            android:fontFamily="@string/fontBtFormularioLogin"
+                            android:paddingVertical="@dimen/paddingVBtFormularioLogin"
+                            android:text="@string/startlogin"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorBtFormularioLogin"
+                            android:textSize="@dimen/sizeTxBtFormularioLogin"
+                            tools:ignore="TextContrastCheck" />
+
+
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorFooterMain"
+        android:elevation="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:targetApi="lollipop">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:id="@+id/txtSingupLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/signupLogin"
+                android:textColor="@color/colorTxFormularioLogin"
+                android:textSize="@dimen/sizeTxSignUpLogin"
+                tools:ignore="TextContrastCheck" />
+
+            <TextView
+                android:id="@+id/btnSingupLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:text="@string/signupLoginbtn"
+                android:textColor="@color/colorTxSignUpLogin"
+                android:textSize="@dimen/sizeTxBtSignUpLogin"
+                android:fontFamily="@string/fontMain"
+                tools:ignore="RtlSymmetry,TextContrastCheck" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

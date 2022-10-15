@@ -1,0 +1,400 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">BubblePet2</string>
+    <string name="contentDescription">Imagen</string>
+    <color name="colorBackgroundMain">@color/gris00</color>
+    <color name="colorTextMain">@color/black</color>
+    <color name="colorFooterMain">@color/gris0</color>
+    <color name="colorHeaderMain">@color/gris0</color>
+    <dimen name="sizeTextMain">15sp</dimen><!--Tamaño del texto recuperar contraseña-->
+    <string name="fontMain" tools:ignore="ReferenceType">@font/roboto_regular</string><!--Tipografia Principal Ika-->
+    <bool name="booleanoTrue">true</bool>
+    <bool name="booleanoFalse">false</bool>
+    <integer name="alignmentStart">1</integer>
+    <integer name="alignmentEnd">3</integer>
+    <integer name="alignmentCenter">4</integer>
+
+
+    <!--Iconos-->
+    <drawable name="iconAdd">@drawable/icon_add</drawable>
+    <drawable name="iconCamera">@drawable/icon_camera</drawable>
+    <drawable name="iconCancel">@drawable/icon_cancelar_black</drawable>
+    <drawable name="iconCancelW">@drawable/icon_cancelar_white</drawable>
+    <drawable name="iconConfiguracion">@drawable/icon_cog</drawable>
+    <drawable name="iconEdit">@drawable/icon_edit</drawable>
+    <drawable name="iconEye">@drawable/icon_eye_black</drawable>
+    <drawable name="iconEyeW">@drawable/icon_eye_white</drawable>
+    <drawable name="iconHome">@drawable/icon_home</drawable>
+    <drawable name="iconMenu">@drawable/icon_menu</drawable>
+    <drawable name="iconPet">@drawable/icon_pet</drawable>
+    <drawable name="iconStore">@drawable/icon_store</drawable>
+    <drawable name="iconTreePoint">@drawable/icon_treepoint</drawable>
+    <drawable name="iconUser">@drawable/icon_user</drawable>
+
+
+    <!--Login Elements y Formulario-->
+    <drawable name="backgroundFormularioLogin">@drawable/bg_formularios
+    </drawable><!--Color de fondo de campos del formularios-->
+    <color name="colorTxFormularioLogin">@color/colorTextMain
+    </color><!--Color de letra textos de formularios-->
+    <color name="colorBtFormularioLogin">@color/white
+    </color><!--Color de letra botones de formularios-->
+    <drawable name="colorBtBgFormularioLogin">@drawable/bg_boton_especial1</drawable><!--BG boton-->
+    <color name="colorTxSignUpLogin">@color/azul9
+    </color><!--Color de letra del footer del login SignUp-->
+    <color name="colorFooterLogin">@color/blackTransparente05
+    </color><!--Color de fondo del footer del login-->
+    <dimen name="minHeigtFormularioLogin">48dp</dimen><!--Altura minima del formulario-->
+    <dimen name="paddingHorizontalFormularioLogin">20dp
+    </dimen><!--Padding del campo del formulario-->
+    <dimen name="paddingIconFormularioLogin">12dp</dimen><!--Tamaño del padding de los iconos-->
+    <dimen name="paddingVBtFormularioLogin">15dp
+    </dimen><!--Tamaño del padding vertical de los Botones-->
+    <dimen name="marginVFormularioLogin">15dp</dimen><!--Margen vertical del campo del formulario-->
+    <dimen name="marginVBtFormularioLogin">20dp
+    </dimen><!--Tamaño del margen vertical de los Botones-->
+    <dimen name="sizeTxSignUpLogin">16sp</dimen><!--Tamaño del texto registrarse-->
+    <dimen name="sizeTxBtSignUpLogin">16sp</dimen><!--Tamaño del texto boton ir a registrarse-->
+    <dimen name="sizeTxFormularioLogin">16sp</dimen><!--Tamaño del texto de los formularios-->
+    <dimen name="sizeTxBtFormularioLogin">16sp</dimen><!--Tamaño del texto boton iniciar sesion-->
+    <dimen name="sizeTxRecoverPassLogin">15sp</dimen><!--Tamaño del texto recuperar contraseña-->
+    <dimen name="sizeTxBtRecoverPassLogin">15sp
+    </dimen><!--Tamaño del texto boton recuperar contraseña-->
+    <string name="fontFormularioLogin" tools:ignore="ReferenceType">@font/roboto_regular</string><!--Tipografia formulario-->
+    <string name="fontBtFormularioLogin" tools:ignore="ReferenceType">@font/lobster_two_regular</string><!--Tipografia Tema principal-->
+    <string name="mailTxFormularioLogin">Correo electronico</string>
+    <string name="signupLogin">No tienes una cuenta?</string>
+    <string name="forgotPasswordTxLogin">Olvidaste la contraseña?</string>
+    <string name="recoverPasswordTxLogin"><b>Recuperar aquí</b></string>
+    <string name="signupLoginbtn"><b>Crear perfil</b></string>
+    <string name="startlogin"><b>Iniciar Sesión</b></string>
+    <!--ForgotPassword y formulario-->
+    <drawable name="colorBtBgSendMailForgotPassword">@drawable/bg_boton_especial3
+    </drawable><!--BG botonn recoverPass-->
+    <string name="txBtSendMailForgotPassword">Recuperar</string>
+    <string name="txInfoForgotPassword">Se le enviara un mensaje de recuperacion de su cuenta a la direccion de correo electronico vinculada del usuario.</string>
+    <!--Footer Elements-->
+    <dimen name="sizeFooterOpUser">63dp</dimen><!--TAMAÑO DEL FooterOpUser-->
+    <dimen name="sizeIconFooterOpUser">25dp</dimen><!--TAMAÑO DEL icono del FooterOpUser-->
+    <dimen name="sizeTextFooterOpUser">17sp</dimen><!--TAMAÑO DEL texto delFooterOpUser-->
+    <dimen name="sizeFooter">43dp</dimen><!--TAMAÑO DEL FOOTER-->
+    <dimen name="sizeIconFooter">29dp</dimen><!--TAMAÑO DE LOS ICONOS DEL FOOTER-->
+    <dimen name="sizeContIconFooter">35dp</dimen><!--PADDING DEL CONTENEDOR-->
+    <dimen name="sizeContImageUserFooter">28dp</dimen><!--IMAGEN DE USUARIO EN FOOTER-->
+    <dimen name="sizeContCircleUserFooter">23dp</dimen><!--CIRCULO BAJO LA IMAGEN-->
+    <string name="tx1FooterOpUser">Configuración</string>
+    <string name="tx2FooterOpUser">Editar Perfil</string>
+    <!--Header Elements-->
+    <dimen name="sizeIconHeader">35dp</dimen><!--TAMAÑO DE LOS ICONOS DEL Header-->
+    <dimen name="sizeHeader">60dp</dimen><!--Tamaño del Header-->
+    <dimen name="sizeTxHeaderUserName">22sp</dimen><!--Tamaño del nombre de usuario Header-->
+    <string name="txTopicShopHeaderShop"><b>Tienda</b></string>
+    <string name="txTopicConfigHeaderShop"><b>Configuración</b></string>
+    <!--User Elements-->
+    <dimen name="sizePerfilUser">110dp</dimen><!--TAMAÑO DE FOTO DE PERFIL-->
+    <dimen name="sizePerfilUserPet">150dp</dimen><!--TAMAÑO DE FOTO DE PERFIL-->
+    <dimen name="sizeRadiusImageUser">150dp</dimen><!--RADIO DEL ELEMENTO-->
+    <integer name="sizeRotationImageUser">0</integer><!--RADIO DEL ELEMENTO-->
+    <color name="colorImgPerfilUser">@color/gris3</color><!--COLOR DE FONDO-->
+    <string name="nameUser"><b>Usuario de Ika</b></string>
+    <string name="mailUser">Correo de usuario</string>
+    <!--EditProfile-->
+    <drawable name="bgBotonGuardarPasswordEditProfile">@drawable/bg_boton_especial3</drawable>
+    <drawable name="bgBotonGuardarDatosEditProfile">@drawable/bg_boton_especial1</drawable>
+    <drawable name="bgBotonCerrarSesionEditProfile">@drawable/bg_boton_especial2</drawable>
+    <integer name="textAlignmentEditProfile">@integer/alignmentStart</integer>
+    <integer name="textAlignmentBotonEditProfile">@integer/alignmentCenter</integer>
+    <integer name="linesBiografiaEditProfile">20</integer>
+    <integer name="minLinesBiografiaEditProfile">5</integer>
+    <color name="backgroundColorSelectImageEditProfile">@color/whiteTransparente55</color>
+    <color name="textColorHintEditProfile">@color/gris5</color>
+    <color name="textColorInfoEditProfile">@color/gris5</color>
+    <color name="textColorBotonBorrarEditProfile">@color/white</color>
+    <color name="textColorBotonUpdateDataEditProfile">@color/white</color>
+    <bool name="elegantTextHeightEditProfile">@bool/booleanoTrue</bool>
+    <bool name="scrollHorizontallyEditProfile">@bool/booleanoFalse</bool>
+    <dimen name="paddingVerticalBiografiaEditProfile">10dp</dimen>
+    <dimen name="paddingVerticalBotonEditProfile">10dp</dimen>
+    <dimen name="paddingHorizontalBotonEditProfile">15dp</dimen>
+    <dimen name="sizeTextBotonEditProfile">17sp</dimen>
+    <dimen name="sizeTextInfoEditProfile">16sp</dimen>
+    <dimen name="elevationSelectImageEditProfile">1dp</dimen>
+    <string name="textUserNameEditProfile">Nombre de usuario</string>
+    <string name="hintUserNameEditProfile">Nombre de usuario</string>
+    <string name="textNameEditProfile">Nombre</string>
+    <string name="hintNameEditProfile">Nombre</string>
+    <string name="textBiografiaEditProfile">Biografia del Perfil</string>
+    <string name="hintBiografiaEditProfile">Biografia</string>
+    <string name="textPasswordEditProfile">Contraseña de tu cuenta</string>
+    <string name="hintPasswordEditProfile">Contraseña</string>
+    <string name="textoBotonEditProfile">Guardar</string>
+    <string name="textoBotonCerrarSesionEditProfile">Cerrar Sesion</string>
+    <!--SignUp-->
+    <drawable name="colorBtBgSignUp">@drawable/bg_boton_especial1
+    </drawable><!--BG botonn recoverPass-->
+    <integer name="textAlignmentTitleSignUp">@integer/alignmentCenter</integer>
+    <integer name="textAlignmentInfoSignUp">@integer/alignmentStart</integer>
+    <integer name="textAlignmentHintSignUp">@integer/alignmentStart</integer>
+    <color name="textColorTitleSignUp">@color/colorTextMain</color>
+    <color name="textColorHintTextSignUp">@color/colorTextMain</color>
+    <color name="textColorHintSignUp">@color/textColorHintEditProfile</color>
+    <color name="textColorInfoSignUp">@color/textColorHintEditProfile</color>
+    <bool name="elegantTextHeightHintSignUp">@bool/booleanoTrue</bool>
+    <dimen name="sizeTextTitleSignUp">40sp</dimen>
+    <dimen name="sizeTextInfoSignUp">15sp</dimen>
+    <dimen name="sizeTextHintSignUp">16sp</dimen>
+    <string name="fontTopicSignUp" tools:ignore="ReferenceType">@font/roboto_bold</string>
+    <string name="fontHintSignUp" tools:ignore="ReferenceType">@font/roboto_regular</string>
+    <string name="fontInfoSignUp" tools:ignore="ReferenceType">@font/roboto_bold</string>
+    <string name="textMailSignUp">Ingresa un correo electronico</string>
+    <string name="hintMailSignUp">Correo electronico</string>
+    <string name="textPasswordSignUp">Ingresa una contraseña</string>
+    <string name="hintPasswordSignUp">contraseña</string>
+    <string name="textoTittleSignUp">Crea tu cuenta</string>
+    <string name="textoBotonSignUp"><b>Siguiente</b></string>
+    <!--SignUpFinish-->
+    <drawable name="backgroundBotonSignUpFinish">@drawable/bg_boton_especial2</drawable>
+    <integer name="textAlignmentTitleSignUpFinish">@integer/alignmentCenter</integer>
+    <integer name="textAlignmentInfoSignUpFinish">@integer/alignmentStart</integer>
+    <integer name="textAlignmentHintSignUpFinish">@integer/alignmentStart</integer>
+    <integer name="linesBiografiaSignUpFinish">20</integer>
+    <integer name="minLinesBiografiaSignUpFinish">5</integer>
+    <color name="backgroundColorSelectImageSignUpFinish">@color/whiteTransparente55</color>
+    <color name="textColorTitleSignUpFinish">@color/colorTextMain</color>
+    <color name="textColorHintTextSignUpFinish">@color/colorTextMain</color>
+    <color name="textColorHintSignUpFinish">@color/textColorHintEditProfile</color>
+    <color name="textColorInfoSignUpFinish">@color/textColorHintEditProfile</color>
+    <bool name="elegantTextHeightHintSignUpFinish">@bool/booleanoTrue</bool>
+    <bool name="scrollHorizontallySignUpFinish">@bool/booleanoFalse</bool>
+    <dimen name="tamanoIconSelectImageSignUpFinish">30sp</dimen>
+    <dimen name="elevationSelectImageSignUpFinish">1dp</dimen>
+    <dimen name="sizeTextTitleSignUpFinish">37sp</dimen>
+    <dimen name="sizeTextInfoSignUpFinish">15sp</dimen>
+    <dimen name="sizeTextHintSignUpFinish">16sp</dimen>
+    <dimen name="paddingVerticalBiografiaSignUpFinish">10dp</dimen>
+    <string name="fontTopicSignUpFinish" tools:ignore="ReferenceType">@font/roboto_bold</string>
+    <string name="fontHintSignUpFinish" tools:ignore="ReferenceType">@font/roboto_regular</string>
+    <string name="fontInfoSignUpFinish" tools:ignore="ReferenceType">@font/roboto_bold</string>
+    <string name="textoTittleSignUpFinish">Datos de Usuario</string>
+    <string name="textoTittleSignUpFinish2">Datos de Mascota</string>
+    <string name="textUserSignUpFinish">Cual es tu nombre</string>
+    <string name="hintUserSignUpFinish">Nombre</string>
+    <string name="textUserNameSignUpFinish">Como te gustaria llamarte?</string>
+    <string name="hintUserNameSignUpFinish">Nombre de usuario</string>
+    <string name="textUserBiografiaSignUpFinish">Biografia del perfil</string>
+    <string name="hintUserBiografiaSignUpFinish">Biografía</string>
+    <string name="textoBotonSignUpFinish"><b>Finalizar</b></string>
+    <!--SignUpFinish2-->
+    <string name="textPetSignUpFinish2">Cual es el nombre de tu mascota?</string>
+    <string name="hintPetSignUpFinish2">Nombre</string>
+    <string name="textPetEdadSignUpFinish2">Cual es la edad de tu mascota?</string>
+    <string name="hintPetEdadSignUpFinish2">Edad</string>
+    <string name="textPetColorSignUpFinish2">Cual es su color?</string>
+    <string name="hintPetColorSignUpFinish2">Color</string>
+    <string name="textPetRazaSignUpFinish2">Cual es su raza?</string>
+    <string name="hintPetRazaSignUpFinish2">Raza</string>
+    <string name="textPetEstadoSignUpFinish2">Cual es su stado de salud?</string>
+    <string name="hintPetEstadoSignUpFinish2">Estado de salud</string>
+    <!--Feed-->
+    <integer name="textAlignmentCategoriaFeed">@integer/alignmentCenter</integer>
+    <integer name="textAlignmentTopicMainFeed">@integer/alignmentCenter</integer>
+    <color name="textColorTargetaCategoriaFeed">@color/colorTextMain</color>
+    <color name="textColorTopicMainFeed">@color/colorTextMain</color>
+    <dimen name="paddingVerticalTargetaCategoriaFeed">30dp</dimen>
+    <dimen name="marginVerticalTargetaCategoriaFeed">30dp</dimen>
+    <dimen name="sizeTextCategoriaFeed">20sp</dimen>
+    <dimen name="sizeTextTopicMainFeed">35sp</dimen>
+    <string name="fontTargetaCategoriaFeed" tools:ignore="ReferenceType">@font/roboto_bold</string>
+    <string name="fontTopicMainFeed" tools:ignore="ReferenceType">@font/roboto_bold</string>
+    <string name="TopicMainFeed">Categorias</string>
+    <string name="categoria1">Frutas o Verduras</string>
+    <string name="categoria2">Bebidas</string>
+    <string name="categoria3">Lacteos</string>
+    <string name="categoria4">Pan</string>
+    <!--UserHome-->
+    <integer name="textAlignmentBiografiaUserHome">@integer/alignmentStart</integer>
+    <dimen name="sizeTextBiografiaUserHome">15sp</dimen>
+    <color name="textColorBiografiaUserHome">@color/colorTextMain</color>
+    <string name="fontBiografiaUserHome" tools:ignore="ReferenceType">@font/roboto_regular</string>
+    <!--TX GENERALES-->
+    <string name="mail">Correo</string>
+    <string name="password">Contraseña</string>
+    <string name="txTopic1">Bienvenido</string>
+    <string name="descriptionImg">Imagen</string>
+    <!--TX VERSIONES-->
+    <string name="vTopic175">v1.7.5</string>
+    <string name="vTx175">Se corrigieron algunos problemas internos del codigo y algunos fallos mostrados por discrepancias dentro del mismo.</string>
+    <string name="vTopic176">v1.7.6</string>
+    <string name="vTx176">Ahora el proyecto lo puedes encontrar en GitHub y puedes acceder a la documentacion de las versiones de la app.</string>
+    <string name="vTopic177">v1.7.7</string>
+    <string name="vTx177">Agregada la seccion de galeria de imagenes internas IKA.</string>
+    <!--TX MENU OPCIONES-->
+    <string name="opcion1">Información</string>
+    <string name="opcion2">Version App</string>
+    <!--TX ACTIVITY INFORMACION-->
+    <string name="infoTopic1">Informacion de las versiones IKA</string>
+    <string name="infoTxTopic1">Las versiones de la app se encuentran registradas manualmente por nuestros desarrolladores de IKA. Documentacion breve de los cambios de version en version con el fin de que viva la mejor experiencia dentro de IKA.</string>
+    <string name="infoTopic2">Galeria de imagenes</string>
+    <string name="infoTxTopic2">Aquí encontraras las imagenes internas de la app con el fin de que aprecies del arte de IKA a tu alcance.</string>
+    <string name="version">Versión</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--HowtoUse-->
+    <color name="colorTextContSpaceTitleHowtoUse">@color/gris6</color>
+    <color name="colorTextContSpaceInfoHowtoUse">@color/gris11</color>
+    <dimen name="paddingVContSpaceHowtoUse">20sp</dimen>
+    <dimen name="paddingVContSpaceTitleHowtoUse">15sp</dimen>
+    <dimen name="paddingVContSpaceInfoHowtoUse">20sp</dimen>
+    <dimen name="sizeTextContSpaceTitleHowtoUse">23sp</dimen>
+    <dimen name="sizeTextContSpaceInfoHowtoUse">16sp</dimen>
+    <string name="titleHowtoUse">Presentación</string>
+    <string name="title1HowtoUse">Presentación</string>
+    <string name="info1HowtoUse">La pantalla de presentacion de la app Nos muestra una interfaz basica donde facilmente podras acceder a crear tu perfil de usuario o iniciar sesion en caso de ya tener una cuenta con nostros.</string>
+    <string name="title2HowtoUse">Login</string>
+    <string name="info2HowtoUse">La pantalla de login te mostrara un formulario donde podras ingresar tus datos respectivos a tu cuenta, para poder iniciar sesion. Tambien existe un boton para que puedas crearte una cuenta en caso de que no tengas ninguna.</string>
+    <string name="title3HowtoUse">SignUp</string>
+    <string name="info3HowtoUse">La pantalla de SignUp o registrase te enviara a un formulario donde podras rrellenar tus datos y los de tu mascota para que puedas crear tu cuenta de BubblePet.</string>
+    <string name="title4HowtoUse">Información Pet</string>
+    <string name="info4HowtoUse">Una vez creado el usuario se le enviara a una pantalla donde rellenara la informacion correspondiente de su mascota.</string>
+    <string name="title5HowtoUse">Perfil del Usuario</string>
+    <string name="info5HowtoUse">Una vez dentro del perfil del usuario encontras tu informacion y la de tu amigo peludo.</string>
+    <string name="title6HowtoUse">Editar Perfil</string>
+    <string name="info6HowtoUse">Aqui podras editar tu informacion y la de tu mascota. Una vez hecha la modificacion, deberas guardar los cambios y podras volver a tu perfel, encontraras tambien el boton para cerrar la sesion e incluso podras borrar tu cuenta.</string>
+    <!--AboutApp-->
+    <color name="colorTextContSpaceTitleAboutApp">@color/azul10</color>
+    <color name="colorTextContSpaceInfoAboutApp">@color/gris11</color>
+    <dimen name="paddingVContSpaceAboutApp">20sp</dimen>
+    <dimen name="paddingVContSpaceTitleAboutApp">15sp</dimen>
+    <dimen name="paddingVContSpaceInfoAboutApp">20sp</dimen>
+    <dimen name="sizeTextContSpaceTitleAboutApp">23sp</dimen>
+    <dimen name="sizeTextContSpaceInfoAboutApp">16sp</dimen>
+    <string name="titleAboutApp">Que es BubblePet?</string>
+    <string name="title1AboutApp">Resumen</string>
+    <string name="info1AboutApp">BubblePet es un lugar propicio y especial donde podras facilmente buscar una solucion a la problematica que en vuelve a nuestros amigos peludos para poder conseguir pareja. Solo deberas crear tu perfil con la informacion requerida y podras tener tu perfil para tu mascota.</string>
+    <!--TX GENERALES-->
+    <string name="correo">Correo</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="edad">Edad</string>
+    <string name="color">Color</string>
+    <string name="raza">Raza</string>
+    <string name="salud">Estado salud</string>
+    <string name="telefono">Teléfono</string>
+    <string name="nombrePet">Nombre Pet</string>
+    <string name="userName">Nombre usuario</string>
+    <string name="upDate">Guardar Cambios</string>
+    <string name="closeSesion">Cerar Sesion</string>
+    <!--TX Home.xml-->
+    <string name="txUserName">Nombre de usuario</string>
+    <string name="txUserMail">Correo del usuario</string>
+    <string name="btEditProfile">Editar perfil</string>
+    <string name="Pperson">Tu perfil</string>
+    <string name="Pmascota">Perfil de mascota</string>
+    <!--FragmentMenu-->
+    <drawable name="backgroundContOptionFragmentMenu">@drawable/bg_boton_especial4</drawable>
+    <dimen name="paddingContOptionFragmentMenu">20dp</dimen>
+    <dimen name="marginVerticalContOptionFragmentMenu">10dp</dimen>
+    <dimen name="sizeTextContOptionFragmentMenu">20sp</dimen>
+    <string name="titleOption1FragmentMenu">Acerca de nosotros</string>
+    <string name="titleOption2FragmentMenu">Como usar la app?</string>
+
+
+    <!--USER HOME___________________________________________________________________________________-->
+    <!--_____________________________
+        ____BIOGRAFY PARAMETERS______
+        _____________________________-->
+
+    <!--GLOBAL-->
+    <color name="color_day_biografia_content_text_1">@color/black</color>
+    <string name="font_biografia_content_1" tools:ignore="ReferenceType">@font/roboto_regular</string>
+    <integer name="alignment_biografia_content_1">@integer/alignmentStart</integer>
+    <dimen name="dimen_biografia_margin_horizontal">20dp</dimen>
+    <dimen name="dimen_biografia_margin_vertical">20dp</dimen>
+    <dimen name="dimen_biografia_padding_horizontal">20dp</dimen>
+    <dimen name="dimen_biografia_padding_vertical">40dp</dimen>
+    <dimen name="dimen_biografia_padding_top">40dp</dimen>
+    <dimen name="dimen_biografia_padding_left">40dp</dimen>
+    <dimen name="dimen_biografia_padding_right">40dp</dimen>
+    <dimen name="dimen_biografia_padding_botton">40dp</dimen>
+
+    <!--SIZE-->
+    <dimen name="size_biografia_content">15sp</dimen>
+
+    <!--COLOR-->
+    <color name="color_biografia_content">@color/color_day_biografia_content_text_1</color>
+
+    <!--ALIGNMENT-->
+    <integer name="alignment_biografia_content">@integer/alignment_biografia_content_1</integer>
+
+    <!--FONT-->
+    <string name="font_biografia_content" tools:ignore="ReferenceType">@string/font_biografia_content_1</string>
+
+    <!--STRINGS DE TEXTO-->
+    <string name="text_biografia_content_1">Biografia del usuario</string>
+
+
+    <!--_____________________________
+        ____REPETITIVE PARAMETERS____
+        _____________________________-->
+
+    <!--GLOBAL-->
+    <color name="color_day_targeta_pet_content_text_1">@color/black</color>
+    <color name="color_day_targeta_pet_content_text_2">@color/gris7</color>
+    <string name="font_targeta_pet_content_1" tools:ignore="ReferenceType">@font/roboto_regular</string>
+    <string name="font_targeta_pet_content_2" tools:ignore="ReferenceType">@font/roboto_regular</string>
+    <integer name="alignment_targeta_pet_content_1">@integer/alignmentStart</integer>
+    <integer name="alignment_targeta_pet_content_2">@integer/alignmentCenter</integer>
+    <integer name="alignment_targeta_pet_content_3">@integer/alignmentEnd</integer>
+    <dimen name="dimen_targeta_pet_margin_horizontal">20dp</dimen>
+    <dimen name="dimen_targeta_pet_margin_vertical">20dp</dimen>
+    <dimen name="dimen_targeta_pet_padding_horizontal">20dp</dimen>
+    <dimen name="dimen_targeta_pet_padding_vertical">20dp</dimen>
+    <dimen name="dimen_targeta_pet_contenedor_margin_horizontal">20dp</dimen>
+    <dimen name="dimen_targeta_pet_contenedor_margin_vertical">20dp</dimen>
+    <dimen name="dimen_targeta_pet_contenedor_padding_horizontal">20dp</dimen>
+    <dimen name="dimen_targeta_pet_contenedor_padding_vertical">20dp</dimen>
+
+    <!--DIMEN-->
+    <dimen name="dimen_targeta_pet_content_width">300dp</dimen>
+    <dimen name="dimen_targeta_pet_content_width_percent">50%</dimen>
+    <dimen name="dimen_targeta_pet_content_heigt">30dp</dimen>
+    <dimen name="dimen_targeta_pet_content_margin_horizontal">10dp</dimen>
+    <dimen name="dimen_targeta_pet_content_margin_vertical">10dp</dimen>
+    <dimen name="dimen_targeta_pet_content_padding_horizontal">10dp</dimen>
+    <dimen name="dimen_targeta_pet_content_padding_vertical">10dp</dimen>
+    <dimen name="dimen_targeta_pet_content_info_margin_horizontal">10dp</dimen>
+    <dimen name="dimen_targeta_pet_content_info_margin_vertical">10dp</dimen>
+    <dimen name="dimen_targeta_pet_content_info_padding_horizontal">10dp</dimen>
+    <dimen name="dimen_targeta_pet_content_info_padding_vertical">10dp</dimen>
+
+    <!--SIZE-->
+    <dimen name="size_targeta_pet_content">15sp</dimen>
+    <dimen name="size_targeta_pet_content_info">15sp</dimen>
+
+    <!--COLOR-->
+    <color name="color_targeta_pet_content">@color/color_day_targeta_pet_content_text_1</color>
+    <color name="color_targeta_pet_content_info">@color/color_day_targeta_pet_content_text_2</color>
+
+    <!--ALIGNMENT-->
+    <integer name="alignment_targeta_pet_content">@integer/alignment_targeta_pet_content_1</integer>
+    <integer name="alignment_targeta_pet_content_info">@integer/alignment_targeta_pet_content_3
+    </integer>
+
+    <!--FONT-->
+    <string name="font_targeta_pet_content" tools:ignore="ReferenceType">@string/font_targeta_pet_content_1</string>
+    <string name="font_targeta_pet_content_info" tools:ignore="ReferenceType">@string/font_targeta_pet_content_1</string>
+
+    <!--STRINGS DE TEXTO-->
+    <string name="text_targeta_pet_content_1">Nombre</string>
+    <string name="text_targeta_pet_content_2">Edad</string>
+    <string name="text_targeta_pet_content_3">Color</string>
+    <string name="text_targeta_pet_content_4">Raza</string>
+    <string name="text_targeta_pet_content_5">Estado de Salud</string>
+    <string name="text_targeta_pet_content_info_1">Nombre mascota</string>
+    <string name="text_targeta_pet_content_info_2">Edad mascota</string>
+    <string name="text_targeta_pet_content_info_3">Color mascota</string>
+    <string name="text_targeta_pet_content_info_4">Raza de mascota</string>
+    <string name="text_targeta_pet_content_info_5">Estado de Salud</string>
+
+    <!--____________________________________________________________________________________________-->
+</resources>

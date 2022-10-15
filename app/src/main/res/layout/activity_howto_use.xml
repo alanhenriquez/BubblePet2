@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgroundMain"
+    tools:context=".HowtoUse">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingVertical="50dp"
+                    tools:ignore="MissingConstraints">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/titleHowtoUse"
+                            android:textColor="@color/colorTextMain"
+                            android:textSize="30sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="30dp">
+
+                    <LinearLayout
+                        android:id="@+id/contTargeta1HowToUse"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingVertical="@dimen/paddingVContSpaceHowtoUse">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingVertical="@dimen/paddingVContSpaceTitleHowtoUse">
+
+                            <TextView
+                                android:id="@+id/title1HowToUse"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@string/fontMain"
+                                android:text="@string/title1HowtoUse"
+                                android:textColor="@color/colorTextContSpaceTitleHowtoUse"
+                                android:textSize="@dimen/sizeTextContSpaceTitleHowtoUse"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingVertical="@dimen/sizeTextContSpaceInfoHowtoUse">
+
+                            <TextView
+                                android:id="@+id/info1HowToUse"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@string/fontMain"
+                                android:text="@string/info1HowtoUse"
+                                android:textColor="@color/colorTextContSpaceInfoHowtoUse"
+                                android:textSize="@dimen/sizeTextContSpaceInfoHowtoUse" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/contTargeta2HowToUse"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingVertical="@dimen/paddingVContSpaceHowtoUse">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingVertical="@dimen/paddingVContSpaceTitleHowtoUse">
+
+                            <TextView
+                                android:id="@+id/title2HowToUse"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@string/fontMain"
+                                android:text="@string/title2HowtoUse"
+                                android:textColor="@color/colorTextContSpaceTitleHowtoUse"
+                                android:textSize="@dimen/sizeTextContSpaceTitleHowtoUse"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingVertical="@dimen/sizeTextContSpaceInfoHowtoUse">
+
+                            <TextView
+                                android:id="@+id/info2HowToUse"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@string/fontMain"
+                                android:text="@string/info2HowtoUse"
+                                android:textColor="@color/colorTextContSpaceInfoHowtoUse"
+                                android:textSize="@dimen/sizeTextContSpaceInfoHowtoUse" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/contTargeta3HowToUse"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingVertical="@dimen/paddingVContSpaceHowtoUse">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingVertical="@dimen/paddingVContSpaceTitleHowtoUse">
+
+                            <TextView
+                                android:id="@+id/title3HowToUse"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@string/fontMain"
+                                android:text="@string/title3HowtoUse"
+                                android:textColor="@color/colorTextContSpaceTitleHowtoUse"
+                                android:textSize="@dimen/sizeTextContSpaceTitleHowtoUse"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingVertical="@dimen/sizeTextContSpaceInfoHowtoUse">
+
+                            <TextView
+                                android:id="@+id/info3HowToUse"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@string/fontMain"
+                                android:text="@string/info3HowtoUse"
+                                android:textColor="@color/colorTextContSpaceInfoHowtoUse"
+                                android:textSize="@dimen/sizeTextContSpaceInfoHowtoUse" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/contTargeta4HowToUse"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingVertical="@dimen/paddingVContSpaceHowtoUse">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingVertical="@dimen/paddingVContSpaceTitleHowtoUse">
+
+                            <TextView
+                                android:id="@+id/title4HowToUse"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@string/fontMain"
+                                android:text="@string/title4HowtoUse"
+                                android:textColor="@color/colorTextContSpaceTitleHowtoUse"
+                                android:textSize="@dimen/sizeTextContSpaceTitleHowtoUse"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingVertical="@dimen/sizeTextContSpaceInfoHowtoUse">
+
+                            <TextView
+                                android:id="@+id/info4HowToUse"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@string/fontMain"
+                                android:text="@string/info4HowtoUse"
+                                android:textColor="@color/colorTextContSpaceInfoHowtoUse"
+                                android:textSize="@dimen/sizeTextContSpaceInfoHowtoUse" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/contTargeta5HowToUse"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingVertical="@dimen/paddingVContSpaceHowtoUse">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingVertical="@dimen/paddingVContSpaceTitleHowtoUse">
+
+                            <TextView
+                                android:id="@+id/title5HowToUse"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@string/fontMain"
+                                android:text="@string/title5HowtoUse"
+                                android:textColor="@color/colorTextContSpaceTitleHowtoUse"
+                                android:textSize="@dimen/sizeTextContSpaceTitleHowtoUse"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingVertical="@dimen/sizeTextContSpaceInfoHowtoUse">
+
+                            <TextView
+                                android:id="@+id/info5HowToUse"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@string/fontMain"
+                                android:text="@string/info5HowtoUse"
+                                android:textColor="@color/colorTextContSpaceInfoHowtoUse"
+                                android:textSize="@dimen/sizeTextContSpaceInfoHowtoUse" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/contTargeta6HowToUse"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingVertical="@dimen/paddingVContSpaceHowtoUse">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingVertical="@dimen/paddingVContSpaceTitleHowtoUse">
+
+                            <TextView
+                                android:id="@+id/title6HowToUse"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@string/fontMain"
+                                android:text="@string/title6HowtoUse"
+                                android:textColor="@color/colorTextContSpaceTitleHowtoUse"
+                                android:textSize="@dimen/sizeTextContSpaceTitleHowtoUse"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingVertical="@dimen/sizeTextContSpaceInfoHowtoUse">
+
+                            <TextView
+                                android:id="@+id/info6HowToUse"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@string/fontMain"
+                                android:text="@string/info6HowtoUse"
+                                android:textColor="@color/colorTextContSpaceInfoHowtoUse"
+                                android:textSize="@dimen/sizeTextContSpaceInfoHowtoUse" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
