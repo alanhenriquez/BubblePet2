@@ -25,15 +25,8 @@ public class DataUser {
     //Variables--------------------------------------------
     private Context context;
     private View contextView;
-    TextView user;
-    TextView userMail;
-    TextView petName;
-    TextView petAge;
-    TextView petColor;
-    TextView petBreed;
-    TextView petHealth;
-    ImageView userImageProfile;
-    ImageView petImageProfile;
+    TextView textString;
+    ImageView imageView;
     FirebaseAuth userAuth;
     DatabaseReference userDataBase;
 
@@ -47,11 +40,6 @@ public class DataUser {
         this.contextView = _contextView;
     }
 
-    private DataUser(@NonNull FirebaseAuth _userAuth, @NonNull DatabaseReference _userDataBase){
-        this.userAuth = _userAuth;
-        this.userDataBase = _userDataBase;
-    }
-
     //Public static----------------------------------------
 
     public static DataUser build(@NonNull Context context){
@@ -60,10 +48,6 @@ public class DataUser {
 
     public static DataUser build(@NonNull View view){
         return new DataUser(view);
-    }
-
-    public static DataUser initFirebase(@NonNull FirebaseAuth userAuth, @NonNull DatabaseReference userDataBase){
-        return new DataUser(userAuth,userDataBase);
     }
 
     //Public void------------------------------------------
@@ -84,16 +68,16 @@ public class DataUser {
                         if (snapshot.child("PerfilData").hasChild("user")){
 
                             val = Objects.requireNonNull(snapshot.child("PerfilData").child("user").getValue()).toString();
-                            user = contextView.findViewById(R.id.userName);
-                            user.setText(val);
+                            textString = contextView.findViewById(R.id.userName);
+                            textString.setText(val);
 
                         }
 
                         if (snapshot.child("PerfilData").hasChild("userName")){
 
                             val = Objects.requireNonNull(snapshot.child("PerfilData").child("userName").getValue()).toString();
-                            user = contextView.findViewById(R.id.biografia_perfil_content);
-                            user.setText(val);
+                            textString = contextView.findViewById(R.id.biografia_perfil_content);
+                            textString.setText(val);
 
                         }
                     }
@@ -104,8 +88,8 @@ public class DataUser {
                         if (snapshot.child("CountData").hasChild("userMail")){
 
                             val = Objects.requireNonNull(snapshot.child("CountData").child("userMail").getValue()).toString();
-                            userMail = contextView.findViewById(R.id.userMail);
-                            userMail.setText(val);
+                            textString = contextView.findViewById(R.id.userMail);
+                            textString.setText(val);
 
                         }
                     }
@@ -117,48 +101,48 @@ public class DataUser {
                         if (snapshot.child("PetData").hasChild("petName")){
 
                             val = Objects.requireNonNull(snapshot.child("PetData").child("petName").getValue()).toString();
-                            petName = contextView.findViewById(R.id.text_targeta_pet_content_info_1);
-                            petName.setText(val);
+                            textString = contextView.findViewById(R.id.text_targeta_pet_content_info_1);
+                            textString.setText(val);
 
                         }
 
                         if (snapshot.child("PetData").hasChild("petEge")){
 
                             val = Objects.requireNonNull(snapshot.child("PetData").child("petEge").getValue()).toString();
-                            petAge = contextView.findViewById(R.id.text_targeta_pet_content_info_2);
-                            petAge.setText(val);
+                            textString = contextView.findViewById(R.id.text_targeta_pet_content_info_2);
+                            textString.setText(val);
 
                         }
 
                         if (snapshot.child("PetData").hasChild("petColor")){
 
                             val = Objects.requireNonNull(snapshot.child("PetData").child("petColor").getValue()).toString();
-                            petColor = contextView.findViewById(R.id.text_targeta_pet_content_info_3);
-                            petColor.setText(val);
+                            textString = contextView.findViewById(R.id.text_targeta_pet_content_info_3);
+                            textString.setText(val);
 
                         }
 
                         if (snapshot.child("PetData").hasChild("petBreed")){
 
                             val = Objects.requireNonNull(snapshot.child("PetData").child("petBreed").getValue()).toString();
-                            petBreed = contextView.findViewById(R.id.text_targeta_pet_content_info_4);
-                            petBreed.setText(val);
+                            textString = contextView.findViewById(R.id.text_targeta_pet_content_info_4);
+                            textString.setText(val);
 
                         }
 
                         if (snapshot.child("PetData").hasChild("petHealth")){
 
                             val = Objects.requireNonNull(snapshot.child("PetData").child("petHealth").getValue()).toString();
-                            petHealth = contextView.findViewById(R.id.text_targeta_pet_content_info_5);
-                            petHealth.setText(val);
+                            textString = contextView.findViewById(R.id.text_targeta_pet_content_info_5);
+                            textString.setText(val);
 
                         }
 
                         if (snapshot.child("PetData").hasChild("imgPetPerfil")){
 
                             val = Objects.requireNonNull(snapshot.child("PetData").child("imgPetPerfil").child("ImageMain").getValue()).toString();
-                            petImageProfile = contextView.findViewById(R.id.imagePet);
-                            Glide.with(contextView).load(val).into(petImageProfile);
+                            imageView = contextView.findViewById(R.id.imagePet);
+                            Glide.with(contextView).load(val).into(imageView);
 
                         }
 
@@ -170,8 +154,8 @@ public class DataUser {
                         if (snapshot.child("ImageData").hasChild("imgPerfil")){
 
                             val = Objects.requireNonNull(snapshot.child("ImageData").child("imgPerfil").child("ImageMain").getValue()).toString();
-                            userImageProfile = contextView.findViewById(R.id.imgPhoto);
-                            Glide.with(contextView).load(val).into(userImageProfile);
+                            imageView = contextView.findViewById(R.id.imgPhoto);
+                            Glide.with(contextView).load(val).into(imageView);
 
                         }
                     }
