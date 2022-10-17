@@ -27,16 +27,24 @@ public class DataUser {
     private View contextView;
     TextView textString;
     ImageView imageView;
+    String id;
+    String val;
     FirebaseAuth userAuth;
     DatabaseReference userDataBase;
 
     //Privates---------------------------------------------
 
     private DataUser(@NonNull Context _context){
+        this.userAuth = FirebaseAuth.getInstance();
+        this.userDataBase = FirebaseDatabase.getInstance().getReference();
+        this.id = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
         this.context = _context;
     }
 
     private DataUser(@NonNull View _contextView){
+        this.userAuth = FirebaseAuth.getInstance();
+        this.userDataBase = FirebaseDatabase.getInstance().getReference();
+        this.id = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
         this.contextView = _contextView;
     }
 
@@ -53,16 +61,12 @@ public class DataUser {
     //Public void------------------------------------------
 
     public void getData(){
-        userAuth = FirebaseAuth.getInstance();
-        userDataBase = FirebaseDatabase.getInstance().getReference();
 
-        String id = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
         userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    String val;
 
                     if (snapshot.hasChild("PerfilData")){
                         if (snapshot.child("PerfilData").hasChild("user")){
@@ -170,6 +174,10 @@ public class DataUser {
                 Toast.makeText(contextView.getContext(),"Error de carga", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void getChild(){
+
     }
 
 
