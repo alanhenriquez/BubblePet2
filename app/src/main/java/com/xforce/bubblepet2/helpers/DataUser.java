@@ -3,9 +3,9 @@ package com.xforce.bubblepet2.helpers;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -16,7 +16,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.xforce.bubblepet2.R;
 
 import java.util.Objects;
 
@@ -25,10 +24,15 @@ public class DataUser {
     //Variables--------------------------------------------
     private Context context;
     private View contextView;
-    TextView textString;
+    View view;
+    TextView textView;
+    EditText editText;
     ImageView imageView;
-    String id;
-    String val;
+    String id, val, elementPathValue;
+    int elementIdValue;
+    boolean fragment;
+    boolean elementId = false;
+    boolean elementPath = false;
     FirebaseAuth userAuth;
     DatabaseReference userDataBase;
 
@@ -39,6 +43,7 @@ public class DataUser {
         this.userDataBase = FirebaseDatabase.getInstance().getReference();
         this.id = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
         this.context = _context;
+        this.fragment = false;
     }
 
     private DataUser(@NonNull View _contextView){
@@ -46,6 +51,7 @@ public class DataUser {
         this.userDataBase = FirebaseDatabase.getInstance().getReference();
         this.id = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
         this.contextView = _contextView;
+        this.fragment = true;
     }
 
     //Public static----------------------------------------
@@ -58,127 +64,139 @@ public class DataUser {
         return new DataUser(view);
     }
 
+    public static FirebaseAuth getInstance(){
+        return FirebaseAuth.getInstance();
+    }
+
+    public static DatabaseReference getDataBaseRef(){
+        return FirebaseDatabase.getInstance().getReference();
+    }
+
+    public static String getUserId(){
+        return Objects.requireNonNull(getInstance().getCurrentUser()).getUid();
+    }
+
     //Public void------------------------------------------
 
     public void getData(){
 
-        userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
+        if (!fragment){
+            userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
 
-                    if (snapshot.hasChild("PerfilData")){
-                        if (snapshot.child("PerfilData").hasChild("user")){
+                        if (elementId && elementPath){
+                            if (snapshot.child(elementPathValue).exists()){
+                                if (view.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatTextView")) {
 
-                            val = Objects.requireNonNull(snapshot.child("PerfilData").child("user").getValue()).toString();
-                            textString = contextView.findViewById(R.id.userName);
-                            textString.setText(val);
+                                    val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
+                                    textView = view.findViewById(elementIdValue);
+                                    textView.setText(val);
 
+                                }else if (view.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatEditText")) {
+
+                                    val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
+                                    editText = view.findViewById(elementIdValue);
+                                    editText.setText(val);
+
+                                }else if (view.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatImageView")) {
+
+                                    val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
+                                    imageView = view.findViewById(elementIdValue);
+                                    Glide.with(context).load(val).into(imageView);
+
+                                }else {
+                                    msgToast.build(context).message("El Objeto id no es compatible");
+                                }
+                            }else {
+                                msgToast.build(context).message("El Path de datos no exite");
+                            }
+                        }else if (elementId){
+                            msgToast.build(context).message("Falta proporcionar el dato de setValuePath(String _path)");
+                        }else if (elementPath){
+                            msgToast.build(context).message("Falta proporcionar el dato de setElementbyId(int _id)");
+                        }else{
+                            msgToast.build(context).message("Falta proporcionar los datos de setElementbyId(int _id) y setValuePath(String _path)");
                         }
 
-                        if (snapshot.child("PerfilData").hasChild("userName")){
-
-                            val = Objects.requireNonNull(snapshot.child("PerfilData").child("userName").getValue()).toString();
-                            textString = contextView.findViewById(R.id.biografia_perfil_content);
-                            textString.setText(val);
-
-                        }
+                    }else {
+                        msgToast.build(context).message("Este elemento no existe");
                     }
-
-                    /*-----------------*/
-
-                    if (snapshot.hasChild("CountData")){
-                        if (snapshot.child("CountData").hasChild("userMail")){
-
-                            val = Objects.requireNonNull(snapshot.child("CountData").child("userMail").getValue()).toString();
-                            textString = contextView.findViewById(R.id.userMail);
-                            textString.setText(val);
-
-                        }
-                    }
-
-                    /*-----------------*/
-
-                    if (snapshot.hasChild("PetData")){
-
-                        if (snapshot.child("PetData").hasChild("petName")){
-
-                            val = Objects.requireNonNull(snapshot.child("PetData").child("petName").getValue()).toString();
-                            textString = contextView.findViewById(R.id.text_targeta_pet_content_info_1);
-                            textString.setText(val);
-
-                        }
-
-                        if (snapshot.child("PetData").hasChild("petEge")){
-
-                            val = Objects.requireNonNull(snapshot.child("PetData").child("petEge").getValue()).toString();
-                            textString = contextView.findViewById(R.id.text_targeta_pet_content_info_2);
-                            textString.setText(val);
-
-                        }
-
-                        if (snapshot.child("PetData").hasChild("petColor")){
-
-                            val = Objects.requireNonNull(snapshot.child("PetData").child("petColor").getValue()).toString();
-                            textString = contextView.findViewById(R.id.text_targeta_pet_content_info_3);
-                            textString.setText(val);
-
-                        }
-
-                        if (snapshot.child("PetData").hasChild("petBreed")){
-
-                            val = Objects.requireNonNull(snapshot.child("PetData").child("petBreed").getValue()).toString();
-                            textString = contextView.findViewById(R.id.text_targeta_pet_content_info_4);
-                            textString.setText(val);
-
-                        }
-
-                        if (snapshot.child("PetData").hasChild("petHealth")){
-
-                            val = Objects.requireNonNull(snapshot.child("PetData").child("petHealth").getValue()).toString();
-                            textString = contextView.findViewById(R.id.text_targeta_pet_content_info_5);
-                            textString.setText(val);
-
-                        }
-
-                        if (snapshot.child("PetData").hasChild("imgPetPerfil")){
-
-                            val = Objects.requireNonNull(snapshot.child("PetData").child("imgPetPerfil").child("ImageMain").getValue()).toString();
-                            imageView = contextView.findViewById(R.id.imagePet);
-                            Glide.with(contextView).load(val).into(imageView);
-
-                        }
-
-                    }
-
-                    /*-----------------*/
-
-                    if (snapshot.hasChild("ImageData")){
-                        if (snapshot.child("ImageData").hasChild("imgPerfil")){
-
-                            val = Objects.requireNonNull(snapshot.child("ImageData").child("imgPerfil").child("ImageMain").getValue()).toString();
-                            imageView = contextView.findViewById(R.id.imgPhoto);
-                            Glide.with(contextView).load(val).into(imageView);
-
-                        }
-                    }
-
-
-                }else {
-                    Toast.makeText(contextView.getContext(),"Error", Toast.LENGTH_LONG).show();
                 }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(contextView.getContext(),"Error de carga", Toast.LENGTH_LONG).show();
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    msgToast.build(context).message("Error de carga");
+                }
+            });
+        }
+        else {
+            userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+
+                        if (elementId && elementPath){
+                            if (snapshot.child(elementPathValue).exists()){
+                                if (contextView.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatTextView")) {
+
+                                    val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
+                                    textView = contextView.findViewById(elementIdValue);
+                                    textView.setText(val);
+
+                                }else if (contextView.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatEditText")) {
+
+                                    val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
+                                    editText = contextView.findViewById(elementIdValue);
+                                    editText.setText(val);
+
+                                }else if (contextView.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatImageView")) {
+
+                                    val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
+                                    imageView = contextView.findViewById(elementIdValue);
+                                    Glide.with(contextView).load(val).into(imageView);
+
+                                }else {
+                                    msgToast.build(contextView.getContext()).message("El Objeto id no es compatible");
+                                }
+                            }else {
+                                msgToast.build(contextView.getContext()).message("El Path de datos no exite");
+                            }
+                        }else if (elementId){
+                            msgToast.build(contextView.getContext()).message("Falta proporcionar el dato de setValuePath(String _path)");
+                        }else if (elementPath){
+                            msgToast.build(contextView.getContext()).message("Falta proporcionar el dato de setElementbyId(int _id)");
+                        }else{
+                            msgToast.build(contextView.getContext()).message("Falta proporcionar los datos de setElementbyId(int _id) y setValuePath(String _path)");
+                        }
+
+                    }else {
+                        msgToast.build(contextView.getContext()).message("Este elemento no existe");
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    msgToast.build(contextView.getContext()).message("Error de carga");
+                }
+            });
+        }
+
     }
 
-    public void getChild(){
+    //Public DataUser------------------------------------------
 
+    public DataUser setElementbyId(int _id){
+        this.elementIdValue = _id;
+        this.elementId = true;
+        return this;
     }
 
+    public DataUser setValuePath(String _path){
+        this.elementPathValue = _path;
+        this.elementPath = true;
+        return this;
+    }
 
 }
