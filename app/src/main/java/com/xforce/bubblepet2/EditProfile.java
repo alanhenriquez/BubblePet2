@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.xforce.bubblepet2.helpers.DataUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,23 +60,38 @@ public class EditProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        /* Acceso a Instancias FireBase y a la AwesomeValidacion
-         * Estos accesos los encontraras en el build.gradle tanto de proyecto como app*/
-        userAuth = FirebaseAuth.getInstance();
-        userDataBase = FirebaseDatabase.getInstance().getReference();
-        /*Simples variables antes definidas accediendo a los id*/
+
+
         user = findViewById(R.id.userEditProfile);
         userName = findViewById(R.id.userNameEditProfile);
         userPassword = findViewById(R.id.userPasswordEditProfile);
-        TextView saveDatosButton = findViewById(R.id.botonGuardarDatosEditProfile);
-        TextView eraseCountButton = findViewById(R.id.botonGuardarPasswordEditProfile);
         signOut = findViewById(R.id.botonCerrarSesionEditProfile);
         showPassword = findViewById(R.id.showPassword);
         changeImageUser = findViewById(R.id.selectImageEditProfile);
         contImageUser = findViewById(R.id.imgPhotoUserEditProfile);
-        /*Botones y acciones*/
-        getData();/*Carga previa de los datos*/
-        ShowPassword(showPassword,userPassword);/*Mostramos la contraseña al presionar*/
+        userAuth = FirebaseAuth.getInstance();
+        userDataBase = FirebaseDatabase.getInstance().getReference();
+        TextView saveDatosButton = findViewById(R.id.botonGuardarDatosEditProfile);
+        TextView eraseCountButton = findViewById(R.id.botonGuardarPasswordEditProfile);
+
+
+
+        DataUser.DataOnActivity
+                .build(getApplicationContext(),EditProfile.this)
+                .setElementbyId(user.getId()).setValuePath("PerfilData/user").getData();
+        DataUser.DataOnActivity
+                .build(getApplicationContext(),EditProfile.this)
+                .setElementbyId(userName.getId()).setValuePath("PerfilData/userName").getData();
+        DataUser.DataOnActivity
+                .build(getApplicationContext(),EditProfile.this)
+                .setElementbyId(userPassword.getId()).setValuePath("CountData/userPassword").getData();
+        DataUser.DataOnActivity
+                .build(getApplicationContext(),EditProfile.this)
+                .setElementbyId(contImageUser.getId()).setValuePath("ImageData/imgPerfil/ImageMain").getData();
+
+
+
+        ShowPassword(showPassword,userPassword);
         saveDatosButton.setOnClickListener(v ->{
             getString();
             setDataBase();
@@ -242,41 +258,8 @@ public class EditProfile extends AppCompatActivity {
             }
         });
     }
-    /*Funcion getData que obtiene los datos desde Firebase base de datos*/
-    private void getData (){
-        String id = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
-        userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String val;
-                    /*-----------------*/
-                    val = Objects.requireNonNull(snapshot.child("PerfilData").child("user").getValue()).toString();
-                    user = findViewById(R.id.userEditProfile);
-                    user.setText(val);
-                    /*-----------------*/
-                    val = Objects.requireNonNull(snapshot.child("PerfilData").child("userName").getValue()).toString();
-                    userName = findViewById(R.id.userNameEditProfile);
-                    userName.setText(val);
-                    /*-----------------*/
-                    val = Objects.requireNonNull(snapshot.child("CountData").child("userPassword").getValue()).toString();
-                    userPassword = findViewById(R.id.userPasswordEditProfile);
-                    userPassword.setText(val);
-                    /*-----------------*/
-                    val = Objects.requireNonNull(snapshot.child("ImageData").child("imgPerfil").child("ImageMain").getValue()).toString();
-                    ImageView userImageProfile = findViewById(R.id.imgPhotoUserEditProfile);
-                    Glide.with(getApplicationContext()).load(val).into(userImageProfile);
-                }else {
-                    msgToast("Error");
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                msgToast("Error de carga");
-            }
-        });
-    }
+
+
     /*Mostramos la contraseña del campo de texto*/
     @SuppressLint("ClickableViewAccessibility")
     private void ShowPassword (View elemTouch, EditText passwordToShow){

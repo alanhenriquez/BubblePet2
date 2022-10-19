@@ -90,7 +90,7 @@
     <string name="txTopicShopHeaderShop"><b>Tienda</b></string>
     <string name="txTopicConfigHeaderShop"><b>Configuración</b></string>
     <!--User Elements-->
-    <dimen name="sizePerfilUser">110dp</dimen><!--TAMAÑO DE FOTO DE PERFIL-->
+    <dimen name="sizePerfilUser">130dp</dimen><!--TAMAÑO DE FOTO DE PERFIL-->
     <dimen name="sizePerfilUserPet">150dp</dimen><!--TAMAÑO DE FOTO DE PERFIL-->
     <dimen name="sizeRadiusImageUser">150dp</dimen><!--RADIO DEL ELEMENTO-->
     <integer name="sizeRotationImageUser">0</integer><!--RADIO DEL ELEMENTO-->
