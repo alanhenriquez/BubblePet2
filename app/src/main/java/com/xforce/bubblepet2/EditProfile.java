@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.xforce.bubblepet2.helpers.ConfirmationModal;
 import com.xforce.bubblepet2.helpers.DataUser;
 
 import java.util.HashMap;
@@ -93,12 +94,13 @@ public class EditProfile extends AppCompatActivity {
 
         ShowPassword(showPassword,userPassword);
         saveDatosButton.setOnClickListener(v ->{
-            getString();
+            ConfirmationModal.build(getApplicationContext(),findViewById(R.id.secctionConfirmation)).setTitle("¿Desea guardar los cambios?").show();
+            /*getString();
             setDataBase();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-            finish();
+            finish();*/
         });/*Actualizamos los datos del perfil*/
         eraseCountButton.setOnClickListener(v ->{
             getString();
@@ -205,8 +207,13 @@ public class EditProfile extends AppCompatActivity {
         userNameString = userName.getText().toString();
         String userPasswordString = userPassword.getText().toString();
     }
+
+    public static EditProfile inicial(){
+        return null;
+    }
+
     /*Agregamos la informacion a la base de datos*/
-    private void setDataBase(){
+    public void setDataBase(){
         Map<String, Object> data = new HashMap<>();
         data.put("user", userString);
         data.put("userName", userNameString);
