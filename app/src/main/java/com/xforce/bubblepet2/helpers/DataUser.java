@@ -1,7 +1,10 @@
 package com.xforce.bubblepet2.helpers;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.xforce.bubblepet2.R;
 
 import java.util.Objects;
 
@@ -103,6 +108,30 @@ public class DataUser {
                                 }
                             }else {
                                 msgToast.build(contextView.getContext()).message("El Path de datos no exite");
+                                if (contextView.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatTextView")) {
+
+                                    val = "Datos no encontrados";
+                                    textView = contextView.findViewById(elementIdValue);
+                                    textView.setText(val);
+                                    textView.setTextColor(ContextCompat.getColor(contextView.getContext(),R.color.rojo10));
+
+                                }else if (contextView.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatEditText")) {
+
+                                    val = "Datos no encontrados";
+                                    editText = contextView.findViewById(elementIdValue);
+                                    editText.setText("");
+                                    editText.setHint(val);
+                                    editText.setHintTextColor(ContextCompat.getColor(contextView.getContext(),R.color.rojo10));
+
+                                }else if (contextView.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatImageView")) {
+
+                                    Drawable val = ContextCompat.getDrawable(contextView.getContext(),R.drawable.default_image_global);
+                                    imageView = contextView.findViewById(elementIdValue);
+                                    Glide.with(contextView).load(val).into(imageView);
+
+                                }else {
+                                    msgToast.build(contextView.getContext()).message("El Objeto id no es compatible");
+                                }
                             }
                         }else if (elementId){
                             msgToast.build(contextView.getContext()).message("Falta proporcionar el dato de setValuePath(String _path)");
@@ -145,7 +174,10 @@ public class DataUser {
         TextView textView;
         EditText editText;
         ImageView imageView;
-        String id, val, elementPathValue;
+        Activity activity;
+        String id;
+        String val;
+        String elementPathValue;
         int elementIdValue;
         boolean elementId = false;
         boolean elementPath = false;
@@ -154,17 +186,18 @@ public class DataUser {
 
         //Privates---------------------------------------------
 
-        private DataOnActivity(@NonNull Context _contextView){
+        private DataOnActivity(@NonNull Context _contextView, Activity _activity){
             this.userAuth = FirebaseAuth.getInstance();
             this.userDataBase = getDataBaseRef();
             this.id = getUserId();
             this.context = _contextView;
+            this.activity = _activity;
         }
 
         //Public static----------------------------------------
 
-        public static DataOnActivity build(@NonNull Context _context){
-            return new DataOnActivity(_context);
+        public static DataOnActivity build(@NonNull Context _context,Activity _activity){
+            return new DataOnActivity(_context,_activity);
         }
 
         public static FirebaseAuth getInstance(){
@@ -191,22 +224,22 @@ public class DataUser {
 
                         if (elementId && elementPath){
                             if (snapshot.child(elementPathValue).exists()){
-                                if (findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatTextView")) {
+                                if (activity.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatTextView")) {
 
                                     val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
-                                    textView = findViewById(elementIdValue);
+                                    textView = activity.findViewById(elementIdValue);
                                     textView.setText(val);
 
-                                }else if (findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatEditText")) {
+                                }else if (activity.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatEditText")) {
 
                                     val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
-                                    editText = findViewById(elementIdValue);
+                                    editText = activity.findViewById(elementIdValue);
                                     editText.setText(val);
 
-                                }else if (findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatImageView")) {
+                                }else if (activity.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatImageView")) {
 
                                     val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
-                                    imageView = findViewById(elementIdValue);
+                                    imageView = activity.findViewById(elementIdValue);
                                     Glide.with(context).load(val).into(imageView);
 
                                 }else {
@@ -214,6 +247,30 @@ public class DataUser {
                                 }
                             }else {
                                 msgToast.build(context).message("El Path de datos no exite");
+                                if (activity.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatTextView")) {
+
+                                    val = "Datos no encontrados";
+                                    textView = activity.findViewById(elementIdValue);
+                                    textView.setText(val);
+                                    textView.setTextColor(ContextCompat.getColor(context,R.color.rojo10));
+
+                                }else if (activity.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatEditText")) {
+
+                                    val = "Datos no encontrados";
+                                    editText = activity.findViewById(elementIdValue);
+                                    editText.setText("");
+                                    editText.setHint(val);
+                                    editText.setHintTextColor(ContextCompat.getColor(context,R.color.rojo10));
+
+                                }else if (activity.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatImageView")) {
+
+                                    Drawable val = ContextCompat.getDrawable(context,R.drawable.default_image_global);
+                                    imageView = activity.findViewById(elementIdValue);
+                                    Glide.with(context).load(val).into(imageView);
+
+                                }else {
+                                    msgToast.build(context).message("El Objeto id no es compatible");
+                                }
                             }
                         }else if (elementId){
                             msgToast.build(context).message("Falta proporcionar el dato de setValuePath(String _path)");

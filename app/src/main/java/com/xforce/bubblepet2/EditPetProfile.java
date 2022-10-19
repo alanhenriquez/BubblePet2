@@ -1,6 +1,5 @@
 package com.xforce.bubblepet2;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,18 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.xforce.bubblepet2.helpers.DataUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,12 +36,10 @@ public class EditPetProfile extends AppCompatActivity {
     private String petColorString = " ";
     private String petBreedString = " ";
     private String petHealthString = " ";
-    //ImageView para la imagen de usuario
     Uri imageUri;
-    View changeImageUser;//Boton para selecionar imagen
-    ImageView contImageUser;//Contenedor con la imagen del usuario
-    int SELECT_PICTURE = 200;// constant to compare the activity result code
-    /*Acceso a Firebase*/
+    View changeImagePet;
+    ImageView contImagePet;
+    int SELECT_PICTURE = 200;
     FirebaseAuth userAuth;
     DatabaseReference userDataBase;
     /*-------------------------------------------------------------------------------*/
@@ -54,27 +47,33 @@ public class EditPetProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_pet_profile);
-        /* Acceso a Instancias FireBase
-         * Estos accesos los encontraras en el build.gradle tanto de proyecto como app*/
-        userAuth = FirebaseAuth.getInstance();
-        userDataBase = FirebaseDatabase.getInstance().getReference();
 
-        /*Simples variables antes definidas accediendo a los id*/
+
         petName = findViewById(R.id.petName);
-        petAge = findViewById(R.id.petEdadSignUpFinish2);
-        petColor = findViewById(R.id.petColorSignUpFinish2);
-        petBreed = findViewById(R.id.petRazaSignUpFinish2);
-        petHealth = findViewById(R.id.petEstadoSignUpFinish2);
+        petAge = findViewById(R.id.petEdad);
+        petColor = findViewById(R.id.petColor);
+        petBreed = findViewById(R.id.petRaza);
+        petHealth = findViewById(R.id.petEstado);
         View btResetTextName = findViewById(R.id.resetText1);
         View btResetTextEge = findViewById(R.id.resetText2);
         View btResetTextColor = findViewById(R.id.resetText3);
         View btResetTextBreed = findViewById(R.id.resetText4);
         View btResetTextHealth = findViewById(R.id.resetText5);
         TextView saveDatosButton = findViewById(R.id.btSignUpFinish2);
-        changeImageUser = findViewById(R.id.selectImageEditProfile);
-        contImageUser = findViewById(R.id.imgPhotoUserEditProfile);
-        /*Botones y acciones*/
-        getData();/*Carga previa de los datos*/
+        changeImagePet = findViewById(R.id.selectImageEditProfile);
+        contImagePet = findViewById(R.id.imgPhotoPet);
+        userAuth = FirebaseAuth.getInstance();
+        userDataBase = FirebaseDatabase.getInstance().getReference();
+
+
+        DataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petName.getId()).setValuePath("PetData/petName").getData();
+        DataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petAge.getId()).setValuePath("PetData/petEge").getData();
+        DataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petColor.getId()).setValuePath("PetData/petColor").getData();
+        DataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petBreed.getId()).setValuePath("PetData/petBreed").getData();
+        DataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petHealth.getId()).setValuePath("PetData/petHealth").getData();
+        DataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(contImagePet.getId()).setValuePath("PetData/imgPetPerfil/ImageMain").getData();
+
+
         saveDatosButton.setOnClickListener(v ->{
             petNameString = petName.getText().toString();
             petEgeString = petAge.getText().toString();
@@ -94,7 +93,7 @@ public class EditPetProfile extends AppCompatActivity {
         ResetText(btResetTextColor,petColor);/*Reiniciamos el texto*/
         ResetText(btResetTextBreed,petBreed);/*Reiniciamos el texto*/
         ResetText(btResetTextHealth,petHealth);/*Reiniciamos el texto*/
-        changeImageUser.setOnClickListener(v ->{
+        changeImagePet.setOnClickListener(v ->{
 
             openGallery();
 
@@ -127,7 +126,7 @@ public class EditPetProfile extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == SELECT_PICTURE) {
             imageUri = data.getData();
-            contImageUser.setImageURI(imageUri);
+            contImagePet.setImageURI(imageUri);
 
             String id = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
             StorageReference folder = FirebaseStorage.getInstance().getReference().child("Users").child(id);
@@ -166,66 +165,6 @@ public class EditPetProfile extends AppCompatActivity {
     /*Termina codigo de la seleccion de imagen y envio a la base de datos*/
     /*--------------------*/
 
-
-
-
-
-
-    /*Funcion getData que obtiene los datos desde Firebase base de datos*/
-    private void getData (){
-        String id = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
-        userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String val;
-
-                    /*-----------------*/
-                    val = Objects.requireNonNull(snapshot.child("PetData").child("petName").getValue()).toString();
-                    petName = findViewById(R.id.petName);
-                    petName.setText(val);
-
-
-                    /*-----------------*/
-                    val = Objects.requireNonNull(snapshot.child("PetData").child("petEge").getValue()).toString();
-                    petAge = findViewById(R.id.petEdad);
-                    petAge.setText(val);
-
-                    /*-----------------*/
-                    val = Objects.requireNonNull(snapshot.child("PetData").child("petColor").getValue()).toString();
-                    petColor = findViewById(R.id.petColor);
-                    petColor.setText(val);
-
-                    /*-----------------*/
-                    val = Objects.requireNonNull(snapshot.child("PetData").child("petBreed").getValue()).toString();
-                    petBreed = findViewById(R.id.petRaza);
-                    petBreed.setText(val);
-
-                    /*-----------------*/
-                    val = Objects.requireNonNull(snapshot.child("PetData").child("petHealth").getValue()).toString();
-                    petHealth = findViewById(R.id.petEstado);
-                    petHealth.setText(val);
-
-
-                    /*-----------------*/
-                    val = Objects.requireNonNull(snapshot.child("ImageData").child("imgPetPerfil").child("ImageMain").getValue()).toString();
-                    contImageUser = findViewById(R.id.imgPhotoPet);
-                    Glide.with(getApplicationContext()).load(val).into(contImageUser);
-
-
-
-
-                }else {
-                    msgToast("Error");
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                msgToast("Error de carga");
-            }
-        });
-    }
 
 
 
