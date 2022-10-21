@@ -19,7 +19,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.xforce.bubblepet2.helpers.ConfirmationModal;
-import com.xforce.bubblepet2.helpers.DataUser;
+import com.xforce.bubblepet2.dataFromDataBase.GetDataUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -77,16 +76,16 @@ public class EditProfile extends AppCompatActivity {
 
 
 
-        DataUser.DataOnActivity
+        GetDataUser.DataOnActivity
                 .build(getApplicationContext(),EditProfile.this)
                 .setElementbyId(user.getId()).setValuePath("PerfilData/user").getData();
-        DataUser.DataOnActivity
+        GetDataUser.DataOnActivity
                 .build(getApplicationContext(),EditProfile.this)
                 .setElementbyId(userName.getId()).setValuePath("PerfilData/userName").getData();
-        DataUser.DataOnActivity
+        GetDataUser.DataOnActivity
                 .build(getApplicationContext(),EditProfile.this)
                 .setElementbyId(userPassword.getId()).setValuePath("CountData/userPassword").getData();
-        DataUser.DataOnActivity
+        GetDataUser.DataOnActivity
                 .build(getApplicationContext(),EditProfile.this)
                 .setElementbyId(contImageUser.getId()).setValuePath("ImageData/imgPerfil/ImageMain").getData();
 

@@ -1,4 +1,4 @@
-package com.xforce.bubblepet2.helpers;
+package com.xforce.bubblepet2.dataFromDataBase;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -24,10 +24,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.xforce.bubblepet2.R;
+import com.xforce.bubblepet2.helpers.msgToast;
 
 import java.util.Objects;
 
-public class DataUser {
+public class GetDataUser {
 
     //Public DataUser------------------------------------------
 
@@ -50,7 +51,7 @@ public class DataUser {
         //Privates---------------------------------------------
 
         private DataOnFragment(@NonNull View _contextView){
-            this.userAuth = FirebaseAuth.getInstance();
+            this.userAuth = getInstance();
             this.userDataBase = getDataBaseRef();
             this.id = getUserId();
             this.contextView = _contextView;
@@ -60,18 +61,22 @@ public class DataUser {
 
         public static DataOnFragment build(@NonNull View view){
             return new DataOnFragment(view);
+
         }
 
         public static FirebaseAuth getInstance(){
             return FirebaseAuth.getInstance();
+
         }
 
         public static DatabaseReference getDataBaseRef(){
             return FirebaseDatabase.getInstance().getReference();
+
         }
 
         public static String getUserId(){
             return Objects.requireNonNull(getInstance().getCurrentUser()).getUid();
+
         }
 
         //Public void------------------------------------------
@@ -151,6 +156,39 @@ public class DataUser {
                 }
             });
         }
+
+        public String getString(){
+            final String[] value = {""};
+            userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+
+                        if (elementPath){
+                            if (snapshot.child(elementPathValue).exists()){
+                                value[0] = String.valueOf(Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString());
+
+                            }else {
+                                value[0] = "El Path de datos no exite";
+                            }
+                        }else{
+                            value[0] = "Falta proporcionar el dato de setValuePath(String _path)";
+                        }
+
+                    }else {
+                        value[0] = "Este elemento no existe";
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    value[0] = "Error de carga";
+                }
+            });
+            return value[0];
+        }
+
+        //Public DataOnFragment------------------------------------------
 
         public DataOnFragment setElementbyId(int _id){
             this.elementIdValue = _id;
@@ -289,6 +327,37 @@ public class DataUser {
                     msgToast.build(context).message("Error de carga");
                 }
             });
+        }
+
+        public String getString(){
+            final String[] value = {""};
+            userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+
+                        if (elementPath){
+                            if (snapshot.child(elementPathValue).exists()){
+                                value[0] = String.valueOf(Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString());
+
+                            }else {
+                                value[0] = "El Path de datos no exite";
+                            }
+                        }else{
+                            value[0] = "Falta proporcionar el dato de setValuePath(String _path)";
+                        }
+
+                    }else {
+                        value[0] = "Este elemento no existe";
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    value[0] = "Error de carga";
+                }
+            });
+            return value[0];
         }
 
         public DataOnActivity setElementbyId(int _id){

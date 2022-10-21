@@ -8,8 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.xforce.bubblepet2.helpers.DataUser;
-import com.xforce.bubblepet2.helpers.msgToast;
+import com.xforce.bubblepet2.dataFromDataBase.GetDataUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,16 +62,16 @@ public class FragmentUserHome extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_home, container, false);
-        DataUser.DataOnFragment.build(view).setElementbyId(R.id.userName).setValuePath("PerfilData/user").getData();
-        DataUser.DataOnFragment.build(view).setElementbyId(R.id.userMail).setValuePath("CountData/userMail").getData();
-        DataUser.DataOnFragment.build(view).setElementbyId(R.id.biografia_perfil_content).setValuePath("PerfilData/userName").getData();
-        DataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_1).setValuePath("PetData/petName").getData();
-        DataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_2).setValuePath("PetData/petEge").getData();
-        DataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_3).setValuePath("PetData/petColor").getData();
-        DataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_4).setValuePath("PetData/petBreed").getData();
-        DataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_5).setValuePath("PetData/petHealth").getData();
-        DataUser.DataOnFragment.build(view).setElementbyId(R.id.imgPhoto).setValuePath("ImageData/imgPerfil/ImageMain").getData();
-        DataUser.DataOnFragment.build(view).setElementbyId(R.id.imagePet).setValuePath("PetData/imgPetPerfil/ImageMain").getData();
+        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.userName).setValuePath("PerfilData/user").getData();
+        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.userMail).setValuePath("CountData/userMail").getData();
+        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.biografia_perfil_content).setValuePath("PerfilData/userName").getData();
+        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_1).setValuePath("PetData/petName").getData();
+        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_2).setValuePath("PetData/petEge").getData();
+        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_3).setValuePath("PetData/petColor").getData();
+        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_4).setValuePath("PetData/petBreed").getData();
+        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_5).setValuePath("PetData/petHealth").getData();
+        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.imgPhoto).setValuePath("ImageData/imgPerfil/ImageMain").getData();
+        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.imagePet).setValuePath("PetData/imgPetPerfil/ImageMain").getData();
 
 
         return view;

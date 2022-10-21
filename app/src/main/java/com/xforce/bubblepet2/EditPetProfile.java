@@ -17,7 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.xforce.bubblepet2.helpers.DataUser;
+import com.xforce.bubblepet2.dataFromDataBase.GetDataUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,12 +66,12 @@ public class EditPetProfile extends AppCompatActivity {
         userDataBase = FirebaseDatabase.getInstance().getReference();
 
 
-        DataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petName.getId()).setValuePath("PetData/petName").getData();
-        DataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petAge.getId()).setValuePath("PetData/petEge").getData();
-        DataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petColor.getId()).setValuePath("PetData/petColor").getData();
-        DataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petBreed.getId()).setValuePath("PetData/petBreed").getData();
-        DataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petHealth.getId()).setValuePath("PetData/petHealth").getData();
-        DataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(contImagePet.getId()).setValuePath("PetData/imgPetPerfil/ImageMain").getData();
+        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petName.getId()).setValuePath("PetData/petName").getData();
+        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petAge.getId()).setValuePath("PetData/petEge").getData();
+        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petColor.getId()).setValuePath("PetData/petColor").getData();
+        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petBreed.getId()).setValuePath("PetData/petBreed").getData();
+        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petHealth.getId()).setValuePath("PetData/petHealth").getData();
+        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(contImagePet.getId()).setValuePath("PetData/imgPetPerfil/ImageMain").getData();
 
 
         saveDatosButton.setOnClickListener(v ->{
