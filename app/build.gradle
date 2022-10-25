@@ -7,7 +7,7 @@ plugins {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "com.alanhenriquez.bubblepet2"
+        property "sonar.projectKey", "com.xforce.bubblepet2"
     }
 }
 android {
@@ -40,7 +40,7 @@ dependencies {
     def multidex_version = "2.0.1"
     implementation "androidx.multidex:multidex:$multidex_version"
     implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.firebase:firebase-auth:21.1.0'
     implementation 'com.google.firebase:firebase-database:20.1.0'
