@@ -39,4 +39,8 @@ public class ParametersDataUser {
         Email = email;
         Phone = phone;
     }
+
+    //codigo
 }
+
+
