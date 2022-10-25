@@ -22,10 +22,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingHorizontal="30dp">
+
                     <LinearLayout
                         android:id="@+id/retInfo"
                         android:layout_width="match_parent"
@@ -35,14 +37,17 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
+
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:paddingVertical="20dp">
+
                                 <androidx.cardview.widget.CardView
                                     android:id="@+id/imgUserProfileChange"
                                     android:layout_width="@dimen/sizePerfilUserPet"
@@ -52,10 +57,12 @@
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent">
+
                                     <androidx.constraintlayout.widget.ConstraintLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         tools:ignore="TooDeepLayout">
+
                                         <LinearLayout
                                             android:id="@+id/selectImageEditProfile"
                                             android:layout_width="match_parent"
@@ -68,9 +75,11 @@
                                             app:layout_constraintStart_toStartOf="parent"
                                             app:layout_constraintTop_toTopOf="parent"
                                             tools:ignore="UnusedAttribute">
+
                                             <androidx.constraintlayout.widget.ConstraintLayout
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent">
+
                                                 <TextView
                                                     android:id="@+id/textView6"
                                                     android:layout_width="@dimen/tamanoIconSelectImageSignUpFinish"
@@ -83,6 +92,7 @@
 
                                             </androidx.constraintlayout.widget.ConstraintLayout>
                                         </LinearLayout>
+
                                         <ImageView
                                             android:id="@+id/imgPhotoPet"
                                             android:layout_width="match_parent"
@@ -108,10 +118,12 @@
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
+
                             <TextView
                                 android:id="@+id/petInfoName"
                                 android:layout_width="match_parent"
@@ -121,6 +133,7 @@
                                 android:textAlignment="@integer/textAlignmentInfoSignUpFinish"
                                 android:textColor="@color/textColorInfoSignUpFinish"
                                 android:textSize="@dimen/sizeTextInfoSignUpFinish" />
+
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -146,6 +159,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
                                 <LinearLayout
                                     android:id="@+id/resetText1"
                                     android:layout_width="wrap_content"
@@ -156,6 +170,7 @@
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent">
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -164,10 +179,12 @@
                                 </LinearLayout>
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
+
                             <TextView
                                 android:id="@+id/petEdadInfo"
                                 android:layout_width="match_parent"
@@ -177,6 +194,7 @@
                                 android:textAlignment="@integer/textAlignmentInfoSignUpFinish"
                                 android:textColor="@color/textColorInfoSignUpFinish"
                                 android:textSize="@dimen/sizeTextInfoSignUpFinish" />
+
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -202,6 +220,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
                                 <LinearLayout
                                     android:id="@+id/resetText2"
                                     android:layout_width="wrap_content"
@@ -212,6 +231,7 @@
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent">
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -220,10 +240,12 @@
                                 </LinearLayout>
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
+
                             <TextView
                                 android:id="@+id/petColorInfo"
                                 android:layout_width="match_parent"
@@ -233,6 +255,7 @@
                                 android:textAlignment="@integer/textAlignmentInfoSignUpFinish"
                                 android:textColor="@color/textColorInfoSignUpFinish"
                                 android:textSize="@dimen/sizeTextInfoSignUpFinish" />
+
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -258,6 +281,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
                                 <LinearLayout
                                     android:id="@+id/resetText3"
                                     android:layout_width="wrap_content"
@@ -268,6 +292,7 @@
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent">
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -276,10 +301,12 @@
                                 </LinearLayout>
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
+
                             <TextView
                                 android:id="@+id/petRazaInfo"
                                 android:layout_width="match_parent"
@@ -289,6 +316,7 @@
                                 android:textAlignment="@integer/textAlignmentInfoSignUpFinish"
                                 android:textColor="@color/textColorInfoSignUpFinish"
                                 android:textSize="@dimen/sizeTextInfoSignUpFinish" />
+
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -314,6 +342,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
                                 <LinearLayout
                                     android:id="@+id/resetText4"
                                     android:layout_width="wrap_content"
@@ -324,6 +353,7 @@
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent">
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -332,10 +362,12 @@
                                 </LinearLayout>
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
+
                             <TextView
                                 android:id="@+id/petEstadoInfo"
                                 android:layout_width="match_parent"
@@ -345,6 +377,7 @@
                                 android:textAlignment="@integer/textAlignmentInfoSignUpFinish"
                                 android:textColor="@color/textColorInfoSignUpFinish"
                                 android:textSize="@dimen/sizeTextInfoSignUpFinish" />
+
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -370,6 +403,7 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
                                     tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
                                 <LinearLayout
                                     android:id="@+id/resetText5"
                                     android:layout_width="wrap_content"
@@ -380,6 +414,7 @@
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent">
+
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -388,6 +423,7 @@
                                 </LinearLayout>
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </LinearLayout>
+
                         <TextView
                             android:id="@+id/btSignUpFinish2"
                             android:layout_width="match_parent"
