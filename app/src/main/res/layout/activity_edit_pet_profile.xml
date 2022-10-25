@@ -80,6 +80,7 @@
                                                     app:layout_constraintEnd_toEndOf="parent"
                                                     app:layout_constraintStart_toStartOf="parent"
                                                     app:layout_constraintTop_toTopOf="parent" />
+
                                             </androidx.constraintlayout.widget.ConstraintLayout>
                                         </LinearLayout>
                                         <ImageView
@@ -96,6 +97,15 @@
                                             app:layout_constraintTop_toTopOf="parent" />
                                     </androidx.constraintlayout.widget.ConstraintLayout>
                                 </androidx.cardview.widget.CardView>
+
+                                <ImageView
+                                    android:id="@+id/imageView"
+                                    android:layout_width="82dp"
+                                    android:layout_height="83dp"
+                                    app:srcCompat="@drawable/pets_0"
+                                    tools:layout_editor_absoluteX="265dp"
+                                    tools:layout_editor_absoluteY="20dp" />
+
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </LinearLayout>
                         <LinearLayout
@@ -114,6 +124,7 @@
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
+
                                 <EditText
                                     android:id="@+id/petName"
                                     android:layout_width="match_parent"
@@ -128,7 +139,7 @@
                                     android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
                                     android:textAlignment="@integer/textAlignmentHintSignUpFinish"
                                     android:textColor="@color/textColorHintTextSignUpFinish"
-                                    android:textColorHint="@color/textColorHintSignUpFinish"
+                                    android:textColorHint="@color/naranja10"
                                     android:textSize="@dimen/sizeTextHintSignUpFinish"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -169,6 +180,7 @@
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
+
                                 <EditText
                                     android:id="@+id/petEdad"
                                     android:layout_width="match_parent"
@@ -183,7 +195,7 @@
                                     android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
                                     android:textAlignment="@integer/textAlignmentHintSignUpFinish"
                                     android:textColor="@color/textColorHintTextSignUpFinish"
-                                    android:textColorHint="@color/textColorHintSignUpFinish"
+                                    android:textColorHint="@color/naranja10"
                                     android:textSize="@dimen/sizeTextHintSignUpFinish"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -224,6 +236,7 @@
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
+
                                 <EditText
                                     android:id="@+id/petColor"
                                     android:layout_width="match_parent"
@@ -238,7 +251,7 @@
                                     android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
                                     android:textAlignment="@integer/textAlignmentHintSignUpFinish"
                                     android:textColor="@color/textColorHintTextSignUpFinish"
-                                    android:textColorHint="@color/textColorHintSignUpFinish"
+                                    android:textColorHint="@color/naranja10"
                                     android:textSize="@dimen/sizeTextHintSignUpFinish"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -279,6 +292,7 @@
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
+
                                 <EditText
                                     android:id="@+id/petRaza"
                                     android:layout_width="match_parent"
@@ -293,7 +307,7 @@
                                     android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
                                     android:textAlignment="@integer/textAlignmentHintSignUpFinish"
                                     android:textColor="@color/textColorHintTextSignUpFinish"
-                                    android:textColorHint="@color/textColorHintSignUpFinish"
+                                    android:textColorHint="@color/naranja10"
                                     android:textSize="@dimen/sizeTextHintSignUpFinish"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -334,6 +348,7 @@
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
+
                                 <EditText
                                     android:id="@+id/petEstado"
                                     android:layout_width="match_parent"
@@ -348,7 +363,7 @@
                                     android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
                                     android:textAlignment="@integer/textAlignmentHintSignUpFinish"
                                     android:textColor="@color/textColorHintTextSignUpFinish"
-                                    android:textColorHint="@color/textColorHintSignUpFinish"
+                                    android:textColorHint="@color/naranja10"
                                     android:textSize="@dimen/sizeTextHintSignUpFinish"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
