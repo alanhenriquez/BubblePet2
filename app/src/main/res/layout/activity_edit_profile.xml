@@ -95,6 +95,14 @@
 
 
                         </androidx.cardview.widget.CardView>
+
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="85dp"
+                            android:layout_height="62dp"
+                            app:srcCompat="@drawable/dog_icon"
+                            tools:layout_editor_absoluteX="33dp"
+                            tools:layout_editor_absoluteY="106dp" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </LinearLayout>
@@ -137,7 +145,7 @@
                                 android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
                                 android:textAlignment="@integer/textAlignmentEditProfile"
                                 android:textColor="@color/colorTxFormularioLogin"
-                                android:textColorHint="@color/textColorHintEditProfile"
+                                android:textColorHint="@color/naranja10"
                                 android:textSize="@dimen/sizeTxFormularioLogin"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -178,7 +186,7 @@
                                 android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
                                 android:textAlignment="@integer/textAlignmentEditProfile"
                                 android:textColor="@color/colorTxFormularioLogin"
-                                android:textColorHint="@color/textColorHintEditProfile"
+                                android:textColorHint="@color/naranja10"
                                 android:textSize="@dimen/sizeTxFormularioLogin"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
