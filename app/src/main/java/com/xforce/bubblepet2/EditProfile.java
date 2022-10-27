@@ -40,6 +40,7 @@ import java.util.Objects;
 public class EditProfile extends AppCompatActivity {
     /*-------------------------------------------------------------------------------*/
     /*Variables para texto, campos de texto y contenedores*/
+    //*******************************************
     private EditText user;
     private EditText userName;
     private EditText userPassword;
