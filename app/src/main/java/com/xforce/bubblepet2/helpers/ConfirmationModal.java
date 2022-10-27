@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.xforce.bubblepet2.EditProfile;
 import com.xforce.bubblepet2.MainActivity;
 import com.xforce.bubblepet2.R;
+import com.xforce.bubblepet2.dataFromDataBase.GetDataUser;
 
 import java.util.Objects;
 
@@ -64,9 +65,15 @@ public class ConfirmationModal {
         });
         grantedButon.setOnClickListener(v -> {
             constraintLayout.setVisibility(View.GONE);
-            assert EditProfile.inicial() != null;
-            EditProfile.inicial().setDataBase();
-            ChangeActivity.build(context, MainActivity.class).start();
+            GetDataUser.DataOnActivity.setData(context)
+                    .setChangeActivity(MainActivity.class)
+                    .setMessage("Datos actualizados ;D")
+                    .setValuePath("CountData/test")
+                    .setChild("prueba1","contenido")
+                    .setChild("prueba2","contenido")
+                    .setChild("prueba3","contenido")
+                    .setChild("prueba4","contenido")
+                    .setData();
         });
 
     }

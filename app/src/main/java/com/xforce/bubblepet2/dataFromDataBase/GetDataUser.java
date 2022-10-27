@@ -24,8 +24,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.xforce.bubblepet2.R;
+import com.xforce.bubblepet2.helpers.ChangeActivity;
 import com.xforce.bubblepet2.helpers.msgToast;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class GetDataUser {
@@ -38,6 +41,7 @@ public class GetDataUser {
         //Variables--------------------------------------------
 
         private final View contextView;
+        private Context context;
         TextView textView;
         EditText editText;
         ImageView imageView;
@@ -57,10 +61,23 @@ public class GetDataUser {
             this.contextView = _contextView;
         }
 
+        private DataOnFragment(@NonNull View _contextView, @NonNull Fragment _fragment){
+            this.userAuth = getInstance();
+            this.userDataBase = getDataBaseRef();
+            this.id = getUserId();
+            this.contextView = _contextView;
+            this.context = _fragment.requireActivity().getApplicationContext();
+        }
+
         //Public static----------------------------------------
 
         public static DataOnFragment build(@NonNull View view){
             return new DataOnFragment(view);
+
+        }
+
+        public static DataOnFragment build(@NonNull View _contextView, @NonNull Fragment fragment){
+            return new DataOnFragment(_contextView,fragment);
 
         }
 
@@ -77,6 +94,19 @@ public class GetDataUser {
         public static String getUserId(){
             return Objects.requireNonNull(getInstance().getCurrentUser()).getUid();
 
+        }
+
+        public static boolean isValidContextForGlide(final Context context){
+            if (context == null){
+                return false;
+            }
+
+            if (context instanceof Activity){
+                final Activity activity = (Activity) context;
+                return !activity.isDestroyed() || !activity.isFinishing();
+            }
+
+            return true;
         }
 
         //Public void------------------------------------------
@@ -106,7 +136,9 @@ public class GetDataUser {
 
                                     val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
                                     imageView = contextView.findViewById(elementIdValue);
-                                    Glide.with(contextView).load(val).into(imageView);
+                                    if (GetDataUser.DataOnFragment.isValidContextForGlide(context)){
+                                        Glide.with(context).load(val).into(imageView);
+                                    }
 
                                 }else {
                                     msgToast.build(contextView.getContext()).message("El Objeto id no es compatible");
@@ -132,7 +164,9 @@ public class GetDataUser {
 
                                     Drawable val = ContextCompat.getDrawable(contextView.getContext(),R.drawable.default_image_global);
                                     imageView = contextView.findViewById(elementIdValue);
-                                    Glide.with(contextView).load(val).into(imageView);
+                                    if (GetDataUser.DataOnFragment.isValidContextForGlide(context)){
+                                        Glide.with(context).load(val).into(imageView);
+                                    }
 
                                 }else {
                                     msgToast.build(contextView.getContext()).message("El Objeto id no es compatible");
@@ -167,7 +201,7 @@ public class GetDataUser {
 
                         if (elementPath){
                             if (snapshot.child(elementPathValue).exists()){
-                                value[0] = String.valueOf(Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString());
+                                value[0] = String.valueOf(Objects.requireNonNull(snapshot.child(elementPathValue).getValue()));
 
                             }else {
                                 value[0] = "El Path de datos no exite";
@@ -209,16 +243,20 @@ public class GetDataUser {
         //Variables--------------------------------------------
 
         private final Context context;
+        private Class<?> cls;
         TextView textView;
         EditText editText;
         ImageView imageView;
         Activity activity;
-        String id;
-        String val;
-        String elementPathValue;
+        String id,val,elementPathValue,message,objectString,valueString;
+        Map<String, Object> data = new HashMap<>();
         int elementIdValue;
         boolean elementId = false;
         boolean elementPath = false;
+        boolean isChangeActivity = false;
+        boolean isSetMessage = false;
+        boolean isObjectString = false;
+        boolean isValueString = false;
         FirebaseAuth userAuth;
         DatabaseReference userDataBase;
 
@@ -232,10 +270,21 @@ public class GetDataUser {
             this.activity = _activity;
         }
 
+        private DataOnActivity(@NonNull Context _contextView){
+            this.userAuth = FirebaseAuth.getInstance();
+            this.userDataBase = getDataBaseRef();
+            this.id = getUserId();
+            this.context = _contextView;
+        }
+
         //Public static----------------------------------------
 
         public static DataOnActivity build(@NonNull Context _context,Activity _activity){
             return new DataOnActivity(_context,_activity);
+        }
+
+        public static DataOnActivity setData(@NonNull Context _context){
+            return new DataOnActivity(_context);
         }
 
         public static FirebaseAuth getInstance(){
@@ -358,6 +407,78 @@ public class GetDataUser {
                 }
             });
             return value[0];
+        }
+
+        public void setData(){
+
+            if (isObjectString){
+                if (elementPath){
+                    userDataBase.child("Users").child(id).child(elementPathValue).setValue(data).addOnCompleteListener(task -> {
+                        if (isChangeActivity){
+                            ChangeActivity.build(context,cls).start();
+                        }
+
+                        if (isSetMessage){
+                            msgToast.build(context).message(message);
+                        }
+                    });
+                }else {
+                    msgToast.build(context).message("Error causado por introducción nula de datos");
+                    msgToast.build(context).message("Se solicita usar: setValuePath()");
+                }
+            } else if (isValueString){
+                String data = valueString;
+                if (elementPath){
+                    userDataBase.child("Users").child(id).child(elementPathValue).setValue(data).addOnCompleteListener(task -> {
+                        if (isChangeActivity){
+                            ChangeActivity.build(context,cls).start();
+                        }
+
+                        if (isSetMessage){
+                            msgToast.build(context).message(message);
+                        }
+                    });
+                }else {
+                    msgToast.build(context).message("Error causado por introducción nula de datos");
+                    msgToast.build(context).message("Se solicita usar: setValuePath()");
+                }
+            }else {
+                msgToast.build(context).message("Error causado por introducción nula de datos");
+                msgToast.build(context).message("Se solicita usar: setChild()");
+            }
+
+
+
+
+
+        }
+
+        //Public DataOnActivity------------------------------------------
+
+        public DataOnActivity setChangeActivity(@NonNull Class<?> cls){
+            this.cls = cls;
+            this.isChangeActivity = true;
+            return this;
+        }
+
+        public DataOnActivity setMessage(String message){
+            this.message = message;
+            this.isSetMessage = true;
+            return this;
+        }
+
+        public DataOnActivity setChild(String object, String string){
+            this.objectString = object;
+            this.valueString = string;
+            this.isObjectString = true;
+            this.data.put(objectString, valueString);
+            return this;
+        }
+
+        public DataOnActivity setChild(String string){
+            this.valueString = string;
+            this.isValueString = true;
+            return this;
         }
 
         public DataOnActivity setElementbyId(int _id){

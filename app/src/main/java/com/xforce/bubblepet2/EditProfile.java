@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.xforce.bubblepet2.helpers.ChangeActivity;
 import com.xforce.bubblepet2.helpers.ConfirmationModal;
 import com.xforce.bubblepet2.dataFromDataBase.GetDataUser;
 
@@ -93,13 +94,16 @@ public class EditProfile extends AppCompatActivity {
 
         ShowPassword(showPassword,userPassword);
         saveDatosButton.setOnClickListener(v ->{
-            ConfirmationModal.build(getApplicationContext(),findViewById(R.id.secctionConfirmation)).setTitle("¿Desea guardar los cambios?").show();
-            /*getString();
-            setDataBase();
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();*/
+            GetDataUser.DataOnActivity.setData(getApplicationContext())
+                    .setChangeActivity(MainActivity.class)
+                    .setMessage("Datos actualizados ;D")
+                    .setValuePath("CountData/test")
+                    .setChild("prueba1","contenido")
+                    .setChild("prueba2","contenido")
+                    .setChild("prueba3","contenido")
+                    .setChild("prueba4","contenido")
+                    .setChild("prueba5","contenido")
+                    .setData();
         });/*Actualizamos los datos del perfil*/
         eraseCountButton.setOnClickListener(v ->{
             getString();
@@ -120,10 +124,8 @@ public class EditProfile extends AppCompatActivity {
     }
     @Override public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
+        ChangeActivity.build(getApplicationContext(),MainActivity.class).start();
+
     }
     /*-------------------------------------------------------------------------------*/
     /*--------------------*/
@@ -207,12 +209,9 @@ public class EditProfile extends AppCompatActivity {
         String userPasswordString = userPassword.getText().toString();
     }
 
-    public static EditProfile inicial(){
-        return null;
-    }
 
     /*Agregamos la informacion a la base de datos*/
-    public void setDataBase(){
+    private void setDataBase(){
         Map<String, Object> data = new HashMap<>();
         data.put("user", userString);
         data.put("userName", userNameString);

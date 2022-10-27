@@ -29,7 +29,7 @@ public class ChangeActivity extends AppCompatActivity {
     //Public void------------------------------------
 
     public void start(){
-        Intent intent = new Intent(context, cls);
+        Intent intent = new Intent(context.getApplicationContext(), cls);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
         finish();

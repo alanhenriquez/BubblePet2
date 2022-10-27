@@ -1,6 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-
     repositories {
 
         // Make sure that you have the following two repositories
@@ -10,7 +9,6 @@ buildscript {
         mavenCentral()  // Maven Central repository
 
     }
-
     dependencies {
 
         // Add the dependency for the Google services Gradle plugin
@@ -18,8 +16,8 @@ buildscript {
         classpath 'com.google.gms:google-services:4.3.14'
 
     }
-
 }
+
 
 plugins {
     id 'com.android.application' version '7.3.1' apply false
@@ -27,20 +25,23 @@ plugins {
     id "org.sonarqube" version "3.4.0.2513"
 }
 
-allprojects {
 
+allprojects {
     repositories {
 
 
 
     }
-
 }
+
+
 sonarqube {
     properties {
-        property "sonar.projectKey", "com.alanhenriquez.bubblepet2"
+        property "sonar.projectKey", "com.xforce.bubblepet2"
     }
 }
+
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
