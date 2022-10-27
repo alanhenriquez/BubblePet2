@@ -5,11 +5,13 @@ plugins {
 }
 
 
+
 sonarqube {
     properties {
         property "sonar.projectKey", "com.xforce.bubblepet2"
     }
 }
+
 android {
     compileSdk 32
 
