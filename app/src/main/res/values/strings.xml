@@ -297,6 +297,7 @@
     <dimen name="sizeTextContOptionFragmentMenu">20sp</dimen>
     <string name="titleOption1FragmentMenu">Acerca de nosotros</string>
     <string name="titleOption2FragmentMenu">Como usar la app?</string>
+    <string name="titleOption3FragmentMenu">Terminos y condiciones</string>
 
 
     <!--USER HOME___________________________________________________________________________________-->

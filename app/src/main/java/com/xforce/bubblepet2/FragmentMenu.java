@@ -19,6 +19,7 @@ public class FragmentMenu extends Fragment {
 
     View option1;
     View option2;
+    View option3;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -70,12 +71,16 @@ public class FragmentMenu extends Fragment {
 
         option1 = view.findViewById(R.id.menuOption1);
         option2 = view.findViewById(R.id.menuOption2);
+        option3 = view.findViewById(R.id.menuOption3);
 
         option1.setOnClickListener(view1 -> {
             ChangeActivity.build(view.getContext(),AboutApp.class).start();
         });
         option2.setOnClickListener(view1 -> {
             ChangeActivity.build(view.getContext(),HowtoUse.class).start();
+        });
+        option3.setOnClickListener(view1 -> {
+            ChangeActivity.build(view.getContext(),Terminos_condiciones.class).start();
         });
 
 

@@ -8,59 +8,97 @@
     tools:context=".FragmentMenu">
 
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="30dp"
-        android:paddingRight="140dp"
-        tools:ignore="RtlHardcoded,RtlSymmetry,UselessParent">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/menuOption1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/marginVerticalContOptionFragmentMenu"
-            android:background="@drawable/backgroundContOptionFragmentMenu"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/paddingContOptionFragmentMenu"
-            android:paddingVertical="@dimen/paddingContOptionFragmentMenu"
-            tools:ignore="UselessParent">
+            android:paddingTop="30dp"
+            tools:ignore="RtlHardcoded,RtlSymmetry,UselessParent">
 
-            <TextView
-                android:id="@+id/textMenuOption1"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/menuOption1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@string/fontMain"
-                android:text="@string/titleOption1FragmentMenu"
-                android:textColor="@color/colorTextMain"
-                android:textSize="@dimen/sizeTextContOptionFragmentMenu" />
-        </LinearLayout>
+                android:layout_marginVertical="@dimen/marginVerticalContOptionFragmentMenu"
+                android:background="@drawable/backgroundContOptionFragmentMenu"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/paddingContOptionFragmentMenu"
+                android:paddingVertical="@dimen/paddingContOptionFragmentMenu"
+                tools:ignore="UselessParent">
 
-        <LinearLayout
-            android:id="@+id/menuOption2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/backgroundContOptionFragmentMenu"
-            android:orientation="vertical"
-            android:paddingHorizontal="@dimen/paddingContOptionFragmentMenu"
-            android:paddingVertical="@dimen/paddingContOptionFragmentMenu"
-            tools:ignore="UselessParent">
+                <TextView
+                    android:id="@+id/textMenuOption1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@string/fontMain"
+                    android:text="@string/titleOption1FragmentMenu"
+                    android:textColor="@color/colorTextMain"
+                    android:textSize="@dimen/sizeTextContOptionFragmentMenu" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/textMenuOption2"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/menuOption2"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@string/fontMain"
-                android:text="@string/titleOption2FragmentMenu"
-                android:textColor="@color/colorTextMain"
-                android:textSize="@dimen/sizeTextContOptionFragmentMenu" />
-        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="204dp"
-            android:layout_height="194dp"
-            android:src="@drawable/dog_icon" />
-    </LinearLayout>
+                android:layout_marginVertical="@dimen/marginVerticalContOptionFragmentMenu"
+                android:background="@drawable/backgroundContOptionFragmentMenu"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/paddingContOptionFragmentMenu"
+                android:paddingVertical="@dimen/paddingContOptionFragmentMenu"
+                tools:ignore="UselessParent">
+
+                <TextView
+                    android:id="@+id/textMenuOption2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@string/fontMain"
+                    android:text="@string/titleOption2FragmentMenu"
+                    android:textColor="@color/colorTextMain"
+                    android:textSize="@dimen/sizeTextContOptionFragmentMenu" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/menuOption3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/marginVerticalContOptionFragmentMenu"
+                android:background="@drawable/backgroundContOptionFragmentMenu"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/paddingContOptionFragmentMenu"
+                android:paddingVertical="@dimen/paddingContOptionFragmentMenu"
+                tools:ignore="UselessParent">
+
+                <TextView
+                    android:id="@+id/textMenuOption3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@string/fontMain"
+                    android:text="@string/titleOption3FragmentMenu"
+                    android:textColor="@color/colorTextMain"
+                    android:textSize="@dimen/sizeTextContOptionFragmentMenu" />
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="204dp"
+                    android:layout_height="194dp"
+                    android:src="@drawable/dog_icon"
+                    android:layout_marginTop="100dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+
 </FrameLayout>
