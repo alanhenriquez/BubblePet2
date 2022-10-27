@@ -9,7 +9,9 @@ plugins {
 
  sonarqube {
     properties {
-        property "sonar.projectKey", "com.xforce.bubblepet2"
+        property "sonar.projectName", "BubblePet2"
+        property "sonar.exlusions", "**/Generated.java"
+       property "sonar.projectKey", "com.xforce.bubblepet2"
     }
 }
 
