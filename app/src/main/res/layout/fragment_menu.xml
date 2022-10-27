@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,20 +21,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/marginVerticalContOptionFragmentMenu"
-            android:paddingVertical="@dimen/paddingContOptionFragmentMenu"
-            android:paddingHorizontal="@dimen/paddingContOptionFragmentMenu"
             android:background="@drawable/backgroundContOptionFragmentMenu"
             android:orientation="vertical"
+            android:paddingHorizontal="@dimen/paddingContOptionFragmentMenu"
+            android:paddingVertical="@dimen/paddingContOptionFragmentMenu"
             tools:ignore="UselessParent">
 
             <TextView
                 android:id="@+id/textMenuOption1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@string/fontMain"
                 android:text="@string/titleOption1FragmentMenu"
-                android:textSize="@dimen/sizeTextContOptionFragmentMenu"
                 android:textColor="@color/colorTextMain"
-                android:fontFamily="@string/fontMain"/>
+                android:textSize="@dimen/sizeTextContOptionFragmentMenu" />
         </LinearLayout>
 
         <LinearLayout
@@ -55,5 +56,11 @@
                 android:textColor="@color/colorTextMain"
                 android:textSize="@dimen/sizeTextContOptionFragmentMenu" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="204dp"
+            android:layout_height="194dp"
+            android:src="@drawable/dog_icon" />
     </LinearLayout>
 </FrameLayout>
