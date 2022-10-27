@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
 
-
+    //*******************************************************************************//
     /*-------------------------------------------------------------------------------*/
     /*Variables para texto, campos de texto y contenedores*/
     private String email;

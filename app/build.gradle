@@ -10,8 +10,6 @@ sonarqube {
         property "sonar.projectKey", "com.xforce.bubblepet2"
     }
 }
-
-
 android {
     compileSdk 32
 
@@ -36,7 +34,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-
 
 dependencies {
 
