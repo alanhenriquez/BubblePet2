@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -120,19 +121,19 @@ public class GetDataUser {
 
                         if (elementId && elementPath){
                             if (snapshot.child(elementPathValue).exists()){
-                                if (contextView.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatTextView")) {
+                                if (contextView.findViewById(elementIdValue) instanceof TextView) {
 
                                     val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
                                     textView = contextView.findViewById(elementIdValue);
                                     textView.setText(val);
 
-                                }else if (contextView.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatEditText")) {
+                                }else if (contextView.findViewById(elementIdValue) instanceof EditText) {
 
                                     val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
                                     editText = contextView.findViewById(elementIdValue);
                                     editText.setText(val);
 
-                                }else if (contextView.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatImageView")) {
+                                }else if (contextView.findViewById(elementIdValue) instanceof ImageView) {
 
                                     val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
                                     imageView = contextView.findViewById(elementIdValue);
@@ -145,14 +146,14 @@ public class GetDataUser {
                                 }
                             }else {
                                 msgToast.build(contextView.getContext()).message("El Path de datos no exite");
-                                if (contextView.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatTextView")) {
+                                if (contextView.findViewById(elementIdValue) instanceof TextView) {
 
                                     val = "Datos no encontrados";
                                     textView = contextView.findViewById(elementIdValue);
                                     textView.setText(val);
                                     textView.setTextColor(ContextCompat.getColor(contextView.getContext(),R.color.rojo10));
 
-                                }else if (contextView.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatEditText")) {
+                                }else if (contextView.findViewById(elementIdValue) instanceof EditText) {
 
                                     val = "Datos no encontrados";
                                     editText = contextView.findViewById(elementIdValue);
@@ -160,7 +161,7 @@ public class GetDataUser {
                                     editText.setHint(val);
                                     editText.setHintTextColor(ContextCompat.getColor(contextView.getContext(),R.color.rojo10));
 
-                                }else if (contextView.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatImageView")) {
+                                }else if (contextView.findViewById(elementIdValue) instanceof ImageView) {
 
                                     Drawable val = ContextCompat.getDrawable(contextView.getContext(),R.drawable.default_image_global);
                                     imageView = contextView.findViewById(elementIdValue);
@@ -311,19 +312,19 @@ public class GetDataUser {
 
                         if (elementId && elementPath){
                             if (snapshot.child(elementPathValue).exists()){
-                                if (activity.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatTextView")) {
+                                if (activity.findViewById(elementIdValue) instanceof TextView) {
 
                                     val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
                                     textView = activity.findViewById(elementIdValue);
                                     textView.setText(val);
 
-                                }else if (activity.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatEditText")) {
+                                }else if (activity.findViewById(elementIdValue) instanceof EditText) {
 
                                     val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
                                     editText = activity.findViewById(elementIdValue);
                                     editText.setText(val);
 
-                                }else if (activity.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatImageView")) {
+                                }else if (activity.findViewById(elementIdValue) instanceof ImageView) {
 
                                     val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
                                     imageView = activity.findViewById(elementIdValue);
@@ -334,14 +335,14 @@ public class GetDataUser {
                                 }
                             }else {
                                 msgToast.build(context).message("El Path de datos no exite");
-                                if (activity.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatTextView")) {
+                                if (activity.findViewById(elementIdValue) instanceof TextView) {
 
                                     val = "Datos no encontrados";
                                     textView = activity.findViewById(elementIdValue);
                                     textView.setText(val);
                                     textView.setTextColor(ContextCompat.getColor(context,R.color.rojo10));
 
-                                }else if (activity.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatEditText")) {
+                                }else if (activity.findViewById(elementIdValue) instanceof EditText) {
 
                                     val = "Datos no encontrados";
                                     editText = activity.findViewById(elementIdValue);
@@ -349,7 +350,7 @@ public class GetDataUser {
                                     editText.setHint(val);
                                     editText.setHintTextColor(ContextCompat.getColor(context,R.color.rojo10));
 
-                                }else if (activity.findViewById(elementIdValue).getClass().getName().equals("androidx.appcompat.widget.AppCompatImageView")) {
+                                }else if (activity.findViewById(elementIdValue) instanceof ImageView) {
 
                                     Drawable val = ContextCompat.getDrawable(context,R.drawable.default_image_global);
                                     imageView = activity.findViewById(elementIdValue);

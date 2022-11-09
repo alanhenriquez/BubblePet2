@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -33,6 +34,7 @@ import com.google.firebase.storage.StorageReference;
 import com.xforce.bubblepet2.helpers.ChangeActivity;
 import com.xforce.bubblepet2.helpers.ConfirmationModal;
 import com.xforce.bubblepet2.dataFromDataBase.GetDataUser;
+import com.xforce.bubblepet2.helpers.DialogShow;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +59,7 @@ public class EditProfile extends AppCompatActivity {
     /*Acceso a Firebase y AwesomeValidation*/
     FirebaseAuth userAuth;
     DatabaseReference userDataBase;
+    Context context;
     /*-------------------------------------------------------------------------------*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class EditProfile extends AppCompatActivity {
         TextView saveDatosButton = findViewById(R.id.botonGuardarDatosEditProfile);
         TextView eraseCountButton = findViewById(R.id.botonGuardarPasswordEditProfile);
 
-
+        context = this;
 
         GetDataUser.DataOnActivity
                 .build(getApplicationContext(),EditProfile.this)
@@ -95,16 +98,7 @@ public class EditProfile extends AppCompatActivity {
 
         ShowPassword(showPassword,userPassword);
         saveDatosButton.setOnClickListener(v ->{
-            GetDataUser.DataOnActivity.setData(getApplicationContext())
-                    .setChangeActivity(MainActivity.class)
-                    .setMessage("Datos actualizados ;D")
-                    .setValuePath("CountData/test")
-                    .setChild("prueba1","contenido")
-                    .setChild("prueba2","contenido")
-                    .setChild("prueba3","contenido")
-                    .setChild("prueba4","contenido")
-                    .setChild("prueba5","contenido")
-                    .setData();
+            new DialogShow(context);
         });/*Actualizamos los datos del perfil*/
         eraseCountButton.setOnClickListener(v ->{
             getString();
