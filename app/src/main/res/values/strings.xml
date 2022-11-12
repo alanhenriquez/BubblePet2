@@ -5,6 +5,24 @@
     <color name="colorTextMain">@color/black</color>
     <color name="colorFooterMain">@color/gris0</color>
     <color name="colorHeaderMain">@color/gris0</color>
+    <dimen name="dimenPersentTo6">16.66%</dimen>
+    <dimen name="dimenPersentTo5">20%</dimen>
+    <dimen name="dimenPersentTo4.5">22.22%</dimen>
+    <dimen name="dimenPersentTo4">25%</dimen>
+    <dimen name="dimenPersentTo3.5">28.571428%</dimen>
+    <dimen name="dimenPersentTo3">33.33%</dimen>
+    <dimen name="dimenPersentTo2.5">40%</dimen>
+    <dimen name="dimenPersentTo2">50%</dimen>
+    <dimen name="dimenPersent55">55%</dimen>
+    <dimen name="dimenPersent60">60%</dimen>
+    <dimen name="dimenPersent65">65%</dimen>
+    <dimen name="dimenPersent70">70%</dimen>
+    <dimen name="dimenPersent75">75%</dimen>
+    <dimen name="dimenPersent80">80%</dimen>
+    <dimen name="dimenPersent85">85%</dimen>
+    <dimen name="dimenPersent90">90%</dimen>
+    <dimen name="dimenPersent95">95%</dimen>
+    <dimen name="dimenPersent100">100%</dimen>
     <dimen name="sizeTextMain">15sp</dimen><!--Tamaño del texto recuperar contraseña-->
     <string name="fontMain" tools:ignore="ReferenceType">@font/roboto_regular</string><!--Tipografia Principal Ika-->
     <bool name="booleanoTrue">true</bool>
@@ -396,6 +414,14 @@
     <string name="text_targeta_pet_content_info_3">Color mascota</string>
     <string name="text_targeta_pet_content_info_4">Raza de mascota</string>
     <string name="text_targeta_pet_content_info_5">Estado de Salud</string>
+
+
+
+
+
+
+
+
 
     <!--____________________________________________________________________________________________-->
 </resources>

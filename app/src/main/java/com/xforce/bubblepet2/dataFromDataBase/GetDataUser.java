@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -173,15 +174,19 @@ public class GetDataUser {
                                     msgToast.build(contextView.getContext()).message("El Objeto id no es compatible");
                                 }
                             }
-                        }else if (elementId){
+                        }
+                        else if (elementId){
                             msgToast.build(contextView.getContext()).message("Falta proporcionar el dato de setValuePath(String _path)");
-                        }else if (elementPath){
+                        }
+                        else if (elementPath){
                             msgToast.build(contextView.getContext()).message("Falta proporcionar el dato de setElementbyId(int _id)");
-                        }else{
+                        }
+                        else{
                             msgToast.build(contextView.getContext()).message("Falta proporcionar los datos de setElementbyId(int _id) y setValuePath(String _path)");
                         }
 
-                    }else {
+                    }
+                    else {
                         msgToast.build(contextView.getContext()).message("Este elemento no existe");
                     }
                 }
@@ -258,34 +263,36 @@ public class GetDataUser {
         boolean isSetMessage = false;
         boolean isObjectString = false;
         boolean isValueString = false;
+        boolean useActivity = false;
         FirebaseAuth userAuth;
         DatabaseReference userDataBase;
 
         //Privates---------------------------------------------
 
-        private DataOnActivity(@NonNull Context _contextView, Activity _activity){
+        private DataOnActivity(@NonNull Context contextView, Activity activity){
             this.userAuth = FirebaseAuth.getInstance();
             this.userDataBase = getDataBaseRef();
             this.id = getUserId();
-            this.context = _contextView;
-            this.activity = _activity;
+            this.context = contextView;
+            this.activity = activity;
+            this.useActivity = true;
         }
 
-        private DataOnActivity(@NonNull Context _contextView){
+        private DataOnActivity(@NonNull Context contextView){
             this.userAuth = FirebaseAuth.getInstance();
             this.userDataBase = getDataBaseRef();
             this.id = getUserId();
-            this.context = _contextView;
+            this.context = contextView;
         }
 
         //Public static----------------------------------------
 
-        public static DataOnActivity build(@NonNull Context _context,Activity _activity){
-            return new DataOnActivity(_context,_activity);
+        public static DataOnActivity build(@NonNull Context context,Activity activity){
+            return new DataOnActivity(context,activity);
         }
 
-        public static DataOnActivity setData(@NonNull Context _context){
-            return new DataOnActivity(_context);
+        public static DataOnActivity setData(@NonNull Context context){
+            return new DataOnActivity(context);
         }
 
         public static FirebaseAuth getInstance(){
@@ -333,7 +340,8 @@ public class GetDataUser {
                                 }else {
                                     msgToast.build(context).message("El Objeto id no es compatible");
                                 }
-                            }else {
+                            }
+                            else {
                                 msgToast.build(context).message("El Path de datos no exite");
                                 if (activity.findViewById(elementIdValue) instanceof TextView) {
 
@@ -342,7 +350,8 @@ public class GetDataUser {
                                     textView.setText(val);
                                     textView.setTextColor(ContextCompat.getColor(context,R.color.rojo10));
 
-                                }else if (activity.findViewById(elementIdValue) instanceof EditText) {
+                                }
+                                else if (activity.findViewById(elementIdValue) instanceof EditText) {
 
                                     val = "Datos no encontrados";
                                     editText = activity.findViewById(elementIdValue);
@@ -350,25 +359,31 @@ public class GetDataUser {
                                     editText.setHint(val);
                                     editText.setHintTextColor(ContextCompat.getColor(context,R.color.rojo10));
 
-                                }else if (activity.findViewById(elementIdValue) instanceof ImageView) {
+                                }
+                                else if (activity.findViewById(elementIdValue) instanceof ImageView) {
 
                                     Drawable val = ContextCompat.getDrawable(context,R.drawable.default_image_global);
                                     imageView = activity.findViewById(elementIdValue);
                                     Glide.with(context).load(val).into(imageView);
 
-                                }else {
+                                }
+                                else {
                                     msgToast.build(context).message("El Objeto id no es compatible");
                                 }
                             }
-                        }else if (elementId){
+                        }
+                        else if (elementId){
                             msgToast.build(context).message("Falta proporcionar el dato de setValuePath(String _path)");
-                        }else if (elementPath){
+                        }
+                        else if (elementPath){
                             msgToast.build(context).message("Falta proporcionar el dato de setElementbyId(int _id)");
-                        }else{
+                        }
+                        else{
                             msgToast.build(context).message("Falta proporcionar los datos de setElementbyId(int _id) y setValuePath(String _path)");
                         }
 
-                    }else {
+                    }
+                    else {
                         msgToast.build(context).message("Este elemento no existe");
                     }
                 }
@@ -389,7 +404,7 @@ public class GetDataUser {
 
                         if (elementPath){
                             if (snapshot.child(elementPathValue).exists()){
-                                value[0] = String.valueOf(Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString());
+                                value[0] = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
 
                             }else {
                                 value[0] = "El Path de datos no exite";
@@ -427,7 +442,8 @@ public class GetDataUser {
                     msgToast.build(context).message("Error causado por introducción nula de datos");
                     msgToast.build(context).message("Se solicita usar: setValuePath()");
                 }
-            } else if (isValueString){
+            }
+            else if (isValueString){
                 String data = valueString;
                 if (elementPath){
                     userDataBase.child("Users").child(id).child(elementPathValue).setValue(data).addOnCompleteListener(task -> {
@@ -443,14 +459,11 @@ public class GetDataUser {
                     msgToast.build(context).message("Error causado por introducción nula de datos");
                     msgToast.build(context).message("Se solicita usar: setValuePath()");
                 }
-            }else {
+            }
+            else {
                 msgToast.build(context).message("Error causado por introducción nula de datos");
                 msgToast.build(context).message("Se solicita usar: setChild()");
             }
-
-
-
-
 
         }
 

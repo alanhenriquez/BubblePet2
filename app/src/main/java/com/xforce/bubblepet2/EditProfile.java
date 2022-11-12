@@ -32,7 +32,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.xforce.bubblepet2.helpers.ChangeActivity;
-import com.xforce.bubblepet2.helpers.ConfirmationModal;
 import com.xforce.bubblepet2.dataFromDataBase.GetDataUser;
 import com.xforce.bubblepet2.helpers.DialogShow;
 
@@ -97,9 +96,11 @@ public class EditProfile extends AppCompatActivity {
 
 
         ShowPassword(showPassword,userPassword);
+
         saveDatosButton.setOnClickListener(v ->{
-            new DialogShow(context);
-        });/*Actualizamos los datos del perfil*/
+            DialogShow.build(context,EditProfile.this).deniedBt(R.id.cancelar).grantedBt(R.id.aceptar).setLayout(R.layout.dialog).show();
+        });
+
         eraseCountButton.setOnClickListener(v ->{
             getString();
             DeleteUser();
@@ -107,15 +108,18 @@ public class EditProfile extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
-        });/*Actualizamos la contraseña*/
+        });
+
         changeImageUser.setOnClickListener(v ->{
             msgToast("Selecciona tu imagen");
             openGallery();
-        });/*Elegimos la nueva imagen de usuario*/
+        });
+
         signOut.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
             CerrarSesion();
-        });/*Registrarse si no tienes cuenta*/
+        });
+
     }
     @Override public void onBackPressed() {
         super.onBackPressed();

@@ -71,7 +71,7 @@ public class EditPetProfile extends AppCompatActivity {
         GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petColor.getId()).setValuePath("PetData/petColor").getData();
         GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petBreed.getId()).setValuePath("PetData/petBreed").getData();
         GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petHealth.getId()).setValuePath("PetData/petHealth").getData();
-        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(contImagePet.getId()).setValuePath("PetData/imgPetPerfil/ImageMain").getData();
+        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(contImagePet.getId()).setValuePath("ImageData/imgPetPerfil/ImageMain").getData();
 
 
         saveDatosButton.setOnClickListener(v ->{

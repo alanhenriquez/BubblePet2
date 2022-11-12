@@ -71,7 +71,7 @@ public class FragmentUserHome extends Fragment {
         GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_4).setValuePath("PetData/petBreed").getData();
         GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_5).setValuePath("PetData/petHealth").getData();
         GetDataUser.DataOnFragment.build(view,FragmentUserHome.this).setElementbyId(R.id.imgPhoto).setValuePath("ImageData/imgPerfil/ImageMain").getData();
-        GetDataUser.DataOnFragment.build(view,FragmentUserHome.this).setElementbyId(R.id.imagePet).setValuePath("PetData/imgPetPerfil/ImageMain").getData();
+        GetDataUser.DataOnFragment.build(view,FragmentUserHome.this).setElementbyId(R.id.imagePet).setValuePath("ImageData/imgPetPerfil/ImageMain").getData();
 
         return view;
     }
