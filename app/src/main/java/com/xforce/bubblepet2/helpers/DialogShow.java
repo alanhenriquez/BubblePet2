@@ -86,41 +86,38 @@ public class DialogShow {
         return this;
     }
 
-
-
     //Public void------------------------------------
 
     public void show(){
         if (useAceptar && useCancelar && useLayoutToDialog){
-            Structure();
+            dialog = new Dialog(context);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+            dialog.setContentView(layoutToDialog);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            aceptarBt = dialog.findViewById(aceptar);
+            cancelarBt = dialog.findViewById(cancelar);
+            cancelarBt.setOnClickListener(v -> {
+                dialog.dismiss();
+            });
+            aceptarBt.setOnClickListener(v -> {
+                Structure();
+            });
+            dialog.show();
         }
     }
 
-
     private void Structure(){
-        dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setContentView(layoutToDialog);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        aceptarBt = dialog.findViewById(aceptar);
-        cancelarBt = dialog.findViewById(cancelar);
-        cancelarBt.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
-        aceptarBt.setOnClickListener(v -> {
-            TextView p = activity.findViewById(R.id.userEditProfile);
-            TextView p2 = activity.findViewById(R.id.userNameEditProfile);
-            GetDataUser.DataOnActivity.setData(context)
-                    .setChangeActivity(MainActivity.class)
-                    .setMessage("Datos actualizados ;D")
-                    .setValuePath("PerfilData")
-                    .setChild("user", p.getText().toString())
-                    .setChild("userName", p2.getText().toString())
-                    .setData();
-            dialog.dismiss();
-        });
-        dialog.show();
+        TextView p = activity.findViewById(R.id.userEditProfile);
+        TextView p2 = activity.findViewById(R.id.userNameEditProfile);
+        GetDataUser.DataOnActivity.setData(context)
+                .setChangeActivity(MainActivity.class)
+                .setMessage("Datos actualizados ;D")
+                .setValuePath("PerfilData")
+                .setChild("user", p.getText().toString())
+                .setChild("userName", p2.getText().toString())
+                .setData();
+        dialog.dismiss();
     }
 
 

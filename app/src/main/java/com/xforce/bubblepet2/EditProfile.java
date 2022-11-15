@@ -116,8 +116,7 @@ public class EditProfile extends AppCompatActivity {
         });
 
         signOut.setOnClickListener(view -> {
-            FirebaseAuth.getInstance().signOut();
-            CerrarSesion();
+
         });
 
     }
@@ -186,7 +185,7 @@ public class EditProfile extends AppCompatActivity {
         data.put("ImageMain", link);
         String id = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
         userDataBase.child("Users").child(id).child("ImageData").child("imgPerfil").setValue(data).addOnCompleteListener(task1 -> msgToast("Datos actualizados"));
-        CerrarSesion();
+        ChangeActivity.build(getApplicationContext(), Login.class).start();
     }
     /*Termina codigo de la seleccion de imagen y envio a la base de datos*/
     /*--------------------*/
@@ -194,13 +193,7 @@ public class EditProfile extends AppCompatActivity {
 
 
 
-    /*Cerramos la sesion y volvemos al login*/
-    private void CerrarSesion (){
-        Intent loged = new Intent(getApplicationContext(), Login.class);
-        loged.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(loged);
-        finish();
-    }
+
     /*Convertimos a string el contenido de los campos de texto*/
     private void getString(){
         userString = user.getText().toString();
@@ -219,48 +212,7 @@ public class EditProfile extends AppCompatActivity {
     }
     /*Eliminamos al usuario*/
     private void DeleteUser() {
-        String id = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
-        userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String mail;
-                    String password;
-                    /*-----------------*/
-                    /*Obtenemos los valores del usuario convertidos a cadena*/
-                    mail = Objects.requireNonNull(snapshot.child("CountData").child("userMail").getValue()).toString();
-                    password = Objects.requireNonNull(snapshot.child("CountData").child("userPassword").getValue()).toString();
-                    /*-----------------*/
-                    final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    // Obtenga las credenciales de autenticación del usuario para volver a autenticarse. El siguiente ejemplo muestra
-                    // credenciales de correo electrónico y contraseña, pero hay múltiples proveedores posibles,
-                    // como GoogleAuthProvider o FacebookAuthProvider.
-                    AuthCredential credential = EmailAuthProvider.getCredential(mail, password);
-                    // Pida al usuario que vuelva a proporcionar sus credenciales de inicio de sesión
-                    if (user != null) {
-                        user.reauthenticate(credential).addOnCompleteListener(task ->
-                                user.delete().addOnCompleteListener(task1 -> {
-                                    if (task1.isSuccessful()) {
-                                        Intent intent = new Intent(getApplicationContext(), Login.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                }));
-                    }
-                    /*-----------------*/
-                    /*Removemos la informacion del usuario desde la base de datos*/
-                    userDataBase.child("Users").child(id).removeValue();
-                }else {
-                    msgToast("Creación de usuario cancelado");
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                msgToast("Error de carga");
-            }
-        });
+
     }
 
 

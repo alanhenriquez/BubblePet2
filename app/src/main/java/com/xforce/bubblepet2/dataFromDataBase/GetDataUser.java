@@ -3,6 +3,7 @@ package com.xforce.bubblepet2.dataFromDataBase;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
@@ -19,12 +20,16 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.xforce.bubblepet2.Login;
 import com.xforce.bubblepet2.R;
 import com.xforce.bubblepet2.helpers.ChangeActivity;
 import com.xforce.bubblepet2.helpers.msgToast;
@@ -340,7 +345,8 @@ public class GetDataUser {
         EditText editText;
         ImageView imageView;
         Activity activity;
-        String id,val,elementPathValue,message,objectString,valueString;
+        String id,val,elementPathValue,message,objectString,valueString,
+                credentialEmail,credentialPassword;
         Map<String, Object> data = new HashMap<>();
         int elementIdValue;
         boolean elementId = false;
@@ -350,6 +356,8 @@ public class GetDataUser {
         boolean isObjectString = false;
         boolean isValueString = false;
         boolean useActivity = false;
+        boolean useCredentialEmail = false;
+        boolean useCredentialPassword = false;
         FirebaseAuth userAuth;
         DatabaseReference userDataBase;
 
@@ -390,8 +398,14 @@ public class GetDataUser {
             return FirebaseDatabase.getInstance().getReference();
         }
 
+        public static FirebaseUser getCurrentUser(){
+            return getInstance().getCurrentUser();
+
+        }
+
         public static String getUserId(){
-            return Objects.requireNonNull(getInstance().getCurrentUser()).getUid();
+            return getCurrentUser().getUid();
+
         }
 
         //Public DataOnActivity------------------------------------------
@@ -431,6 +445,14 @@ public class GetDataUser {
         public DataOnActivity setValuePath(String _path){
             this.elementPathValue = _path;
             this.elementPath = true;
+            return this;
+        }
+
+        public DataOnActivity getCredentials(String email,String password){
+            this.credentialEmail = email;
+            this.credentialPassword = password;
+            this.useCredentialEmail = true;
+            this.useCredentialPassword = true;
             return this;
         }
 
@@ -593,6 +615,60 @@ public class GetDataUser {
 
         }
 
+        public void signOut(){
+            getInstance().signOut();
+            if (isChangeActivity){
+                ChangeActivity.build(context,cls).start();
+            }
+
+            if (isSetMessage){
+                msgToast.build(context).message(message);
+            }
+        }
+
+        public void deleteUser(){
+            userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (!snapshot.exists()) {
+                        msgToast.build(context).message("Estos datos no existen");
+                    }else {
+                        String mail;
+                        String password;
+                        /*-----------------*/
+                        /*Obtenemos los valores del usuario convertidos a cadena*/
+                        mail = Objects.requireNonNull(snapshot.child("CountData").child("userMail").getValue()).toString();
+                        password = Objects.requireNonNull(snapshot.child("CountData").child("userPassword").getValue()).toString();
+                        /*-----------------*/
+                        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        // Obtenga las credenciales de autenticación del usuario para volver a autenticarse. El siguiente ejemplo muestra
+                        // credenciales de correo electrónico y contraseña, pero hay múltiples proveedores posibles,
+                        // como GoogleAuthProvider o FacebookAuthProvider.
+                        AuthCredential credential = EmailAuthProvider.getCredential(credentialEmail, credentialPassword);
+                        // Pida al usuario que vuelva a proporcionar sus credenciales de inicio de sesión
+                        if (getCurrentUser() != null) {
+                            user.reauthenticate(credential).addOnCompleteListener(task ->
+                                    user.delete().addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    }));
+                        }
+                        /*-----------------*/
+                        /*Removemos la informacion del usuario desde la base de datos*/
+                        userDataBase.child("Users").child(id).removeValue();
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    msgToast.build(context).message("Error de carga");
+                }
+            });
+        }
 
 
     }
