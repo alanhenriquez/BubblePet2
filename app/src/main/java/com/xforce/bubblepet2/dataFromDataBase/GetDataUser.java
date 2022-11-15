@@ -44,31 +44,43 @@ public class GetDataUser {
 
         private final View contextView;
         private Context context;
+        private Class<?> cls;
+        Fragment fragment;
         TextView textView;
         EditText editText;
         ImageView imageView;
-        String id, val, elementPathValue;
+        Activity activity;
+        String id,val,elementPathValue,message,objectString,valueString;
+        Map<String, Object> data = new HashMap<>();
         int elementIdValue;
         boolean elementId = false;
         boolean elementPath = false;
+        boolean isChangeActivity = false;
+        boolean isSetMessage = false;
+        boolean isObjectString = false;
+        boolean isValueString = false;
+        boolean useActivity = false;
+        boolean useContext = false;
         FirebaseAuth userAuth;
         DatabaseReference userDataBase;
 
         //Privates---------------------------------------------
 
-        private DataOnFragment(@NonNull View _contextView){
+        private DataOnFragment(@NonNull View contextView){
             this.userAuth = getInstance();
             this.userDataBase = getDataBaseRef();
             this.id = getUserId();
-            this.contextView = _contextView;
+            this.contextView = contextView;
         }
 
-        private DataOnFragment(@NonNull View _contextView, @NonNull Fragment _fragment){
+        private DataOnFragment(@NonNull View contextView, @NonNull Fragment fragment){
             this.userAuth = getInstance();
             this.userDataBase = getDataBaseRef();
             this.id = getUserId();
-            this.contextView = _contextView;
-            this.context = _fragment.requireActivity().getApplicationContext();
+            this.contextView = contextView;
+            this.context = fragment.requireActivity().getApplicationContext();
+            this.useContext = true;
+            this.fragment = fragment;
         }
 
         //Public static----------------------------------------
@@ -78,8 +90,8 @@ public class GetDataUser {
 
         }
 
-        public static DataOnFragment build(@NonNull View _contextView, @NonNull Fragment fragment){
-            return new DataOnFragment(_contextView,fragment);
+        public static DataOnFragment build(@NonNull View contextView, @NonNull Fragment fragment){
+            return new DataOnFragment(contextView,fragment);
 
         }
 
@@ -111,6 +123,46 @@ public class GetDataUser {
             return true;
         }
 
+        //Public DataOnFragment------------------------------------------
+
+        public DataOnFragment setChangeActivity(@NonNull Class<?> cls){
+            this.cls = cls;
+            this.isChangeActivity = true;
+            return this;
+        }
+
+        public DataOnFragment setMessage(String message){
+            this.message = message;
+            this.isSetMessage = true;
+            return this;
+        }
+
+        public DataOnFragment setChild(String object, String string){
+            this.objectString = object;
+            this.valueString = string;
+            this.isObjectString = true;
+            this.data.put(objectString, valueString);
+            return this;
+        }
+
+        public DataOnFragment setChild(String string){
+            this.valueString = string;
+            this.isValueString = true;
+            return this;
+        }
+
+        public DataOnFragment setElementbyId(int _id){
+            this.elementIdValue = _id;
+            this.elementId = true;
+            return this;
+        }
+
+        public DataOnFragment setValuePath(String _path){
+            this.elementPathValue = _path;
+            this.elementPath = true;
+            return this;
+        }
+
         //Public void------------------------------------------
 
         public void getData(){
@@ -118,8 +170,10 @@ public class GetDataUser {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-
+                    if (!snapshot.exists()) {
+                        msgToast.build(contextView.getContext()).message("Este elemento no existe");
+                    }
+                    else {
                         if (elementId && elementPath){
                             if (snapshot.child(elementPathValue).exists()){
                                 if (contextView.findViewById(elementIdValue) instanceof TextView) {
@@ -128,13 +182,15 @@ public class GetDataUser {
                                     textView = contextView.findViewById(elementIdValue);
                                     textView.setText(val);
 
-                                }else if (contextView.findViewById(elementIdValue) instanceof EditText) {
+                                }
+                                else if (contextView.findViewById(elementIdValue) instanceof EditText) {
 
                                     val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
                                     editText = contextView.findViewById(elementIdValue);
                                     editText.setText(val);
 
-                                }else if (contextView.findViewById(elementIdValue) instanceof ImageView) {
+                                }
+                                else if (contextView.findViewById(elementIdValue) instanceof ImageView) {
 
                                     val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
                                     imageView = contextView.findViewById(elementIdValue);
@@ -142,7 +198,8 @@ public class GetDataUser {
                                         Glide.with(context).load(val).into(imageView);
                                     }
 
-                                }else {
+                                }
+                                else {
                                     msgToast.build(contextView.getContext()).message("El Objeto id no es compatible");
                                 }
                             }else {
@@ -154,7 +211,8 @@ public class GetDataUser {
                                     textView.setText(val);
                                     textView.setTextColor(ContextCompat.getColor(contextView.getContext(),R.color.rojo10));
 
-                                }else if (contextView.findViewById(elementIdValue) instanceof EditText) {
+                                }
+                                else if (contextView.findViewById(elementIdValue) instanceof EditText) {
 
                                     val = "Datos no encontrados";
                                     editText = contextView.findViewById(elementIdValue);
@@ -162,7 +220,8 @@ public class GetDataUser {
                                     editText.setHint(val);
                                     editText.setHintTextColor(ContextCompat.getColor(contextView.getContext(),R.color.rojo10));
 
-                                }else if (contextView.findViewById(elementIdValue) instanceof ImageView) {
+                                }
+                                else if (contextView.findViewById(elementIdValue) instanceof ImageView) {
 
                                     Drawable val = ContextCompat.getDrawable(contextView.getContext(),R.drawable.default_image_global);
                                     imageView = contextView.findViewById(elementIdValue);
@@ -170,7 +229,8 @@ public class GetDataUser {
                                         Glide.with(context).load(val).into(imageView);
                                     }
 
-                                }else {
+                                }
+                                else {
                                     msgToast.build(contextView.getContext()).message("El Objeto id no es compatible");
                                 }
                             }
@@ -184,10 +244,6 @@ public class GetDataUser {
                         else{
                             msgToast.build(contextView.getContext()).message("Falta proporcionar los datos de setElementbyId(int _id) y setValuePath(String _path)");
                         }
-
-                    }
-                    else {
-                        msgToast.build(contextView.getContext()).message("Este elemento no existe");
                     }
                 }
                 @Override
@@ -203,21 +259,18 @@ public class GetDataUser {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-
-                        if (elementPath){
-                            if (snapshot.child(elementPathValue).exists()){
-                                value[0] = String.valueOf(Objects.requireNonNull(snapshot.child(elementPathValue).getValue()));
-
-                            }else {
-                                value[0] = "El Path de datos no exite";
-                            }
-                        }else{
-                            value[0] = "Falta proporcionar el dato de setValuePath(String _path)";
-                        }
-
-                    }else {
+                    if (!snapshot.exists()) {
                         value[0] = "Este elemento no existe";
+                    }else {
+                        if (!elementPath){
+                            value[0] = "Falta proporcionar el dato de setValuePath(String _path)";
+                        }else{
+                            if (!snapshot.child(elementPathValue).exists()){
+                                value[0] = "El Path de datos no exite";
+                            }else {
+                                value[0] = String.valueOf(Objects.requireNonNull(snapshot.child(elementPathValue).getValue()));
+                            }
+                        }
                     }
                 }
                 @Override
@@ -228,19 +281,52 @@ public class GetDataUser {
             return value[0];
         }
 
-        //Public DataOnFragment------------------------------------------
+        public void setData(){
+            if (!useContext){
+                msgToast.build(contextView.getContext()).message("Se recomienda utilizar build(@NonNull View contextView, @NonNull Fragment fragment)");
+            }
+            else {
+                if (isObjectString){
+                    if (!elementPath){
+                        msgToast.build(context).message("Error causado por introducción nula de datos");
+                        msgToast.build(context).message("Se solicita usar: setValuePath()");
+                    }else {
+                        userDataBase.child("Users").child(id).child(elementPathValue).setValue(data).addOnCompleteListener(task -> {
+                            if (isChangeActivity){
+                                ChangeActivity.build(context,cls).start();
+                            }
 
-        public DataOnFragment setElementbyId(int _id){
-            this.elementIdValue = _id;
-            this.elementId = true;
-            return this;
+                            if (isSetMessage){
+                                msgToast.build(context).message(message);
+                            }
+                        });
+                    }
+                }
+                else if (isValueString){
+                    String data = valueString;
+                    if (!elementPath){
+                        msgToast.build(context).message("Error causado por introducción nula de datos");
+                        msgToast.build(context).message("Se solicita usar: setValuePath()");
+                    }else {
+                        userDataBase.child("Users").child(id).child(elementPathValue).setValue(data).addOnCompleteListener(task -> {
+                            if (isChangeActivity){
+                                ChangeActivity.build(context,cls).start();
+                            }
+
+                            if (isSetMessage){
+                                msgToast.build(context).message(message);
+                            }
+                        });
+                    }
+                }
+                else {
+                    msgToast.build(context).message("Error causado por introducción nula de datos");
+                    msgToast.build(context).message("Se solicita usar: setChild()");
+                }
+            }
         }
 
-        public DataOnFragment setValuePath(String _path){
-            this.elementPathValue = _path;
-            this.elementPath = true;
-            return this;
-        }
+
 
     }
 
@@ -308,165 +394,6 @@ public class GetDataUser {
             return Objects.requireNonNull(getInstance().getCurrentUser()).getUid();
         }
 
-        //Public void------------------------------------------
-
-        public void getData(){
-            userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-
-                        if (elementId && elementPath){
-                            if (snapshot.child(elementPathValue).exists()){
-                                if (activity.findViewById(elementIdValue) instanceof TextView) {
-
-                                    val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
-                                    textView = activity.findViewById(elementIdValue);
-                                    textView.setText(val);
-
-                                }else if (activity.findViewById(elementIdValue) instanceof EditText) {
-
-                                    val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
-                                    editText = activity.findViewById(elementIdValue);
-                                    editText.setText(val);
-
-                                }else if (activity.findViewById(elementIdValue) instanceof ImageView) {
-
-                                    val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
-                                    imageView = activity.findViewById(elementIdValue);
-                                    Glide.with(context).load(val).into(imageView);
-
-                                }else {
-                                    msgToast.build(context).message("El Objeto id no es compatible");
-                                }
-                            }
-                            else {
-                                msgToast.build(context).message("El Path de datos no exite");
-                                if (activity.findViewById(elementIdValue) instanceof TextView) {
-
-                                    val = "Datos no encontrados";
-                                    textView = activity.findViewById(elementIdValue);
-                                    textView.setText(val);
-                                    textView.setTextColor(ContextCompat.getColor(context,R.color.rojo10));
-
-                                }
-                                else if (activity.findViewById(elementIdValue) instanceof EditText) {
-
-                                    val = "Datos no encontrados";
-                                    editText = activity.findViewById(elementIdValue);
-                                    editText.setText("");
-                                    editText.setHint(val);
-                                    editText.setHintTextColor(ContextCompat.getColor(context,R.color.rojo10));
-
-                                }
-                                else if (activity.findViewById(elementIdValue) instanceof ImageView) {
-
-                                    Drawable val = ContextCompat.getDrawable(context,R.drawable.default_image_global);
-                                    imageView = activity.findViewById(elementIdValue);
-                                    Glide.with(context).load(val).into(imageView);
-
-                                }
-                                else {
-                                    msgToast.build(context).message("El Objeto id no es compatible");
-                                }
-                            }
-                        }
-                        else if (elementId){
-                            msgToast.build(context).message("Falta proporcionar el dato de setValuePath(String _path)");
-                        }
-                        else if (elementPath){
-                            msgToast.build(context).message("Falta proporcionar el dato de setElementbyId(int _id)");
-                        }
-                        else{
-                            msgToast.build(context).message("Falta proporcionar los datos de setElementbyId(int _id) y setValuePath(String _path)");
-                        }
-
-                    }
-                    else {
-                        msgToast.build(context).message("Este elemento no existe");
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    msgToast.build(context).message("Error de carga");
-                }
-            });
-        }
-
-        public String getString(){
-            final String[] value = {""};
-            userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-
-                        if (elementPath){
-                            if (snapshot.child(elementPathValue).exists()){
-                                value[0] = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
-
-                            }else {
-                                value[0] = "El Path de datos no exite";
-                            }
-                        }else{
-                            value[0] = "Falta proporcionar el dato de setValuePath(String _path)";
-                        }
-
-                    }else {
-                        value[0] = "Este elemento no existe";
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    value[0] = "Error de carga";
-                }
-            });
-            return value[0];
-        }
-
-        public void setData(){
-
-            if (isObjectString){
-                if (elementPath){
-                    userDataBase.child("Users").child(id).child(elementPathValue).setValue(data).addOnCompleteListener(task -> {
-                        if (isChangeActivity){
-                            ChangeActivity.build(context,cls).start();
-                        }
-
-                        if (isSetMessage){
-                            msgToast.build(context).message(message);
-                        }
-                    });
-                }else {
-                    msgToast.build(context).message("Error causado por introducción nula de datos");
-                    msgToast.build(context).message("Se solicita usar: setValuePath()");
-                }
-            }
-            else if (isValueString){
-                String data = valueString;
-                if (elementPath){
-                    userDataBase.child("Users").child(id).child(elementPathValue).setValue(data).addOnCompleteListener(task -> {
-                        if (isChangeActivity){
-                            ChangeActivity.build(context,cls).start();
-                        }
-
-                        if (isSetMessage){
-                            msgToast.build(context).message(message);
-                        }
-                    });
-                }else {
-                    msgToast.build(context).message("Error causado por introducción nula de datos");
-                    msgToast.build(context).message("Se solicita usar: setValuePath()");
-                }
-            }
-            else {
-                msgToast.build(context).message("Error causado por introducción nula de datos");
-                msgToast.build(context).message("Se solicita usar: setChild()");
-            }
-
-        }
-
         //Public DataOnActivity------------------------------------------
 
         public DataOnActivity setChangeActivity(@NonNull Class<?> cls){
@@ -506,6 +433,167 @@ public class GetDataUser {
             this.elementPath = true;
             return this;
         }
+
+        //Public void------------------------------------------
+
+        public void getData(){
+            userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (!snapshot.exists()) {
+                        msgToast.build(context).message("Este elemento no existe");
+                    }
+                    else {
+                        if (!useActivity){
+                            msgToast.build(context).message("Se recomienda utilizar build(@NonNull Context context,Activity activity)");
+                        }
+                        else {
+                            if (elementId && elementPath){
+                                if (snapshot.child(elementPathValue).exists()){
+                                    if (activity.findViewById(elementIdValue) instanceof TextView) {
+
+                                        val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
+                                        textView = activity.findViewById(elementIdValue);
+                                        textView.setText(val);
+
+                                    }else if (activity.findViewById(elementIdValue) instanceof EditText) {
+
+                                        val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
+                                        editText = activity.findViewById(elementIdValue);
+                                        editText.setText(val);
+
+                                    }else if (activity.findViewById(elementIdValue) instanceof ImageView) {
+
+                                        val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
+                                        imageView = activity.findViewById(elementIdValue);
+                                        Glide.with(context).load(val).into(imageView);
+
+                                    }else {
+                                        msgToast.build(context).message("El Objeto id no es compatible");
+                                    }
+                                }
+                                else {
+                                    msgToast.build(context).message("El Path de datos no exite");
+                                    if (activity.findViewById(elementIdValue) instanceof TextView) {
+
+                                        val = "Datos no encontrados";
+                                        textView = activity.findViewById(elementIdValue);
+                                        textView.setText(val);
+                                        textView.setTextColor(ContextCompat.getColor(context,R.color.rojo10));
+
+                                    }
+                                    else if (activity.findViewById(elementIdValue) instanceof EditText) {
+
+                                        val = "Datos no encontrados";
+                                        editText = activity.findViewById(elementIdValue);
+                                        editText.setText("");
+                                        editText.setHint(val);
+                                        editText.setHintTextColor(ContextCompat.getColor(context,R.color.rojo10));
+
+                                    }
+                                    else if (activity.findViewById(elementIdValue) instanceof ImageView) {
+
+                                        Drawable val = ContextCompat.getDrawable(context,R.drawable.default_image_global);
+                                        imageView = activity.findViewById(elementIdValue);
+                                        Glide.with(context).load(val).into(imageView);
+
+                                    }
+                                    else {
+                                        msgToast.build(context).message("El Objeto id no es compatible");
+                                    }
+                                }
+                            }
+                            else if (elementId){
+                                msgToast.build(context).message("Falta proporcionar el dato de setValuePath(String _path)");
+                            }
+                            else if (elementPath){
+                                msgToast.build(context).message("Falta proporcionar el dato de setElementbyId(int _id)");
+                            }
+                            else{
+                                msgToast.build(context).message("Falta proporcionar los datos de setElementbyId(int _id) y setValuePath(String _path)");
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    msgToast.build(context).message("Error de carga");
+                }
+            });
+        }
+
+        public String getString(){
+            final String[] value = {""};
+            userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (!snapshot.exists()) {
+                        value[0] = "Este elemento no existe";
+                    }else {
+                        if (!elementPath){
+                            value[0] = "Falta proporcionar el dato de setValuePath(String _path)";
+                        }else{
+                            if (!snapshot.child(elementPathValue).exists()){
+                                value[0] = "El Path de datos no exite";
+                            }else {
+                                value[0] = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    value[0] = "Error de carga";
+                }
+            });
+            return value[0];
+        }
+
+        public void setData(){
+
+            if (isObjectString){
+                if (!elementPath){
+                    msgToast.build(context).message("Error causado por introducción nula de datos");
+                    msgToast.build(context).message("Se solicita usar: setValuePath()");
+                }else {
+                    userDataBase.child("Users").child(id).child(elementPathValue).setValue(data).addOnCompleteListener(task -> {
+                        if (isChangeActivity){
+                            ChangeActivity.build(context,cls).start();
+                        }
+
+                        if (isSetMessage){
+                            msgToast.build(context).message(message);
+                        }
+                    });
+                }
+            }
+            else if (isValueString){
+                String data = valueString;
+                if (!elementPath){
+                    msgToast.build(context).message("Error causado por introducción nula de datos");
+                    msgToast.build(context).message("Se solicita usar: setValuePath()");
+                }else {
+                    userDataBase.child("Users").child(id).child(elementPathValue).setValue(data).addOnCompleteListener(task -> {
+                        if (isChangeActivity){
+                            ChangeActivity.build(context,cls).start();
+                        }
+
+                        if (isSetMessage){
+                            msgToast.build(context).message(message);
+                        }
+                    });
+                }
+            }
+            else {
+                msgToast.build(context).message("Error causado por introducción nula de datos");
+                msgToast.build(context).message("Se solicita usar: setChild()");
+            }
+
+        }
+
+
 
     }
 
