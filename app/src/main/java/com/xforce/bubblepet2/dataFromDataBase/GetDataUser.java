@@ -135,6 +135,7 @@ public class GetDataUser {
                 return !activity.isDestroyed() || !activity.isFinishing();
             }
 
+
             return true;
         }
 
