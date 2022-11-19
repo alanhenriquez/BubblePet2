@@ -1,15 +1,10 @@
 package com.xforce.bubblepet2.dataFromDataBase;
 
-import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -17,18 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.IdRes;
-import androidx.annotation.IntDef;
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -37,9 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
-import com.xforce.bubblepet2.Login;
 import com.xforce.bubblepet2.R;
 import com.xforce.bubblepet2.helpers.ChangeActivity;
 import com.xforce.bubblepet2.helpers.msgToast;
@@ -64,7 +51,6 @@ public class GetDataUser {
         TextView textView;
         EditText editText;
         ImageView imageView;
-        Activity activity;
         String id,val,elementPathValue,message,objectString,valueString;
         Map<String, Object> data = new HashMap<>();
         int elementIdValue;
@@ -74,7 +60,6 @@ public class GetDataUser {
         boolean isSetMessage = false;
         boolean isObjectString = false;
         boolean isValueString = false;
-        boolean useActivity = false;
         boolean useContext = false;
         FirebaseAuth userAuth;
         DatabaseReference userDataBase;
@@ -396,7 +381,7 @@ public class GetDataUser {
             return new DataOnActivity(context,activity);
         }
 
-        public static DataOnActivity setData(@NonNull Context context){
+        public static DataOnActivity build(@NonNull Context context){
             return new DataOnActivity(context);
         }
 
@@ -657,8 +642,8 @@ public class GetDataUser {
             }).addOnFailureListener(exception -> {
                 Log.d("EliminadoError","Ocurrio un error");
             });*/
-/*
-            userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
+
+            /*userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -667,10 +652,10 @@ public class GetDataUser {
                     }else {
                         String mail;
                         String password;
-                        *//*mail = Objects.requireNonNull(snapshot.child("CountData").child("userMail").getValue()).toString();
-                        password = Objects.requireNonNull(snapshot.child("CountData").child("userPassword").getValue()).toString();*//*
+                        mail = Objects.requireNonNull(snapshot.child("CountData").child("userMail").getValue()).toString();
+                        password = Objects.requireNonNull(snapshot.child("CountData").child("userPassword").getValue()).toString();
                         final FirebaseUser user = getCurrentUser();
-                        *//*AuthCredential credential = EmailAuthProvider.getCredential(credentialEmail, credentialPassword);*//*
+                        AuthCredential credential = EmailAuthProvider.getCredential(credentialEmail, credentialPassword);
                         if (user != null) {
                             if (!isChangeActivity){
                                 msgToast.build(context).message("Nesesita agregar una clase de retorno al eliminar la cuenta");
@@ -679,13 +664,12 @@ public class GetDataUser {
                             else {
                                 user.reauthenticate(credential).addOnCompleteListener(task -> user.delete().addOnCompleteListener(task1 -> {
                                     if (task1.isSuccessful()) {
-                                        ChangeActivity.build(context,cls);
+                                        Log.d("GetDataUser.DataOnActivity.deleteUser(void)")
+                                        ChangeActivity.build(context,cls).start();
                                     }
                                 }));
                             }
                         }
-                        *//*-----------------*//*
-                        *//*Removemos la informacion del usuario desde la base de datos*//*
                         userDataBase.child("Users").child(id).removeValue();
                     }
                 }

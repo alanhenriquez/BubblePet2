@@ -98,22 +98,45 @@ public class EditProfile extends AppCompatActivity {
 
         ShowPassword(showPassword,userPassword);
 
-        saveDatosButton.setOnClickListener(v ->{
-            DialogShow.build(context,EditProfile.this).deniedBt(R.id.cancelar).grantedBt(R.id.aceptar).setLayout(R.layout.dialog).show();
-        });
-
-        eraseCountButton.setOnClickListener(v ->{
-            GetDataUser.DataOnActivity.build(context,EditProfile.this).setChangeActivity(Login.class).deleteUser();
-        });
-
         changeImageUser.setOnClickListener(v ->{
             msgToast("Selecciona tu imagen");
             openGallery();
         });
 
-        signOut.setOnClickListener(view -> {
-            GetDataUser.DataOnActivity.build(context,EditProfile.this).setChangeActivity(Login.class).signOut();
+        saveDatosButton.setOnClickListener(v ->{
+            DialogShow.saveData(context,EditProfile.this)
+                    .deniedBt(R.id.cancelar)
+                    .grantedBt(R.id.aceptar)
+                    .setLayout(R.layout.dialog)
+                    .setTitle("Desea guardar los datos?")
+                    .setContent("Si estas de acuerdo con todos tus cambios puedes precionar el boton: Aceptar")
+                    .showSaveData(true);
         });
+
+        signOut.setOnClickListener(view -> {
+            DialogShow.signOut(context,EditProfile.this)
+                    .deniedBt(R.id.cancelar)
+                    .grantedBt(R.id.aceptar)
+                    .setLayout(R.layout.dialog)
+                    .setTitle("Deseas cerrar sesion?")
+                    .setContent(" ")
+                    .showSignOut(true);
+        });
+
+        eraseCountButton.setOnClickListener(v ->{
+            DialogShow
+                    .build(context,EditProfile.this)
+                    .deniedBt(R.id.cancelar)
+                    .grantedBt(R.id.aceptar)
+                    .setLayout(R.layout.dialog1)
+                    .setTitle("Quieres eliminar tu cuenta?")
+                    .setContent("Primero deberas ingresar tus credenciales")
+                    .showDeleteCount(true);
+        });
+
+
+
+
 
     }
     @Override public void onBackPressed() {

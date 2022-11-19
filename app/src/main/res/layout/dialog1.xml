@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@drawable/bg_formularios"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,9 +18,9 @@
         <androidx.percentlayout.widget.PercentRelativeLayout
             android:id="@+id/persentLayoutDialog"
             android:layout_width="match_parent"
+            android:layout_height="400dp"
             android:paddingHorizontal="20dp"
-            android:paddingTop="10dp"
-            android:layout_height="190dp">
+            android:paddingTop="10dp">
 
             <LinearLayout
                 android:id="@+id/dialogBoxTitle"
@@ -30,7 +30,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:orientation="vertical"
-                app:layout_heightPercent="@dimen/dimenPersentTo3.5">
+                app:layout_heightPercent="@dimen/dimenPersentTo6">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -38,6 +38,7 @@
 
                     <TextView
                         android:id="@+id/dialogBoxTitleTx"
+                        tools:ignore="HardcodedText,MissingConstraints"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:elegantTextHeight="@bool/booleanoTrue"
@@ -50,8 +51,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="HardcodedText,MissingConstraints" />
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
@@ -61,31 +61,105 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/dialogBoxTitle"
-                android:orientation="vertical"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentStart="true"
-                app:layout_heightPercent="@dimen/dimenPersentTo2.5">
+                android:layout_alignParentEnd="true"
+                android:orientation="vertical"
+                app:layout_heightPercent="@dimen/dimenPersent60">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/dialogBoxContentTx"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:elegantTextHeight="@bool/booleanoTrue"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Contenido del dialog."
+                            android:textAlignment="@integer/alignmentStart"
+                            android:textColor="@color/colorTextMain"
+                            android:textSize="15sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="HardcodedText,MissingConstraints" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10dp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/dialog_user_mail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp"
+                        android:paddingHorizontal="5dp"
+                        android:inputType="textEmailAddress"
+                        android:background="@drawable/bg_formularios"
+                        android:hint="Email"
+                        android:textSize="15sp"
+                        android:textColorHint="@color/gris6"
+                        tools:ignore="HardcodedText"
+                        android:autofillHints="emailAddress" />
 
                     <TextView
-                        android:id="@+id/dialogBoxContentTx"
+                        android:id="@+id/dialog_text_user_mail"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="email"
                         android:elegantTextHeight="@bool/booleanoTrue"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="Contenido del dialog."
                         android:textAlignment="@integer/alignmentStart"
                         android:textColor="@color/colorTextMain"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="HardcodedText,MissingConstraints"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingVertical="10dp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/dialog_user_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp"
+                        android:paddingHorizontal="5dp"
+                        android:inputType="textVisiblePassword"
+                        android:background="@drawable/bg_formularios"
+                        android:hint="Password"
+                        android:textSize="15sp"
+                        android:textColorHint="@color/gris6"
+                        tools:ignore="HardcodedText"
+                        android:autofillHints="password" />
+
+                    <TextView
+                        android:id="@+id/dialog_text_user_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="contraseña"
+                        android:elegantTextHeight="@bool/booleanoTrue"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textAlignment="@integer/alignmentStart"
+                        android:textColor="@color/colorTextMain"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -105,6 +179,7 @@
 
                     <TextView
                         android:id="@+id/cancelar"
+                        tools:ignore="HardcodedText,MissingConstraints"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:elegantTextHeight="@bool/booleanoTrue"
@@ -116,8 +191,7 @@
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="HardcodedText,MissingConstraints" />
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
@@ -130,8 +204,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="0dp"
-                android:orientation="vertical"
                 android:layout_toEndOf="@+id/dialogBoxBtCancel"
+                android:orientation="vertical"
                 app:layout_widthPercent="@dimen/dimenPersentTo2">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -140,6 +214,7 @@
 
                     <TextView
                         android:id="@+id/aceptar"
+                        tools:ignore="HardcodedText,MissingConstraints"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:elegantTextHeight="@bool/booleanoTrue"
@@ -151,8 +226,7 @@
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="HardcodedText,MissingConstraints" />
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
@@ -160,5 +234,4 @@
         </androidx.percentlayout.widget.PercentRelativeLayout>
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
