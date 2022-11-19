@@ -34,6 +34,7 @@ import com.google.firebase.storage.StorageReference;
 import com.xforce.bubblepet2.helpers.ChangeActivity;
 import com.xforce.bubblepet2.dataFromDataBase.GetDataUser;
 import com.xforce.bubblepet2.helpers.DialogShow;
+import com.xforce.bubblepet2.helpers.msgToast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -102,12 +103,7 @@ public class EditProfile extends AppCompatActivity {
         });
 
         eraseCountButton.setOnClickListener(v ->{
-            getString();
-            DeleteUser();
-            Intent intent = new Intent(getApplicationContext(), Login.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
+            GetDataUser.DataOnActivity.build(context,EditProfile.this).setChangeActivity(Login.class).deleteUser();
         });
 
         changeImageUser.setOnClickListener(v ->{
@@ -116,7 +112,7 @@ public class EditProfile extends AppCompatActivity {
         });
 
         signOut.setOnClickListener(view -> {
-
+            GetDataUser.DataOnActivity.build(context,EditProfile.this).setChangeActivity(Login.class).signOut();
         });
 
     }

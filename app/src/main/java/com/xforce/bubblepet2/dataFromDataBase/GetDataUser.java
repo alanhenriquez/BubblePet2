@@ -1,5 +1,7 @@
 package com.xforce.bubblepet2.dataFromDataBase;
 
+import static android.content.ContentValues.TAG;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -8,11 +10,14 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.IntDef;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +25,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +36,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
 import com.xforce.bubblepet2.Login;
 import com.xforce.bubblepet2.R;
 import com.xforce.bubblepet2.helpers.ChangeActivity;
@@ -398,6 +408,14 @@ public class GetDataUser {
             return FirebaseDatabase.getInstance().getReference();
         }
 
+        public static StorageReference getStorageRef(){
+            return FirebaseStorage.getInstance().getReference();
+        }
+
+        public static StorageReference getStorageRefLocation(@NonNull String path){
+            return FirebaseStorage.getInstance().getReference(path);
+        }
+
         public static FirebaseUser getCurrentUser(){
             return getInstance().getCurrentUser();
 
@@ -416,13 +434,13 @@ public class GetDataUser {
             return this;
         }
 
-        public DataOnActivity setMessage(String message){
+        public DataOnActivity setMessage(@NonNull String message){
             this.message = message;
             this.isSetMessage = true;
             return this;
         }
 
-        public DataOnActivity setChild(String object, String string){
+        public DataOnActivity setChild(@NonNull String object,@NonNull String string){
             this.objectString = object;
             this.valueString = string;
             this.isObjectString = true;
@@ -430,25 +448,25 @@ public class GetDataUser {
             return this;
         }
 
-        public DataOnActivity setChild(String string){
+        public DataOnActivity setChild(@NonNull String string){
             this.valueString = string;
             this.isValueString = true;
             return this;
         }
 
-        public DataOnActivity setElementbyId(int _id){
+        public DataOnActivity setElementbyId(@IdRes int _id){
             this.elementIdValue = _id;
             this.elementId = true;
             return this;
         }
 
-        public DataOnActivity setValuePath(String _path){
+        public DataOnActivity setValuePath(@NonNull String _path){
             this.elementPathValue = _path;
             this.elementPath = true;
             return this;
         }
 
-        public DataOnActivity getCredentials(String email,String password){
+        public DataOnActivity getCredentials(@NonNull String email,@NonNull String password){
             this.credentialEmail = email;
             this.credentialPassword = password;
             this.useCredentialEmail = true;
@@ -617,7 +635,10 @@ public class GetDataUser {
 
         public void signOut(){
             getInstance().signOut();
-            if (isChangeActivity){
+            if (!isChangeActivity){
+                msgToast.build(context).message("Requiere una clase de retorno");
+            }
+            else {
                 ChangeActivity.build(context,cls).start();
             }
 
@@ -627,6 +648,15 @@ public class GetDataUser {
         }
 
         public void deleteUser(){
+
+            listData("ImageData/imgPerfil/ImageMain");
+            /*StorageReference storageReference = FirebaseStorage.getInstance().getReference().getStorage().getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/bubblepet-97dc0.appspot.com/o/Users%2F3nGou6XHD4eZtsTPoz8jYIjwbzR2%2Fimage%3A1000000201?alt=media&token=edd5e77f-c742-4146-a77c-bb43db9f7159");
+            storageReference.delete().addOnSuccessListener(aVoid -> {
+                Log.d("Eliminado","Archivo eliminado");
+            }).addOnFailureListener(exception -> {
+                Log.d("EliminadoError","Ocurrio un error");
+            });*/
+/*
             userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
@@ -636,30 +666,25 @@ public class GetDataUser {
                     }else {
                         String mail;
                         String password;
-                        /*-----------------*/
-                        /*Obtenemos los valores del usuario convertidos a cadena*/
-                        mail = Objects.requireNonNull(snapshot.child("CountData").child("userMail").getValue()).toString();
-                        password = Objects.requireNonNull(snapshot.child("CountData").child("userPassword").getValue()).toString();
-                        /*-----------------*/
-                        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        // Obtenga las credenciales de autenticación del usuario para volver a autenticarse. El siguiente ejemplo muestra
-                        // credenciales de correo electrónico y contraseña, pero hay múltiples proveedores posibles,
-                        // como GoogleAuthProvider o FacebookAuthProvider.
-                        AuthCredential credential = EmailAuthProvider.getCredential(credentialEmail, credentialPassword);
-                        // Pida al usuario que vuelva a proporcionar sus credenciales de inicio de sesión
-                        if (getCurrentUser() != null) {
-                            user.reauthenticate(credential).addOnCompleteListener(task ->
-                                    user.delete().addOnCompleteListener(task1 -> {
-                                        if (task1.isSuccessful()) {
-                                            Intent intent = new Intent(getApplicationContext(), Login.class);
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-                                    }));
+                        *//*mail = Objects.requireNonNull(snapshot.child("CountData").child("userMail").getValue()).toString();
+                        password = Objects.requireNonNull(snapshot.child("CountData").child("userPassword").getValue()).toString();*//*
+                        final FirebaseUser user = getCurrentUser();
+                        *//*AuthCredential credential = EmailAuthProvider.getCredential(credentialEmail, credentialPassword);*//*
+                        if (user != null) {
+                            if (!isChangeActivity){
+                                msgToast.build(context).message("Nesesita agregar una clase de retorno al eliminar la cuenta");
+                                msgToast.build(context).message("Se recomienda usar setChangeActivity(@NonNull Class<?> cls)");
+                            }
+                            else {
+                                user.reauthenticate(credential).addOnCompleteListener(task -> user.delete().addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        ChangeActivity.build(context,cls);
+                                    }
+                                }));
+                            }
                         }
-                        /*-----------------*/
-                        /*Removemos la informacion del usuario desde la base de datos*/
+                        *//*-----------------*//*
+                        *//*Removemos la informacion del usuario desde la base de datos*//*
                         userDataBase.child("Users").child(id).removeValue();
                     }
                 }
@@ -667,7 +692,39 @@ public class GetDataUser {
                 public void onCancelled(@NonNull DatabaseError error) {
                     msgToast.build(context).message("Error de carga");
                 }
+            });*/
+        }
+
+        public void listData(@NonNull String path){
+            FirebaseDatabase.getInstance().getReference().child("Users").child(id).child(path).addValueEventListener(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (int i = 0;i<snapshot.getChildrenCount(); i++){
+                            charge(i);
+                        }
+                        for (DataSnapshot child: snapshot.getChildren()) {
+
+                            Map<String, Object> values = new HashMap<>();
+                            values.put(child.getKey(),child.getValue());
+                            Log.d("firebase", String.valueOf(values));
+
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
             });
+        }
+
+
+        private void charge(int num){
+            Log.d("firebaseNum", String.valueOf(num));
         }
 
 
