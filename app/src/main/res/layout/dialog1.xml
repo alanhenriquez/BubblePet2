@@ -47,7 +47,7 @@
                         android:text="Titulo del dialog"
                         android:textAlignment="@integer/alignmentStart"
                         android:textColor="@color/colorTextMain"
-                        android:textSize="19sp"
+                        android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -118,12 +118,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="email"
+                        android:paddingStart="5dp"
                         android:elegantTextHeight="@bool/booleanoTrue"
                         android:fontFamily="@font/roboto_regular"
                         android:textAlignment="@integer/alignmentStart"
                         android:textColor="@color/colorTextMain"
                         android:textSize="15sp"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,RtlSymmetry" />
 
                 </LinearLayout>
 
@@ -152,12 +153,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="contraseña"
+                        android:paddingStart="5dp"
                         android:elegantTextHeight="@bool/booleanoTrue"
                         android:fontFamily="@font/roboto_regular"
                         android:textAlignment="@integer/alignmentStart"
                         android:textColor="@color/colorTextMain"
                         android:textSize="15sp"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,RtlSymmetry" />
 
                 </LinearLayout>
 
@@ -188,7 +190,7 @@
                         android:text="Cancelar"
                         android:textAlignment="@integer/alignmentStart"
                         android:textColor="@color/colorTextMain"
-                        android:textSize="16sp"
+                        android:textSize="15.5sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -223,7 +225,7 @@
                         android:text="Aceptar"
                         android:textAlignment="@integer/alignmentEnd"
                         android:textColor="@color/azul10"
-                        android:textSize="16sp"
+                        android:textSize="15.5sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

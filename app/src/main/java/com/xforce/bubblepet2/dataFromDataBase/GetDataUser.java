@@ -341,12 +341,13 @@ public class GetDataUser {
         EditText editText;
         ImageView imageView;
         Activity activity;
-        String id,val,elementPathValue,message,objectString,valueString,
+        String id,val,elementPathValue,elementImagePathValue,message,objectString,valueString,
                 credentialEmail,credentialPassword;
         Map<String, Object> data = new HashMap<>();
         int elementIdValue;
         boolean elementId = false;
         boolean elementPath = false;
+        boolean elementImagePath = false;
         boolean isChangeActivity = false;
         boolean isSetMessage = false;
         boolean isObjectString = false;
@@ -354,6 +355,9 @@ public class GetDataUser {
         boolean useActivity = false;
         boolean useCredentialEmail = false;
         boolean useCredentialPassword = false;
+        boolean useLogIt = false;
+        boolean useGetKey = false;
+        boolean useGetValue = false;
         FirebaseAuth userAuth;
         DatabaseReference userDataBase;
 
@@ -440,15 +444,21 @@ public class GetDataUser {
             return this;
         }
 
-        public DataOnActivity setElementbyId(@IdRes int _id){
-            this.elementIdValue = _id;
+        public DataOnActivity setElementbyId(@IdRes int id){
+            this.elementIdValue = id;
             this.elementId = true;
             return this;
         }
 
-        public DataOnActivity setValuePath(@NonNull String _path){
-            this.elementPathValue = _path;
+        public DataOnActivity setValuePath(@NonNull String path){
+            this.elementPathValue = path;
             this.elementPath = true;
+            return this;
+        }
+
+        public DataOnActivity setImageValuePath(@NonNull String path){
+            this.elementImagePathValue = path;
+            this.elementImagePath = true;
             return this;
         }
 
@@ -459,6 +469,22 @@ public class GetDataUser {
             this.useCredentialPassword = true;
             return this;
         }
+
+        public DataOnActivity logIt(boolean result){
+            this.useLogIt = result;
+            return this;
+        }
+
+        public DataOnActivity getKey(boolean result){
+            this.useGetKey = result;
+            return this;
+        }
+
+        public DataOnActivity getValue(boolean result){
+            this.useGetValue = result;
+            return this;
+        }
+
 
         //Public void------------------------------------------
 
@@ -635,7 +661,8 @@ public class GetDataUser {
 
         public void deleteUser(){
 
-            listData("ImageData/imgPerfil/ImageMain");
+            listData();
+
             /*StorageReference storageReference = FirebaseStorage.getInstance().getReference().getStorage().getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/bubblepet-97dc0.appspot.com/o/Users%2F3nGou6XHD4eZtsTPoz8jYIjwbzR2%2Fimage%3A1000000201?alt=media&token=edd5e77f-c742-4146-a77c-bb43db9f7159");
             storageReference.delete().addOnSuccessListener(aVoid -> {
                 Log.d("Eliminado","Archivo eliminado");
@@ -680,38 +707,146 @@ public class GetDataUser {
             });*/
         }
 
-        public void listData(@NonNull String path){
-            FirebaseDatabase.getInstance().getReference().child("Users").child(id).child(path).addValueEventListener(new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
+        public interface MyCallback {
+            void onCallback(DataSnapshot value);
+        }
+
+        public void readData(MyCallback myCallback) {
+            FirebaseDatabase.getInstance().getReference().child("Users").child(id).addValueEventListener(new ValueEventListener() {
+                @SuppressLint({"SetTextI18n", "LongLogTag"})
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        for (int i = 0;i<snapshot.getChildrenCount(); i++){
-                            charge(i);
-                        }
-                        for (DataSnapshot child: snapshot.getChildren()) {
 
-                            Map<String, Object> values = new HashMap<>();
-                            values.put(child.getKey(),child.getValue());
-                            Log.d("firebase", String.valueOf(values));
+                    if (!snapshot.exists()) {
+                        Log.d("GetDataUser.getChildrenCount()", "(Error) Este elemento no existe");
+                    }else {
+                        if (!elementPath){
+                            Log.d("GetDataUser.getChildrenCount()", "(Error) Falta proporcionar el dato de setValuePath(String _path)");
+                        }else{
+                            if (!snapshot.child(elementPathValue).exists()){
+                                Log.d("GetDataUser.getChildrenCount()", "(Error) Asegurece de que este correcto el path ingresado");
+                            }
+                            else {
+                                for (DataSnapshot child: snapshot.getChildren()) {
+                                    myCallback.onCallback(child);
+                                }
 
+                            }
                         }
                     }
-
                 }
-
+                @SuppressLint("LongLogTag")
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    Log.d("GetDataUser.getChildrenCount", "(Error) Carga de datos cancelada");
                 }
             });
         }
 
+        public String getChildrenCount(){
+            final String[] value = new String[1];
+            FirebaseDatabase.getInstance().getReference().child("Users").child(id).addValueEventListener(new ValueEventListener() {
+                @SuppressLint({"SetTextI18n", "LongLogTag"})
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        private void charge(int num){
-            Log.d("firebaseNum", String.valueOf(num));
+                    if (!snapshot.exists()) {
+                        Log.d("GetDataUser.getChildrenCount()", "(Error) Este elemento no existe");
+                    }else {
+                        if (!elementPath){
+                            Log.d("GetDataUser.getChildrenCount()", "(Error) Falta proporcionar el dato de setValuePath(String _path)");
+                            value[0] = String.valueOf(110111);
+                        }else{
+                            if (!snapshot.child(elementPathValue).exists()){
+                                Log.d("GetDataUser.getChildrenCount()", "(Error) Asegurece de que este correcto el path ingresado");
+                            }
+                        }
+                    }
+                }
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.d("GetDataUser.getChildrenCount", "(Error) Carga de datos cancelada");
+                }
+            });
+            return value[0];
         }
 
+        public Map<String, Object> getChildren(){
+            final Map<String, Object> value = new HashMap<>();
+            FirebaseDatabase.getInstance().getReference().child("Users").child(id).addValueEventListener(new ValueEventListener() {
+                @SuppressLint({"SetTextI18n", "LongLogTag"})
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    if (!snapshot.exists()) {
+                        Log.d("GetDataUser.getChildren()", "(Error) Este elemento no existe");
+                    }else {
+                        if (!elementPath && !snapshot.child(elementPathValue).exists()){
+                            Log.d("GetDataUser.getChildren()", "(Error) Falta proporcionar el dato de setValuePath(String _path)");
+                            Log.d("GetDataUser.getChildren()", "(Error) Asegurece de que este correcto el path ingresado");
+                            value.put("Error","Revisar el path");
+                        }else{
+                            for (DataSnapshot child: snapshot.getChildren()) {
+                                if (useLogIt){
+                                    value.put(child.getKey(),child.getValue());
+                                    Log.d("GetDataUser.getChildren()", "Result: "+value);
+                                    Log.d("GetDataUser.getChildren()", "Result: "+value.size());
+                                }
+                                else {value.put(child.getKey(),child.getValue());}
+                            }
+                        }
+                    }
+                }
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.d("GetDataUser.getChildren()", "(Error) Carga de datos cancelada");
+                    value.put("Error","Carga de datos cancelada");
+                }
+            });
+            return value;
+        }
+
+        public String listData(){
+            final String[] value = {" "};
+            FirebaseDatabase.getInstance().getReference().child("Users").child(id).addValueEventListener(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    if (!snapshot.exists()) {
+                        Log.d("GetDataUser.listData()", "Este elemento no existe");
+                    }else {
+                        if (!elementPath && !snapshot.child(elementPathValue).exists()){
+                            Log.d("GetDataUser.listData()", "Falta proporcionar el dato de setValuePath(String _path)");
+                            Log.d("GetDataUser.listData()", "Asegurece de que este correcto el path ingresado");
+                            value[0] = "Error";
+                        }else{
+                            for (int i = 0;i<snapshot.getChildrenCount(); i++){
+                                if (useLogIt){Log.d("firebaseNum", String.valueOf(i));}
+                                value[0] = String.valueOf(i);
+                            }
+                            for (DataSnapshot child: snapshot.getChildren()) {
+                                Map<String, Object> values = new HashMap<>();
+                                values.put(child.getKey(),child.getValue());
+                                if (useLogIt) {Log.d("firebaseImages", String.valueOf(values));}
+
+                                if (useGetKey) {value[0] = String.valueOf(child.getKey());}
+                                else if (useGetValue) {value[0] = String.valueOf(child.getValue());}
+                                else {Log.d("firebaseImages", String.valueOf(values));}
+                            }
+                            value[0] = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.d("GetDataUser.listData()", "Error en la carga de datos");
+                }
+            });
+            return value[0];
+        }
 
     }
 

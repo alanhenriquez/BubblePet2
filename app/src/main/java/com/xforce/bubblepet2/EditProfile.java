@@ -132,6 +132,7 @@ public class EditProfile extends AppCompatActivity {
                     .setTitle("Quieres eliminar tu cuenta?")
                     .setContent("Primero deberas ingresar tus credenciales")
                     .showDeleteCount(true);
+
         });
 
 

@@ -15,6 +15,7 @@ import androidx.annotation.BoolRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 
+import com.google.firebase.database.DataSnapshot;
 import com.xforce.bubblepet2.Login;
 import com.xforce.bubblepet2.MainActivity;
 import com.xforce.bubblepet2.R;
@@ -183,6 +184,7 @@ public class DialogShow {
                             .setChild("userName", p2.getText().toString())
                             .setData();
                     dialog.dismiss();
+                    Log.d("DialogShow","Se guardaron los cambios exitosamente");
                 });
             }
             else if (useSignOut){
@@ -192,10 +194,18 @@ public class DialogShow {
                             .setChangeActivity(Login.class)
                             .setMessage("Cerraste sesion")
                             .signOut();
+                    Log.d("DialogShow","Has cerrado sesion con exito");
                 });
             }
             else if (useDeleteCount){
-                Log.d("DialogShow","Borrar cuenta");
+                aceptarBt.setOnClickListener(v -> {
+                    GetDataUser.DataOnActivity.build(context).setValuePath("ImageData/imgPerfil").readData(new GetDataUser.DataOnActivity.MyCallback() {
+                        @Override
+                        public void onCallback(DataSnapshot value) {
+                            return;
+                        }
+                    });
+                });
             }
 
             dialog.show();
