@@ -66,12 +66,12 @@ public class EditPetProfile extends AppCompatActivity {
         userDataBase = FirebaseDatabase.getInstance().getReference();
 
 
-        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petName.getId()).setValuePath("PetData/petName").getData();
-        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petAge.getId()).setValuePath("PetData/petEge").getData();
-        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petColor.getId()).setValuePath("PetData/petColor").getData();
-        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petBreed.getId()).setValuePath("PetData/petBreed").getData();
-        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(petHealth.getId()).setValuePath("PetData/petHealth").getData();
-        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).setElementbyId(contImagePet.getId()).setValuePath("ImageData/imgPetPerfil/ImageMain").getData();
+        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).chooseElementbyId(petName.getId()).setValuePath("PetData/petName").getData();
+        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).chooseElementbyId(petAge.getId()).setValuePath("PetData/petEge").getData();
+        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).chooseElementbyId(petColor.getId()).setValuePath("PetData/petColor").getData();
+        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).chooseElementbyId(petBreed.getId()).setValuePath("PetData/petBreed").getData();
+        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).chooseElementbyId(petHealth.getId()).setValuePath("PetData/petHealth").getData();
+        GetDataUser.DataOnActivity.build(getApplicationContext(),EditPetProfile.this).chooseElementbyId(contImagePet.getId()).setValuePath("ImageData/imgPetPerfil/ImageMain").getData();
 
 
         saveDatosButton.setOnClickListener(v ->{

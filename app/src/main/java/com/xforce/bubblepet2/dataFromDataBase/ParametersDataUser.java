@@ -1,7 +1,6 @@
 package com.xforce.bubblepet2.dataFromDataBase;
-import com.google.firebase.database.IgnoreExtraProperties;
 
-@IgnoreExtraProperties
+
 public class ParametersDataUser {
     private String Name;
     private String Email;

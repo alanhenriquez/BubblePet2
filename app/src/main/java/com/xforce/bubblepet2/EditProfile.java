@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -20,10 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,6 +58,8 @@ public class EditProfile extends AppCompatActivity {
     FirebaseAuth userAuth;
     DatabaseReference userDataBase;
     Context context;
+    final int[] num2 = {0};
+
     /*-------------------------------------------------------------------------------*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,33 +78,33 @@ public class EditProfile extends AppCompatActivity {
         userDataBase = FirebaseDatabase.getInstance().getReference();
         TextView saveDatosButton = findViewById(R.id.botonGuardarDatosEditProfile);
         TextView eraseCountButton = findViewById(R.id.botonGuardarPasswordEditProfile);
-
         context = this;
 
         GetDataUser.DataOnActivity
                 .build(getApplicationContext(),EditProfile.this)
-                .setElementbyId(user.getId()).setValuePath("PerfilData/user").getData();
+                .chooseElementbyId(user.getId()).setValuePath("PerfilData/user").getData();
         GetDataUser.DataOnActivity
                 .build(getApplicationContext(),EditProfile.this)
-                .setElementbyId(userName.getId()).setValuePath("PerfilData/userName").getData();
+                .chooseElementbyId(userName.getId()).setValuePath("PerfilData/userName").getData();
         GetDataUser.DataOnActivity
                 .build(getApplicationContext(),EditProfile.this)
-                .setElementbyId(userPassword.getId()).setValuePath("CountData/userPassword").getData();
+                .chooseElementbyId(userPassword.getId()).setValuePath("CountData/userPassword").getData();
         GetDataUser.DataOnActivity
                 .build(getApplicationContext(),EditProfile.this)
-                .setElementbyId(contImageUser.getId()).setValuePath("ImageData/imgPerfil/ImageMain").getData();
+                .chooseElementbyId(contImageUser.getId()).setValuePath("ImageData/imgPerfil/ImageMain").getData();
 
 
 
         ShowPassword(showPassword,userPassword);
 
         changeImageUser.setOnClickListener(v ->{
+            num2[0] += 1;
             msgToast("Selecciona tu imagen");
             openGallery();
         });
 
         saveDatosButton.setOnClickListener(v ->{
-            DialogShow.saveData(context,EditProfile.this)
+            DialogShow.build(context,EditProfile.this)
                     .deniedBt(R.id.cancelar)
                     .grantedBt(R.id.aceptar)
                     .setLayout(R.layout.dialog)
@@ -114,7 +114,7 @@ public class EditProfile extends AppCompatActivity {
         });
 
         signOut.setOnClickListener(view -> {
-            DialogShow.signOut(context,EditProfile.this)
+            DialogShow.build(context,EditProfile.this)
                     .deniedBt(R.id.cancelar)
                     .grantedBt(R.id.aceptar)
                     .setLayout(R.layout.dialog)
@@ -202,10 +202,73 @@ public class EditProfile extends AppCompatActivity {
     /*Agregamos la Url de la imagen a la base de datos*/
     private void setDataImageBase(String link){
         Map<String, Object> data = new HashMap<>();
-        data.put("ImageMain", link);
-        String id = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
-        userDataBase.child("Users").child(id).child("ImageData").child("imgPerfil").setValue(data).addOnCompleteListener(task1 -> msgToast("Datos actualizados"));
-        ChangeActivity.build(getApplicationContext(), Login.class).start();
+        data.put("ImageMain", String.valueOf(link));
+        GetDataUser
+               .DataOnActivity
+               .getDataBaseRef()
+               .child("Users")
+               .child(GetDataUser.DataOnActivity.getUserId())
+               .child("ImageData/imgPerfil")
+               .setValue(data)
+               .addOnCompleteListener(task -> {
+
+                ChangeActivity.build(context,MainActivity.class).start();
+                msgToast.build(context).message("Datos enviados con exito");
+                Log.d("GetDataUser","Se guardaron exitosamente los cambios");
+               });
+
+
+        Map<String, Object> data2 = new HashMap<>();
+        GetDataUser
+                .DataOnActivity
+                .getDataBaseRef()
+                .child("Users")
+                .child(GetDataUser.DataOnActivity.getUserId())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (!snapshot.exists()) {
+                        Log.e("GetDataUser", "(Database error) Este usuario no existe; Se recomienda revisar su base de datos.");
+                    }else {
+                        for (DataSnapshot child: snapshot.child("ImageData/uploadeds").getChildren()) {
+
+                            data2.put(String.valueOf(num2[0]+=1),child.getValue());
+                            Log.d("carga",data2.toString());
+                            /*GetDataUser
+                                    .DataOnActivity
+                                    .getDataBaseRef()
+                                    .child("Users")
+                                    .child(GetDataUser.DataOnActivity.getUserId())
+                                    .child("ImageData/uploadeds")
+                                    .setValue(data2)
+                                    .addOnCompleteListener(task -> {
+                                        msgToast.build(context).message("Datos enviados con exito 1");
+                                    });*/
+                        }
+
+
+                    }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("GetDataUser", "(Error) Obtención de datos cancelada; " + error);
+            }
+        });
+
+
+        GetDataUser
+                .DataOnActivity
+                .getDataBaseRef()
+                .child("Users")
+                .child(GetDataUser.DataOnActivity.getUserId())
+                .child("ImageData/uploadeds")
+                .setValue(data)
+                .addOnCompleteListener(task -> {
+
+                    msgToast.build(context).message("Datos enviados con exito 2");
+                });
+
+
     }
     /*Termina codigo de la seleccion de imagen y envio a la base de datos*/
     /*--------------------*/

@@ -21,7 +21,8 @@
                 android:id="@+id/linearLayout7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -114,7 +115,8 @@
                                     android:layout_height="83dp"
                                     app:srcCompat="@drawable/pets_0"
                                     tools:layout_editor_absoluteX="265dp"
-                                    tools:layout_editor_absoluteY="20dp" />
+                                    tools:layout_editor_absoluteY="20dp"
+                                    tools:ignore="MissingConstraints" />
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </LinearLayout>

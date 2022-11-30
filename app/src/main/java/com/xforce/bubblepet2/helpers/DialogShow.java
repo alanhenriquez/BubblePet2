@@ -1,6 +1,5 @@
 package com.xforce.bubblepet2.helpers;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -11,28 +10,33 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
-import androidx.annotation.BoolRes;
+import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.xforce.bubblepet2.EditProfile;
 import com.xforce.bubblepet2.Login;
 import com.xforce.bubblepet2.MainActivity;
 import com.xforce.bubblepet2.R;
 import com.xforce.bubblepet2.dataFromDataBase.GetDataUser;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class DialogShow {
 
     //Variables-----------------------
+    Dialog dialog;
+    Activity activity;
     private final Context context;
     int aceptar,cancelar,layoutToDialog;
-    Activity activity;
     String title,content,textBtGranted,textBtDenied;
-    View aceptarBt = null;
-    View cancelarBt = null;
-    TextView titleView = null;
-    TextView contentView = null;
-    Dialog dialog;
+    TextView aceptarBt,cancelarBt,titleView,contentView;
     boolean useAceptar = false;
     boolean useCancelar = false;
     boolean useLayoutToDialog = false;
@@ -46,10 +50,6 @@ public class DialogShow {
 
     //Privates-----------------------------------
 
-    private DialogShow(@NonNull Context context){
-        this.context = context;
-    }
-
     private DialogShow(@NonNull Context context, @NonNull Activity activity){
         this.context = context;
         this.activity = activity;
@@ -57,53 +57,69 @@ public class DialogShow {
 
     //Public static-----------------------------------
 
-    public static DialogShow build(@NonNull Context context){
-        return new DialogShow(context);
-
-    }
-
     public static DialogShow build(@NonNull Context context, @NonNull Activity activity){
         return new DialogShow(context,activity);
     }
 
-    public static DialogShow saveData(@NonNull Context context, @NonNull Activity activity){
-        return new DialogShow(context,activity);
-
-    }
-
-    public static DialogShow signOut(@NonNull Context context, @NonNull Activity activity){
-        return new DialogShow(context,activity);
-
-    }
-
-    public static DialogShow deleteCount(@NonNull Context context, @NonNull Activity activity){
-        return new DialogShow(context,activity);
-
-    }
-
     //Public DialogShow------------------------------------
 
-    public DialogShow grantedBt(int id){
+    public DialogShow grantedBt(@IdRes int id){
         this.aceptar = id;
         this.useAceptar = true;
         return this;
     }
 
-    public DialogShow deniedBt(int id){
+    public DialogShow deniedBt(@IdRes int id){
         this.cancelar = id;
         this.useCancelar = true;
         return this;
     }
 
+    public DialogShow setTextBtDenied(String title){
+        this.usetextBtDenied = true;
+        if (title.length() <= 10){
+            this.textBtDenied = title;
+        }
+        else {
+            this.textBtDenied = " ";
+            Log.e("DialogShow","(Design error) Se requiere que el numero maximo de letras sea 10 en: .setTextBtDenied(String title)");
+        }
+        return this;
+    }
+
+    public DialogShow setTextBtGranted(String title){
+        this.usetextBtGranted = true;
+        if (title.length() <= 10){
+            this.textBtGranted = title;
+        }
+        else {
+            this.textBtGranted = " ";
+            Log.e("DialogShow","(Design error) Se requiere que el numero maximo de letras sea 10 en: .setTextBtGranted(String title)");
+        }
+        return this;
+    }
+
     public DialogShow setTitle(String title){
-        this.title = title;
         this.useTitle = true;
+        if (title.length() <= 28){
+            this.title = title;
+        }
+        else {
+            this.textBtGranted = " ";
+            Log.e("DialogShow","(Design error) Se requiere que el numero maximo de letras sea 28 en: .setTitle(String title)");
+        }
         return this;
     }
 
     public DialogShow setContent(String content){
-        this.content = content;
         this.useContent = true;
+        if (content.length() <= 200){
+            this.content = content;
+        }
+        else {
+            this.textBtGranted = " ";
+            Log.e("DialogShow","(Design error) Se requiere que el numero maximo de letras sea 200 en: .setContent(String content)");
+        }
         return this;
     }
 
@@ -117,12 +133,13 @@ public class DialogShow {
 
     public void show(){
         Structure();
+
     }
 
     public void showSaveData(boolean use){
         useSaveData = use;
         if (!useSaveData){
-            Log.d("DialogShow","En caso de no usar una accion especial mejor solo utilice: show()");
+            Log.w("DialogShow","En caso de no usar una accion especial mejor solo utilice: show()");
         }
         else {
             Structure();
@@ -154,21 +171,32 @@ public class DialogShow {
             dialog = new Dialog(context);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
             dialog.setContentView(layoutToDialog);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            aceptarBt = dialog.findViewById(aceptar);
+            cancelarBt = dialog.findViewById(cancelar);
+            titleView = dialog.findViewById(R.id.dialogBoxTitleTx);
+            contentView = dialog.findViewById(R.id.dialogBoxContentTx);
+            contentView.setVisibility(View.GONE);
 
             if (useTitle){
-                titleView = dialog.findViewById(R.id.dialogBoxTitleTx);
                 titleView.setText(title);
             }
 
             if (useContent){
-                contentView = dialog.findViewById(R.id.dialogBoxContentTx);
+                contentView.setVisibility(View.VISIBLE);
                 contentView.setText(content);
             }
 
-            aceptarBt = dialog.findViewById(aceptar);
-            cancelarBt = dialog.findViewById(cancelar);
+            if (usetextBtGranted){
+                aceptarBt.setText(textBtGranted);
+            }
+
+            if (usetextBtDenied){
+                cancelarBt.setText(textBtDenied);
+            }
+
             cancelarBt.setOnClickListener(v -> dialog.dismiss());
 
             if (useSaveData){
@@ -176,13 +204,13 @@ public class DialogShow {
                     TextView p = activity.findViewById(R.id.userEditProfile);
                     TextView p2 = activity.findViewById(R.id.userNameEditProfile);
                     GetDataUser.DataOnActivity
-                            .build(context)
+                            .build(context,activity)
                             .setChangeActivity(MainActivity.class)
                             .setMessage("Datos actualizados ;D")
                             .setValuePath("PerfilData")
                             .setChild("user", p.getText().toString())
                             .setChild("userName", p2.getText().toString())
-                            .setData();
+                            .uploadData();
                     dialog.dismiss();
                     Log.d("DialogShow","Se guardaron los cambios exitosamente");
                 });
@@ -190,7 +218,7 @@ public class DialogShow {
             else if (useSignOut){
                 aceptarBt.setOnClickListener(v -> {
                     GetDataUser.DataOnActivity
-                            .build(context)
+                            .build(context,activity)
                             .setChangeActivity(Login.class)
                             .setMessage("Cerraste sesion")
                             .signOut();
@@ -198,13 +226,81 @@ public class DialogShow {
                 });
             }
             else if (useDeleteCount){
+                final int[] num2 = {0};
+                Map<String,Object> map = new HashMap<>();
                 aceptarBt.setOnClickListener(v -> {
-                    GetDataUser.DataOnActivity.build(context).setValuePath("ImageData/imgPerfil").readData(new GetDataUser.DataOnActivity.MyCallback() {
-                        @Override
-                        public void onCallback(DataSnapshot value) {
-                            return;
-                        }
-                    });
+                    num2[0] += 1;
+                    /*map.put("Id" + System.currentTimeMillis() / 100,"numero");
+                    GetDataUser
+                            .DataOnActivity
+                            .getDataBaseRef()
+                            .child("Users")
+                            .child(GetDataUser.DataOnActivity.getUserId())
+                            .child("test").setValue(map);*/
+
+                    GetDataUser
+                            .DataOnActivity
+                            .build(context,activity)
+                            .setValuePath("nuevo2").logIt(false)
+                            .readData(new GetDataUser.DataOnActivity.MyCallback() {
+                                @Override
+                                public void onReadData(DataSnapshot value) {
+
+                                }
+
+                                @Override
+                                public void onChildrenCount(int count) {
+
+                                }
+
+                                @Override
+                                public void onChildrenTotalCount(int totalCount) {
+
+                                }
+
+                                @Override
+                                public void onHashMapValue(Map<String, Object> map) {
+
+                                    /*Log.d("Map Agregado"," "+map);
+
+                                    GetDataUser
+                                            .DataOnActivity
+                                            .build(context,activity)
+                                            .setValuePath("ImageData/imgPerfil")
+                                            .setChild("ImageMain", String.valueOf(link))
+                                            .uploadData();
+
+                                    GetDataUser
+                                            .DataOnActivity
+                                            .build(context,activity)
+                                            .setValuePath("ImageData/uploadeds/")
+                                            .setChild("image", String.valueOf(link))
+                                            .setChangeActivity(MainActivity.class).setMessage("Datos actualizados")
+                                            .uploadData();*/
+
+                                }
+
+                                @Override
+                                public void onHashMapValue(String key, Object value) {
+                                    map.put(key,value);
+                                    GetDataUser
+                                            .DataOnActivity
+                                            .build(context,activity)
+                                            .setValuePath("nuevo2")
+                                            .setChild(map).setChild("nuevo3"+num2[0],"valor")
+                                            .uploadData();
+
+
+                                    GetDataUser
+                                            .DataOnActivity
+                                            .getDataBaseRef()
+                                            .child("Users")
+                                            .child(GetDataUser.DataOnActivity.getUserId())
+                                            .child("nuevo").setValue(map);
+                                }
+
+                            });
+
                 });
             }
 

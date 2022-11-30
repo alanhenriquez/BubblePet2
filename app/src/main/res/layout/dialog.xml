@@ -10,154 +10,156 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/bg_formularios"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.percentlayout.widget.PercentRelativeLayout
-            android:id="@+id/persentLayoutDialog"
+
+        <LinearLayout
+            android:id="@+id/dialogBoxTitle"
             android:layout_width="match_parent"
-            android:paddingHorizontal="20dp"
-            android:paddingTop="5dp"
-            android:layout_height="190dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_heightPercent="@dimen/dimenPersentTo3.5">
 
-            <LinearLayout
-                android:id="@+id/dialogBoxTitle"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:orientation="vertical"
-                app:layout_heightPercent="@dimen/dimenPersentTo3.5">
+                android:layout_height="match_parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <TextView
+                    android:id="@+id/dialogBoxTitleTx"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:elegantTextHeight="@bool/booleanoTrue"
+                    android:fontFamily="@font/roboto_bold"
+                    android:paddingVertical="6dp"
+                    android:text="Titulo del dialog"
+                    android:textAlignment="@integer/alignmentStart"
+                    android:textColor="@color/colorTextMain"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="HardcodedText,MissingConstraints" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/dialogBoxTitleTx"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:elegantTextHeight="@bool/booleanoTrue"
-                        android:fontFamily="@font/roboto_bold"
-                        android:paddingVertical="6dp"
-                        android:text="Titulo del dialog"
-                        android:textAlignment="@integer/alignmentStart"
-                        android:textColor="@color/colorTextMain"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="HardcodedText,MissingConstraints" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
-            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/dialogBoxContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_heightPercent="@dimen/dimenPersentTo2.5">
 
-            <LinearLayout
-                android:id="@+id/dialogBoxContent"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/dialogBoxTitle"
-                android:orientation="vertical"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                app:layout_heightPercent="@dimen/dimenPersentTo2.5">
+                android:layout_height="match_parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <TextView
+                    android:id="@+id/dialogBoxContentTx"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:elegantTextHeight="@bool/booleanoTrue"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Contenido del dialog."
+                    android:textAlignment="@integer/alignmentStart"
+                    android:textColor="@color/colorTextMain"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="HardcodedText,MissingConstraints" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/dialogBoxContentTx"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.percentlayout.widget.PercentRelativeLayout
+                android:id="@+id/persentLayoutDialog"
+                android:layout_height="65dp"
+                android:layout_width="match_parent">
+
+
+                <LinearLayout
+                    android:id="@+id/dialogBoxBtCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="vertical"
+                    app:layout_widthPercent="@dimen/dimenPersentTo2">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:elegantTextHeight="@bool/booleanoTrue"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Contenido del dialog."
-                        android:textAlignment="@integer/alignmentStart"
-                        android:textColor="@color/colorTextMain"
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="HardcodedText,MissingConstraints"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:layout_height="match_parent">
 
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/cancelar"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:elegantTextHeight="@bool/booleanoTrue"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="Cancelar"
+                            android:textAlignment="@integer/alignmentStart"
+                            android:textColor="@color/colorTextMain"
+                            android:textSize="15.5sp"
+                            android:paddingVertical="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="HardcodedText,MissingConstraints" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:id="@+id/dialogBoxBtCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/dialogBoxContent"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
-                android:orientation="vertical"
-                app:layout_widthPercent="@dimen/dimenPersentTo2">
+                </LinearLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <LinearLayout
+                    android:id="@+id/dialogBoxBtAceptar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="vertical"
+                    app:layout_widthPercent="@dimen/dimenPersentTo2">
 
-                    <TextView
-                        android:id="@+id/cancelar"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:elegantTextHeight="@bool/booleanoTrue"
-                        android:fontFamily="@font/roboto_bold"
-                        android:paddingVertical="10dp"
-                        android:text="Cancelar"
-                        android:textAlignment="@integer/alignmentStart"
-                        android:textColor="@color/colorTextMain"
-                        android:textSize="15.5sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="HardcodedText,MissingConstraints" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/aceptar"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:elegantTextHeight="@bool/booleanoTrue"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="Aceptar"
+                            android:textAlignment="@integer/alignmentEnd"
+                            android:textColor="@color/azul10"
+                            android:textSize="15.5sp"
+                            android:paddingVertical="10dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="HardcodedText,MissingConstraints" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:id="@+id/dialogBoxBtAceptar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/dialogBoxContent"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="0dp"
-                android:orientation="vertical"
-                android:layout_toEndOf="@+id/dialogBoxBtCancel"
-                app:layout_widthPercent="@dimen/dimenPersentTo2">
+                </LinearLayout>
+            </androidx.percentlayout.widget.PercentRelativeLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/aceptar"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:elegantTextHeight="@bool/booleanoTrue"
-                        android:fontFamily="@font/roboto_bold"
-                        android:paddingVertical="10dp"
-                        android:text="Aceptar"
-                        android:textAlignment="@integer/alignmentEnd"
-                        android:textColor="@color/azul10"
-                        android:textSize="15.5sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="HardcodedText,MissingConstraints" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-
-        </androidx.percentlayout.widget.PercentRelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
