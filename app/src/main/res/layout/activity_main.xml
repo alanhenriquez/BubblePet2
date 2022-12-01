@@ -27,24 +27,66 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
-        <LinearLayout
+
+        <androidx.percentlayout.widget.PercentRelativeLayout
+            android:id="@+id/persentLayoutDialog"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            tools:ignore="MissingConstraints">
+
             <LinearLayout
-                android:id="@+id/editButton"
-                android:layout_width="wrap_content"
+                android:id="@+id/feedButton"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/editButton"
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="onClick"
                 android:orientation="vertical"
+                app:layout_widthPercent="@dimen/dimenIconsFooter"
                 tools:ignore="OnClick,UsingOnClickInXml">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingHorizontal="@dimen/sizeContIconFooter"
                     tools:ignore="InefficientWeight">
+
+                    <LinearLayout
+                        android:id="@+id/footerFeedIcon"
+                        android:layout_width="@dimen/sizeIconFooter"
+                        android:layout_height="@dimen/sizeIconFooter"
+                        android:background="@drawable/iconHome"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="TextContrastCheck" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/editButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/editPerfilButton"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="onClick"
+                android:orientation="vertical"
+                app:layout_widthPercent="@dimen/dimenIconsFooter"
+                tools:ignore="OnClick,UsingOnClickInXml">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="@dimen/sizeContIconFooter"
+                    tools:ignore="InefficientWeight">
+
                     <LinearLayout
                         android:id="@+id/footerEditIcon"
                         android:layout_width="@dimen/sizeIconFooter"
@@ -56,22 +98,29 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="TextContrastCheck" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/editPerfilButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/menuButton"
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="onClick"
                 android:orientation="vertical"
+                app:layout_widthPercent="@dimen/dimenIconsFooter"
                 tools:ignore="OnClick,UsingOnClickInXml">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingHorizontal="@dimen/sizeContIconFooter"
                     tools:ignore="InefficientWeight">
+
                     <LinearLayout
                         android:id="@+id/footerEditPerfilIcon"
                         android:layout_width="@dimen/sizeIconFooter"
@@ -83,22 +132,28 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="TextContrastCheck" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/menuButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/userHomeButton"
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="onClick"
                 android:orientation="vertical"
+                app:layout_widthPercent="@dimen/dimenIconsFooter"
                 tools:ignore="UsingOnClickInXml">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingHorizontal="@dimen/sizeContIconFooter"
                     tools:ignore="InefficientWeight">
+
                     <LinearLayout
                         android:id="@+id/footerMenuIcon"
                         android:layout_width="@dimen/sizeIconFooter"
@@ -112,20 +167,25 @@
                         tools:ignore="TextContrastCheck" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/userHomeButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="onClick"
                 android:orientation="vertical"
+                app:layout_widthPercent="@dimen/dimenIconsFooter"
                 tools:ignore="OnClick,UsingOnClickInXml">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingHorizontal="@dimen/sizeContIconFooter"
                     tools:ignore="InefficientWeight">
+
                     <LinearLayout
                         android:id="@+id/footerUserIcon"
                         android:layout_width="@dimen/sizeIconFooter"
@@ -139,6 +199,8 @@
                         tools:ignore="TextContrastCheck" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
-        </LinearLayout>
+
+        </androidx.percentlayout.widget.PercentRelativeLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

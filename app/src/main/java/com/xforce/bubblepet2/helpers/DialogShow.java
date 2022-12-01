@@ -229,6 +229,12 @@ public class DialogShow {
             else if (useDeleteCount){
                 aceptarBt.setOnClickListener(v -> {
                     /*GetDataUser.DataOnActivity.build(context,activity).setMessage("Archivo eliminado").deleteUserAccount();*/
+                    GetDataUser
+                            .DataOnActivity
+                            .build(context,activity)
+                            .setChangeActivity(Login.class)
+                            .setMessage("Cuenta eliminada")
+                            .signOut();
                 });
             }
 

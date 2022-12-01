@@ -23,6 +23,7 @@
     <dimen name="dimenPersent90">90%</dimen>
     <dimen name="dimenPersent95">95%</dimen>
     <dimen name="dimenPersent100">100%</dimen>
+    <dimen name="dimenIconsFooter">@dimen/dimenPersentTo5</dimen>
     <dimen name="sizeTextMain">15sp</dimen><!--Tamaño del texto recuperar contraseña-->
     <string name="fontMain" tools:ignore="ReferenceType">@font/roboto_regular</string><!--Tipografia Principal Ika-->
     <bool name="booleanoTrue">true</bool>
@@ -94,9 +95,9 @@
     <dimen name="sizeFooterOpUser">63dp</dimen><!--TAMAÑO DEL FooterOpUser-->
     <dimen name="sizeIconFooterOpUser">25dp</dimen><!--TAMAÑO DEL icono del FooterOpUser-->
     <dimen name="sizeTextFooterOpUser">17sp</dimen><!--TAMAÑO DEL texto delFooterOpUser-->
-    <dimen name="sizeFooter">43dp</dimen><!--TAMAÑO DEL FOOTER-->
+    <dimen name="sizeFooter">48dp</dimen><!--TAMAÑO DEL FOOTER-->
     <dimen name="sizeIconFooter">29dp</dimen><!--TAMAÑO DE LOS ICONOS DEL FOOTER-->
-    <dimen name="sizeContIconFooter">35dp</dimen><!--PADDING DEL CONTENEDOR-->
+    <dimen name="sizeContIconFooter">5dp</dimen><!--PADDING DEL CONTENEDOR-->
     <dimen name="sizeContImageUserFooter">28dp</dimen><!--IMAGEN DE USUARIO EN FOOTER-->
     <dimen name="sizeContCircleUserFooter">23dp</dimen><!--CIRCULO BAJO LA IMAGEN-->
     <string name="tx1FooterOpUser">Configuración</string>

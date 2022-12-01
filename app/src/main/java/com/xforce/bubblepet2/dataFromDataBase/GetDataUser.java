@@ -3,11 +3,7 @@ package com.xforce.bubblepet2.dataFromDataBase;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
@@ -23,8 +19,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +30,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.xforce.bubblepet2.MainActivity;
 import com.xforce.bubblepet2.R;
 import com.xforce.bubblepet2.helpers.ChangeActivity;
 import com.xforce.bubblepet2.helpers.URLValidator;
@@ -376,7 +369,7 @@ public class GetDataUser {
 
         private DataOnActivity(@NonNull Context contextView, Activity activity){
             if (isUserLogged()){
-                this.userAuth = getInstance();
+                this.userAuth = getInstanceFA();
                 this.userDataBase = getDataBaseRef();
                 this.id = getUserId();
                 this.context = contextView;
@@ -394,13 +387,22 @@ public class GetDataUser {
             return new DataOnActivity(context,activity);
         }
 
-        public static FirebaseAuth getInstance(){
-
+        public static FirebaseAuth getInstanceFA(){
             return FirebaseAuth.getInstance();
+
+        }
+
+        public static FirebaseDatabase getInstanceFD(){
+            return FirebaseDatabase.getInstance();
+
         }
 
         public static DatabaseReference getDataBaseRef(){
             return FirebaseDatabase.getInstance().getReference();
+        }
+
+        public static FirebaseDatabase getDataBase(){
+            return FirebaseDatabase.getInstance().getReference().getDatabase();
         }
 
         public static StorageReference getStorageRef(){
@@ -408,7 +410,7 @@ public class GetDataUser {
         }
 
         public static FirebaseUser getCurrentUser(){
-            return getInstance().getCurrentUser();
+            return getInstanceFA().getCurrentUser();
 
         }
 
@@ -691,7 +693,7 @@ public class GetDataUser {
                 Log.e("GetDataUser","[signOut] Requiere una clase de retorno mediante: setChangeActivity(@NonNull Class<?> cls)");
             }
             else {
-                getInstance().signOut();
+                getInstanceFA().signOut();
                 ChangeActivity.build(context,cls).start();
             }
 
@@ -699,9 +701,8 @@ public class GetDataUser {
                 msgToast.build(context).message(message);
             }
 
-            if (useLogIt){
-                Log.d("GetDataUser","[deleteAllFiles] Se ha cerrado sesion con exito");
-            }
+            Log.d("GetDataUser","[deleteAllFiles] Se ha cerrado sesion con exito");
+
         }
 
         public void deleteChild(String pathValue){
