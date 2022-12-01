@@ -201,73 +201,23 @@ public class EditProfile extends AppCompatActivity {
 
     /*Agregamos la Url de la imagen a la base de datos*/
     private void setDataImageBase(String link){
+
         Map<String, Object> data = new HashMap<>();
         data.put("ImageMain", String.valueOf(link));
-        GetDataUser
-               .DataOnActivity
-               .getDataBaseRef()
-               .child("Users")
-               .child(GetDataUser.DataOnActivity.getUserId())
-               .child("ImageData/imgPerfil")
-               .setValue(data)
-               .addOnCompleteListener(task -> {
-
-                ChangeActivity.build(context,MainActivity.class).start();
-                msgToast.build(context).message("Datos enviados con exito");
-                Log.d("GetDataUser","Se guardaron exitosamente los cambios");
-               });
-
+        GetDataUser.DataOnActivity
+                .build(getApplicationContext(),EditProfile.this)
+                .setChangeActivity(MainActivity.class)
+                .setMessage("Datos actualizados ;D")
+                .setValuePath("ImageData/imgPerfil")
+                .setChild(data)
+                .uploadData();
 
         Map<String, Object> data2 = new HashMap<>();
+        data2.put("imagen"+(System.currentTimeMillis() / 10), String.valueOf(link));
         GetDataUser
                 .DataOnActivity
-                .getDataBaseRef()
-                .child("Users")
-                .child(GetDataUser.DataOnActivity.getUserId())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (!snapshot.exists()) {
-                        Log.e("GetDataUser", "(Database error) Este usuario no existe; Se recomienda revisar su base de datos.");
-                    }else {
-                        for (DataSnapshot child: snapshot.child("ImageData/uploadeds").getChildren()) {
-
-                            data2.put(String.valueOf(num2[0]+=1),child.getValue());
-                            Log.d("carga",data2.toString());
-                            /*GetDataUser
-                                    .DataOnActivity
-                                    .getDataBaseRef()
-                                    .child("Users")
-                                    .child(GetDataUser.DataOnActivity.getUserId())
-                                    .child("ImageData/uploadeds")
-                                    .setValue(data2)
-                                    .addOnCompleteListener(task -> {
-                                        msgToast.build(context).message("Datos enviados con exito 1");
-                                    });*/
-                        }
-
-
-                    }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("GetDataUser", "(Error) Obtención de datos cancelada; " + error);
-            }
-        });
-
-
-        GetDataUser
-                .DataOnActivity
-                .getDataBaseRef()
-                .child("Users")
-                .child(GetDataUser.DataOnActivity.getUserId())
-                .child("ImageData/uploadeds")
-                .setValue(data)
-                .addOnCompleteListener(task -> {
-
-                    msgToast.build(context).message("Datos enviados con exito 2");
-                });
-
+                .build(getApplicationContext(),EditProfile.this).setChild(data2)
+                .copyPasteDataBase("ImageData/uploadeds","ImageData/uploadeds");
 
     }
     /*Termina codigo de la seleccion de imagen y envio a la base de datos*/

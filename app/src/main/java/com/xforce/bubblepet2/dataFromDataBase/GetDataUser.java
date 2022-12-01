@@ -23,6 +23,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +39,9 @@ import com.google.firebase.storage.StorageReference;
 import com.xforce.bubblepet2.MainActivity;
 import com.xforce.bubblepet2.R;
 import com.xforce.bubblepet2.helpers.ChangeActivity;
+import com.xforce.bubblepet2.helpers.URLValidator;
 import com.xforce.bubblepet2.helpers.msgToast;
+import com.xforce.bubblepet2.interfaces.CallbackDataUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -341,21 +347,19 @@ public class GetDataUser {
 
         //Variables--------------------------------------------
 
-        private final Context context;
+        private Context context;
         private Class<?> cls;
+        Activity activity;
         TextView textView;
         EditText editText;
-        ImageView imageView,contImageUser;
-        Activity activity;
-        String id,val,elementPathValue,message,objectString,valueString,
-                credentialEmail,credentialPassword, deleteFile;
-        Map<String, Object> data = new HashMap<>();
         Uri imageUri;
-        int elementIdValue;
-        int SELECT_PICTURE = 200;
+        ImageView imageView,contImageUser;
+        Map<String, Object> data = new HashMap<>();
+        String id,val,elementPathValue,message,objectString,valueString,credentialEmail,
+                credentialPassword, deleteFile;
+        int elementIdValue,SELECT_PICTURE = 200;
         boolean elementId = false;
         boolean elementPath = false;
-        boolean elementImagePath = false;
         boolean isChangeActivity = false;
         boolean isSetMessage = false;
         boolean isObjectString = false;
@@ -371,11 +375,17 @@ public class GetDataUser {
         //Privates---------------------------------------------
 
         private DataOnActivity(@NonNull Context contextView, Activity activity){
-            this.userAuth = FirebaseAuth.getInstance();
-            this.userDataBase = getDataBaseRef();
-            this.id = getUserId();
-            this.context = contextView;
-            this.activity = activity;
+            if (isUserLogged()){
+                this.userAuth = getInstance();
+                this.userDataBase = getDataBaseRef();
+                this.id = getUserId();
+                this.context = contextView;
+                this.activity = activity;
+            }
+            else {
+                Log.e("GetDataUser","[build] No se encontro a ningun usuario logeado en la sesión actual;");
+                Log.e("GetDataUser","[build] Sin ningun usuario logeado en Firebase no se podra trabajar con esta clase.");
+            }
         }
 
         //Public static----------------------------------------
@@ -405,6 +415,11 @@ public class GetDataUser {
         public static String getUserId(){
             return getCurrentUser().getUid();
 
+        }
+
+        public static boolean isUserLogged(){
+            final FirebaseUser user = getCurrentUser();
+            return user != null;
         }
 
         //Public DataOnActivity------------------------------------------
@@ -478,11 +493,17 @@ public class GetDataUser {
         }
 
         public DataOnActivity pathFileToDelete(String url){
-            this.deleteFile = url;
-            this.useDeleteFile = true;
-            return this;
+            if (URLValidator.isValid(url)){
+                this.deleteFile = url;
+                this.useDeleteFile = true;
+                return this;
+            }
+            else {
+                this.useDeleteFile = false;
+                Log.e("GetDataUser","[pathFileToDelete] Asegurece de que la url sea valida");
+                return this;
+            }
         }
-
 
         //Public void------------------------------------------
 
@@ -492,7 +513,7 @@ public class GetDataUser {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (!snapshot.exists()) {
-                        msgToast.build(context).message("Este elemento no existe");
+                        Log.e("GetDataUser","[getData] No existen los datos del usuario");
                     }
                     else {
                         if (elementId && elementPath){
@@ -503,27 +524,32 @@ public class GetDataUser {
                                     textView = activity.findViewById(elementIdValue);
                                     textView.setText(val);
 
-                                }else if (activity.findViewById(elementIdValue) instanceof EditText) {
+                                }
+                                else if (activity.findViewById(elementIdValue) instanceof EditText) {
 
                                     val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
                                     editText = activity.findViewById(elementIdValue);
                                     editText.setText(val);
 
-                                }else if (activity.findViewById(elementIdValue) instanceof ImageView) {
+                                }
+                                else if (activity.findViewById(elementIdValue) instanceof ImageView) {
 
                                     val = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
                                     imageView = activity.findViewById(elementIdValue);
                                     Glide.with(context).load(val).into(imageView);
 
-                                }else {
-                                    msgToast.build(context).message("El Objeto id no es compatible");
+                                }
+                                else {
+                                    Log.e("GetDataUser","[getData] La instancia del elemento no es compatible;");
+                                    Log.e("GetDataUser","[getData] Instancias compatibles: TextView, EditText, ImageView");
                                 }
                             }
                             else {
-                                msgToast.build(context).message("El Path de datos no exite");
+                                String value = "Datos no encontrados";
+                                Log.e("GetDataUser","[getData] Error producido por datos no encontrados");
                                 if (activity.findViewById(elementIdValue) instanceof TextView) {
 
-                                    val = "Datos no encontrados";
+                                    val = value;
                                     textView = activity.findViewById(elementIdValue);
                                     textView.setText(val);
                                     textView.setTextColor(ContextCompat.getColor(context,R.color.rojo10));
@@ -531,7 +557,7 @@ public class GetDataUser {
                                 }
                                 else if (activity.findViewById(elementIdValue) instanceof EditText) {
 
-                                    val = "Datos no encontrados";
+                                    val = value;
                                     editText = activity.findViewById(elementIdValue);
                                     editText.setText("");
                                     editText.setHint(val);
@@ -546,24 +572,28 @@ public class GetDataUser {
 
                                 }
                                 else {
-                                    msgToast.build(context).message("El Objeto id no es compatible");
+                                    Log.e("GetDataUser","[getData] La instancia del elemento no es compatible;");
+                                    Log.e("GetDataUser","[getData] Instancias compatibles: TextView, EditText, ImageView");
                                 }
                             }
                         }
                         else if (elementId){
-                            msgToast.build(context).message("Falta proporcionar el dato de setValuePath(String _path)");
+                            Log.e("GetDataUser","[getData] Es nesesario insertar el dato: .setValuePath(String _path)");
+                            Log.e("GetDataUser","[getData] Es mediante ese dato que se podra acceder a la información especifica");
                         }
                         else if (elementPath){
-                            msgToast.build(context).message("Falta proporcionar el dato de setElementbyId(int _id)");
+                            Log.e("GetDataUser","[getData] Es nesesario insertar el dato: .setElementbyId(int _id)");
+                            Log.e("GetDataUser","[getData] Es mediante ese dato que se podra ingresar la información en el elemento seleccionado");
                         }
                         else{
-                            msgToast.build(context).message("Falta proporcionar los datos de setElementbyId(int _id) y setValuePath(String _path)");
+                            Log.e("GetDataUser","[getData] Es nesesario insertar el dato: .setElementbyId(int _id) y .setValuePath(String _path))");
+                            Log.e("GetDataUser","[getData] Estos datos son nesesarios para acceder al elemento al que se insertaran los valores obtenidos");
                         }
                     }
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    msgToast.build(context).message("Error de carga");
+                    Log.e("GetDataUser","[getData] Error de carga de datos");
                 }
             });
         }
@@ -575,22 +605,30 @@ public class GetDataUser {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (!snapshot.exists()) {
-                        value[0] = "Este elemento no existe";
+                        Log.e("GetDataUser","[getString] No existen los datos del usuario");
                     }else {
                         if (!elementPath){
-                            value[0] = "Falta proporcionar el dato de setValuePath(String _path)";
+                            value[0] = "Error";
+                            Log.e("GetDataUser","[getString] Es nesesario insertar el dato: .setValuePath(String _path)");
+                            Log.e("GetDataUser","[getString] Es mediante ese dato que se podra acceder a la información especifica");
                         }else{
                             if (!snapshot.child(elementPathValue).exists()){
-                                value[0] = "El Path de datos no exite";
+                                value[0] = "Error";
+                                Log.e("GetDataUser","[getString] No existen los datos seleccionados");
+                                Log.e("GetDataUser","[getString] Verifica que la ruta este correctamente escrita");
                             }else {
                                 value[0] = Objects.requireNonNull(snapshot.child(elementPathValue).getValue()).toString();
+                                if (useLogIt){
+                                    Log.d("GetDataUser","[getString] Datos insertados correctamente");
+                                }
                             }
                         }
                     }
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    value[0] = "Error de carga";
+                    value[0] = "Carga cancelada";
+                    Log.e("GetDataUser","[getString] Error en la carga de los datos");
                 }
             });
             return value[0];
@@ -598,9 +636,10 @@ public class GetDataUser {
 
         public void uploadData(){
 
-            if (isObjectString){
+            if (isObjectString || isChildMap){
                 if (!elementPath){
-                    Log.d("GetDataUser","(Data error) Error causado por introducción nula de datos. Se solicita usar: setValuePath()");
+                    Log.e("GetDataUser","[uploadData] Es nesesario insertar el dato: .setValuePath(String _path)");
+                    Log.e("GetDataUser","[uploadData] Es mediante ese dato que se podra acceder a la información especifica");
                 }
                 else {
                     userDataBase.child("Users").child(id).child(elementPathValue).setValue(data).addOnCompleteListener(task -> {
@@ -613,35 +652,17 @@ public class GetDataUser {
                         }
 
                         if (useLogIt){
-                            Log.d("GetDataUser","Se guardaron exitosamente los cambios");
+                            Log.d("GetDataUser","[uploadData] Se guardaron exitosamente los cambios");
                         }
 
-                    });
-                }
-            }
-            else if (isChildMap){
-                if (!elementPath){
-                    Log.d("GetDataUser","(Data error) Error causado por introducción nula de datos. Se solicita usar: setValuePath()");
-                }else {
-                    userDataBase.child("Users").child(id).child(elementPathValue).setValue(data).addOnCompleteListener(task -> {
-                        if (isChangeActivity){
-                            ChangeActivity.build(context,cls).start();
-                        }
-
-                        if (isSetMessage){
-                            msgToast.build(context).message(message);
-                        }
-
-                        if (useLogIt){
-                            Log.d("GetDataUser","Se guardaron exitosamente los cambios");
-                        }
                     });
                 }
             }
             else if (isValueString){
                 String dataString = valueString;
                 if (!elementPath){
-                    Log.d("GetDataUser","(Data error) Error causado por introducción nula de datos. Se solicita usar: setValuePath()");
+                    Log.e("GetDataUser","[uploadData] Es nesesario insertar el dato: .setValuePath(String _path)");
+                    Log.e("GetDataUser","[uploadData] Es mediante ese dato que se podra acceder a la información especifica");
                 }else {
                     userDataBase.child("Users").child(id).child(elementPathValue).setValue(dataString).addOnCompleteListener(task -> {
                         if (isChangeActivity){
@@ -653,74 +674,21 @@ public class GetDataUser {
                         }
 
                         if (useLogIt){
-                            Log.d("GetDataUser","Se guardaron exitosamente los cambios");
+                            Log.d("GetDataUser","[uploadData] Se guardaron exitosamente los cambios");
                         }
                     });
                 }
             }
             else {
-                msgToast.build(context).message("Error causado por introducción nula de datos");
-                msgToast.build(context).message("Se solicita usar: setChild()");
+                Log.e("GetDataUser","[uploadData] Es nesesario insertar el dato: .setChild()");
+                Log.e("GetDataUser","[uploadData] Esto permite obtener los datos correctamente a insertar en la base de datos.");
             }
 
-        }
-
-        public void uploadImage(int requestCode, int resultCode, final Intent data){
-            if (resultCode == Activity.RESULT_OK && requestCode == SELECT_PICTURE) {
-
-
-                imageUri = data.getData();
-                contImageUser.setImageURI(imageUri);
-
-                // Code for showing progressDialog while uploading
-                ProgressDialog progressDialog = new ProgressDialog(this);
-                progressDialog.setTitle("Subiendo...");
-                progressDialog.show();
-                progressDialog.setCancelable(false);
-                progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.setOnCancelListener(new Dialog.OnCancelListener() {
-                    @Override public void onCancel(DialogInterface dialog) {
-                        // DO SOME STUFF HERE
-                    }
-                });
-
-                String id = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
-                StorageReference folder = FirebaseStorage.getInstance().getReference().child("Users").child(id);
-                final StorageReference file_name = folder.child(imageUri.getLastPathSegment());
-                file_name.putFile(imageUri).addOnProgressListener(taskSnapshot -> {
-                    double progress = (100.0 * taskSnapshot.getBytesTransferred()
-                            / taskSnapshot.getTotalByteCount());
-                    progressDialog.setMessage("Exportando al " + (int)progress + "%");
-                }).addOnSuccessListener(taskSnapshot -> file_name.getDownloadUrl().addOnSuccessListener(uri -> {
-                    //Enviamos a la base de datos la url de la imagen
-                    GetDataUser
-                            .DataOnActivity
-                            .build(context,activity)
-                            .setValuePath("ImageData/imgPerfil")
-                            .setChild("ImageMain", String.valueOf(uri))
-                            .uploadData();
-
-                    GetDataUser
-                            .DataOnActivity
-                            .build(context,activity)
-                            .setValuePath("ImageData/uploadeds")
-                            .setChild("1", String.valueOf(uri))
-                            .setChangeActivity(MainActivity.class)
-                            .uploadData();
-
-                    progressDialog.dismiss();
-
-                })).addOnFailureListener(e -> {
-                    // Error, Image not uploaded
-                    progressDialog.dismiss();
-                });
-
-            }
         }
 
         public void signOut(){
             if (!isChangeActivity){
-                msgToast.build(context).message("Requiere una clase de retorno");
+                Log.e("GetDataUser","[signOut] Requiere una clase de retorno mediante: setChangeActivity(@NonNull Class<?> cls)");
             }
             else {
                 getInstance().signOut();
@@ -730,86 +698,230 @@ public class GetDataUser {
             if (isSetMessage){
                 msgToast.build(context).message(message);
             }
+
+            if (useLogIt){
+                Log.d("GetDataUser","[deleteAllFiles] Se ha cerrado sesion con exito");
+            }
+        }
+
+        public void deleteChild(String pathValue){
+            getDataBaseRef().child("Users").child(getUserId()).child(pathValue).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()){
+                        getDataBaseRef().child("Users").child(getUserId()).child(pathValue).removeValue().addOnCompleteListener(task ->
+                                Log.d("GetDataUser","[removeChild] Child eliminado correctamente"));
+                    }
+                    else {
+                        Log.d("GetDataUser","[removeChild] Este child no existe");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.d("GetDataUser","[removeChild] Error al eliminar este child");
+                }
+            });
+        }
+
+        public void copyPasteDataBase(String pathToCopy,String pathToPaste){
+            Map<String,Object> map = new HashMap<>();
+            GetDataUser
+                    .DataOnActivity
+                    .build(context,activity)
+                    .setValuePath(pathToCopy)
+                    .readData(new CallbackDataUser() {
+                        @Override
+                        public void onReadData(DataSnapshot value) {
+
+                        }
+
+                        @Override
+                        public void onChildrenCount(int count) {
+
+                        }
+
+                        @Override
+                        public void onChildrenTotalCount(int totalCount) {
+
+                        }
+
+                        @Override
+                        public void onHashMapValue(Map<String, Object> map) {
+
+                        }
+
+                        @Override
+                        public void onHashMapValue(String key, Object value) {
+                            map.put(key,value);
+                            if ((isObjectString || isChildMap) && !isValueString){
+                                data.putAll(map);
+                                userDataBase.child("Users").child(id).child(pathToPaste).setValue(data).addOnCompleteListener(task -> {
+                                    if (isChangeActivity){
+                                        ChangeActivity.build(context,cls).start();
+                                    }
+
+                                    if (isSetMessage){
+                                        msgToast.build(context).message(message);
+                                    }
+
+                                    if (useLogIt){
+                                        Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios con childs agregados");
+                                    }
+
+                                });
+                            }
+                            else if (isObjectString || isChildMap){
+                                Log.e("GetDataUser","[copyPasteDataBase] No es válido introducir los datos ingresados desde: setChild(@NonNull String string)");
+                            }
+                            else {
+                                userDataBase.child("Users").child(id).child(pathToPaste).setValue(map).addOnCompleteListener(task -> {
+                                    if (isChangeActivity){
+                                        ChangeActivity.build(context,cls).start();
+                                    }
+
+                                    if (isSetMessage){
+                                        msgToast.build(context).message(message);
+                                    }
+
+                                    if (useLogIt){
+                                        Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios sin childs agregados");
+                                    }
+
+                                });
+                            }
+                        }
+
+                    });
+        }
+
+        public void deleteAllFiles(String filesPath){
+            GetDataUser
+                    .DataOnActivity
+                    .build(context,activity)
+                    .setValuePath(filesPath)
+                    .readData(new CallbackDataUser() {
+                        @Override
+                        public void onReadData(DataSnapshot value) {
+
+                        }
+
+                        @Override
+                        public void onChildrenCount(int count) {
+
+                        }
+
+                        @Override
+                        public void onChildrenTotalCount(int totalCount) {
+
+                        }
+
+                        @Override
+                        public void onHashMapValue(Map<String, Object> map) {
+
+                        }
+
+                        @Override
+                        public void onHashMapValue(String key, Object value) {
+                            GetDataUser
+                                    .DataOnActivity
+                                    .build(context,activity)
+                                    .pathFileToDelete(String.valueOf(value))
+                                    .deleteFile();
+
+                            GetDataUser
+                                    .DataOnActivity
+                                    .build(context,activity)
+                                    .deleteChild(filesPath);
+
+                            if (isChangeActivity){
+                                ChangeActivity.build(context,cls).start();
+                            }
+
+                            if (isSetMessage){
+                                msgToast.build(context).message(message);
+                            }
+
+                            Log.d("GetDataUser","[deleteAllFiles] Se eliminaron todos los archivos");
+
+                        }
+
+                    });
         }
 
         public void deleteFile(){
             if (useDeleteFile){
+
                 StorageReference storageReference = getStorageRef().getStorage().getReferenceFromUrl(deleteFile);
                 storageReference.delete().addOnSuccessListener(aVoid -> {
                     if (useLogIt) {
-                        Log.d("Eliminado", "Archivo eliminado");
+                        Log.d("GetDataUser", "[deleteFile] Archivo eliminado con exito");
+                    }
+
+                    if (isChangeActivity){
+                        ChangeActivity.build(context,cls).start();
+                    }
+
+                    if (isSetMessage){
+                        msgToast.build(context).message(message);
                     }
                 }).addOnFailureListener(exception -> {
-                    if (useLogIt) {
-                        Log.d("EliminadoError","Ocurrio un error");
-                    }
+                    Log.e("GetDataUser", "[deleteFile] Error al intentar borrar el archivo");
                 });
             }
             else {
-                Log.e("GetDataUser","[deleteFile] Es nesesario utilizar una url de referencia mediante .pathFileToDelete(String url);");
-                Log.e("GetDataUser","[deleteFile] Es allí donde ubicaras la url de tu archivo almacenado en la base de datos");
+                Log.e("GetDataUser","[deleteFile] Es nesesario utilizar una URL de referencia mediante: .pathFileToDelete(String url);");
+                Log.e("GetDataUser","[deleteFile] Es allí donde ubicaras la URL de tu archivo almacenado en la base de datos FirebaseStorage");
             }
         }
 
-        public void deleteUser(){
+        public void deleteUserAccount(String filesPath){
 
-
-
-
-            /*userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
+            userDataBase.child("Users").child(id).addValueEventListener(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (!snapshot.exists()) {
-                        msgToast.build(context).message("Estos datos no existen");
-                    }else {
-                        String mail;
-                        String password;
-                        mail = Objects.requireNonNull(snapshot.child("CountData").child("userMail").getValue()).toString();
-                        password = Objects.requireNonNull(snapshot.child("CountData").child("userPassword").getValue()).toString();
+                        Log.e("GetDataUser","[deleteUser] No existen los datos del usuario");
+                    }
+                    else {
                         final FirebaseUser user = getCurrentUser();
-                        AuthCredential credential = EmailAuthProvider.getCredential(credentialEmail, credentialPassword);
-                        if (user != null) {
+                        if ((useCredentialEmail && useCredentialPassword) && (user != null)){
+                            AuthCredential credential = EmailAuthProvider.getCredential(credentialEmail, credentialPassword);
                             if (!isChangeActivity){
-                                msgToast.build(context).message("Nesesita agregar una clase de retorno al eliminar la cuenta");
-                                msgToast.build(context).message("Se recomienda usar setChangeActivity(@NonNull Class<?> cls)");
+                                Log.e("GetDataUser","[deleteUser] Requiere una clase de retorno mediante: setChangeActivity(@NonNull Class<?> cls)");
+                                Log.e("GetDataUser","[deleteUser] Es recomendable que retorne a los usuarios hasta su pantalla de Login");
                             }
                             else {
+                                GetDataUser.DataOnActivity.build(context,activity).deleteAllFiles(filesPath);
                                 user.reauthenticate(credential).addOnCompleteListener(task -> user.delete().addOnCompleteListener(task1 -> {
                                     if (task1.isSuccessful()) {
-                                        Log.d("GetDataUser.DataOnActivity.deleteUser(void)")
+                                        Log.d("GetDataUser","[deleteUser] Usuario eliminado con exito)");
                                         ChangeActivity.build(context,cls).start();
                                     }
                                 }));
                             }
                         }
-                        userDataBase.child("Users").child(id).removeValue();
+                        else if (useCredentialEmail && useCredentialPassword){
+                            Log.e("GetDataUser","[deleteUser] Es nesesario que el usuario este loggeado");
+                        }
+                        else if ((user != null)){
+                            Log.e("GetDataUser","[deleteUser] Es nesesario recopilar las credenciales del usuario: .getCredentials(@NonNull String email,@NonNull String password)");
+                        }
+                        else {
+                            Log.e("GetDataUser","[deleteUser] Error en la solicitud de borrado de cuenta");
+                        }
                     }
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    msgToast.build(context).message("Error de carga");
+                    Log.e("GetDataUser","[deleteUser] Error de carga de datos");
                 }
-            });*/
+            });
         }
 
-        public interface MyCallback {
-            void onReadData(DataSnapshot value);
-
-            void onChildrenCount(int count);
-
-            void onChildrenTotalCount(int totalCount);
-
-            void onHashMapValue(Map<String, Object> map);
-
-            void onHashMapValue(String key, Object value);
-        }
-
-        public interface MyCallback2 {
-            void onChildrenTotalCount(int totalCount);
-        }
-
-        public void readData(MyCallback myCallback) {
+        public void readData(CallbackDataUser myCallback) {
             FirebaseDatabase.getInstance().getReference().child("Users").child(id).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -820,7 +932,7 @@ public class GetDataUser {
                             Log.e("GetDataUser", "(Error) Falta proporcionar el dato .setValuePath(@NonNull String path); Asegurece de que este correcto el path ingresado");
                         }else{
                             if (!snapshot.child(elementPathValue).exists()){
-                                Log.e("GetDataUser", "(Path error) Asegurece de que este correcto el path ingresado en .setValuePath(@NonNull String path)");
+                                Log.e("GetDataUser", "(Path error) Esta ruta no existe; Asegurece de que este correcto el path ingresado en .setValuePath(@NonNull String path)");
                             }
                             else {
                                 for (int i = 0;i<snapshot.child(elementPathValue).getChildrenCount(); i++){
@@ -852,34 +964,6 @@ public class GetDataUser {
             });
         }
 
-
-        public void readData2(MyCallback2 myCallback) {
-            FirebaseDatabase.getInstance().getReference().child("Users").child(id).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (!snapshot.exists()) {
-                        Log.e("GetDataUser", "(Database error) Este usuario no existe; Se recomienda revisar su base de datos.");
-                    }else {
-                        if (!elementPath){
-                            Log.e("GetDataUser", "(Error) Falta proporcionar el dato .setValuePath(@NonNull String path); Asegurece de que este correcto el path ingresado");
-                        }else{
-                            if (!snapshot.child(elementPathValue).exists()){
-                                Log.e("GetDataUser", "(Path error) Asegurece de que este correcto el path ingresado en .setValuePath(@NonNull String path)");
-                            }
-                            else {
-                                if (useLogIt){Log.i("GetDataUser","[onChildrenTotalCount]= " + Math.toIntExact(snapshot.child(elementPathValue).getChildrenCount()));}
-                                myCallback.onChildrenTotalCount(Math.toIntExact(snapshot.child(elementPathValue).getChildrenCount()));
-
-                            }
-                        }
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Log.e("GetDataUser", "(Error) Obtención de datos cancelada; " + error);
-                }
-            });
-        }
 
     }
 

@@ -1,6 +1,7 @@
 package com.xforce.bubblepet2.helpers;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,10 +21,14 @@ public class URLValidator {
 
     // Expresión regular que se encargara de filtrar y
     //limpiar el enlace ingresado
-    private static final String URL_REGEX =
-            "^((((https?|ftps?|gopher|telnet|nntp)://)|(mailto:|news:))" +
-                    "(%{2}|[-()_.!~*';/?:@&=+$, A-Za-z0-9])+)" +
-                    "([).!';/?:, ][:blank])?$";
+
+    //PATRON #1
+    // ^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$
+    //PATRON #2
+    //^((((https?|ftps?|gopher|telnet|nntp)://)|(mailto:|news:))" +
+    //                    "(%{2}|[-()_.!~*';/?:@&=+$, A-Za-z0-9])+)" +
+    //                    "([).!';/?:, ][:blank])?$
+    private static final String URL_REGEX = "^https?:\\/\\/[\\w\\-]+(\\.[\\w\\-]+)+[/#?]?.*$";
     private static final Pattern URL_PATTERN = Pattern.compile(URL_REGEX);
 
 
@@ -45,19 +50,18 @@ public class URLValidator {
     //retornar "invalido", de lo contrario retornara la misma url
     public static String url(String url) {
         if (urlValidator(url)) {
-            t(url);
-            return urlString;
-
+            return url;
         }
         return "invalido";
     }
 
     public static boolean isValid(String url){
-        return urlValidator(url);
-    }
-
-    private static void t(String b){
-        urlString = b;
+        if (urlValidator(url)){
+            return true;
+        }else {
+            Log.e("URLValidator","[isValid] Tu URL ingresada es invalida");
+            return false;
+        }
     }
 
 

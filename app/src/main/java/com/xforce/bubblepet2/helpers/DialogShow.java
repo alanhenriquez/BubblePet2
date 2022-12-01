@@ -23,6 +23,7 @@ import com.xforce.bubblepet2.Login;
 import com.xforce.bubblepet2.MainActivity;
 import com.xforce.bubblepet2.R;
 import com.xforce.bubblepet2.dataFromDataBase.GetDataUser;
+import com.xforce.bubblepet2.interfaces.CallbackDataUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -226,81 +227,8 @@ public class DialogShow {
                 });
             }
             else if (useDeleteCount){
-                final int[] num2 = {0};
-                Map<String,Object> map = new HashMap<>();
                 aceptarBt.setOnClickListener(v -> {
-                    num2[0] += 1;
-                    /*map.put("Id" + System.currentTimeMillis() / 100,"numero");
-                    GetDataUser
-                            .DataOnActivity
-                            .getDataBaseRef()
-                            .child("Users")
-                            .child(GetDataUser.DataOnActivity.getUserId())
-                            .child("test").setValue(map);*/
-
-                    GetDataUser
-                            .DataOnActivity
-                            .build(context,activity)
-                            .setValuePath("nuevo2").logIt(false)
-                            .readData(new GetDataUser.DataOnActivity.MyCallback() {
-                                @Override
-                                public void onReadData(DataSnapshot value) {
-
-                                }
-
-                                @Override
-                                public void onChildrenCount(int count) {
-
-                                }
-
-                                @Override
-                                public void onChildrenTotalCount(int totalCount) {
-
-                                }
-
-                                @Override
-                                public void onHashMapValue(Map<String, Object> map) {
-
-                                    /*Log.d("Map Agregado"," "+map);
-
-                                    GetDataUser
-                                            .DataOnActivity
-                                            .build(context,activity)
-                                            .setValuePath("ImageData/imgPerfil")
-                                            .setChild("ImageMain", String.valueOf(link))
-                                            .uploadData();
-
-                                    GetDataUser
-                                            .DataOnActivity
-                                            .build(context,activity)
-                                            .setValuePath("ImageData/uploadeds/")
-                                            .setChild("image", String.valueOf(link))
-                                            .setChangeActivity(MainActivity.class).setMessage("Datos actualizados")
-                                            .uploadData();*/
-
-                                }
-
-                                @Override
-                                public void onHashMapValue(String key, Object value) {
-                                    map.put(key,value);
-                                    GetDataUser
-                                            .DataOnActivity
-                                            .build(context,activity)
-                                            .setValuePath("nuevo2")
-                                            .setChild(map).setChild("nuevo3"+num2[0],"valor")
-                                            .uploadData();
-
-
-                                    GetDataUser
-                                            .DataOnActivity
-                                            .getDataBaseRef()
-                                            .child("Users")
-                                            .child(GetDataUser.DataOnActivity.getUserId())
-                                            .child("nuevo").setValue(map);
-                                }
-
-                            });
-
+                    /*GetDataUser.DataOnActivity.build(context,activity).setMessage("Archivo eliminado").deleteUserAccount();*/
                 });
             }
 
