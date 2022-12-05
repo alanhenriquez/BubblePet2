@@ -40,6 +40,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <LinearLayout
+                            android:id="@+id/contImageEditPetProfile"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
@@ -109,320 +110,341 @@
                                     </androidx.constraintlayout.widget.ConstraintLayout>
                                 </androidx.cardview.widget.CardView>
 
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/formularioEditPetProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/petInfoName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@string/fontInfoSignUpFinish"
+                                    android:text="@string/textPetSignUpFinish2"
+                                    android:textAlignment="@integer/textAlignmentInfoSignUpFinish"
+                                    android:textColor="@color/textColorInfoSignUpFinish"
+                                    android:textSize="@dimen/sizeTextInfoSignUpFinish" />
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <EditText
+                                        android:id="@+id/petName"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginVertical="@dimen/marginVFormularioLogin"
+                                        android:background="@drawable/backgroundFormularioLogin"
+                                        android:elegantTextHeight="@bool/elegantTextHeightHintSignUpFinish"
+                                        android:fontFamily="@string/fontHintSignUpFinish"
+                                        android:hint="@string/hintPetSignUpFinish2"
+                                        android:inputType="textPersonName"
+                                        android:minHeight="@dimen/minHeigtFormularioLogin"
+                                        android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
+                                        android:textAlignment="@integer/textAlignmentHintSignUpFinish"
+                                        android:textColor="@color/textColorHintTextSignUpFinish"
+                                        android:textColorHint="@color/naranja10"
+                                        android:textSize="@dimen/sizeTextHintSignUpFinish"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
+                                    <LinearLayout
+                                        android:id="@+id/resetText1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:paddingHorizontal="@dimen/paddingIconFormularioLogin"
+                                        android:paddingVertical="@dimen/paddingIconFormularioLogin"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/iconCancel"
+                                            tools:ignore="TooDeepLayout" />
+                                    </LinearLayout>
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/petEdadInfo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@string/fontInfoSignUpFinish"
+                                    android:text="@string/textPetEdadSignUpFinish2"
+                                    android:textAlignment="@integer/textAlignmentInfoSignUpFinish"
+                                    android:textColor="@color/textColorInfoSignUpFinish"
+                                    android:textSize="@dimen/sizeTextInfoSignUpFinish" />
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <EditText
+                                        android:id="@+id/petEdad"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginVertical="@dimen/marginVFormularioLogin"
+                                        android:background="@drawable/backgroundFormularioLogin"
+                                        android:elegantTextHeight="@bool/elegantTextHeightHintSignUpFinish"
+                                        android:fontFamily="@string/fontHintSignUpFinish"
+                                        android:hint="@string/hintPetEdadSignUpFinish2"
+                                        android:inputType="number"
+                                        android:minHeight="@dimen/minHeigtFormularioLogin"
+                                        android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
+                                        android:textAlignment="@integer/textAlignmentHintSignUpFinish"
+                                        android:textColor="@color/textColorHintTextSignUpFinish"
+                                        android:textColorHint="@color/naranja10"
+                                        android:textSize="@dimen/sizeTextHintSignUpFinish"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
+                                    <LinearLayout
+                                        android:id="@+id/resetText2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:paddingHorizontal="@dimen/paddingIconFormularioLogin"
+                                        android:paddingVertical="@dimen/paddingIconFormularioLogin"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/iconCancel"
+                                            tools:ignore="TooDeepLayout" />
+                                    </LinearLayout>
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/petColorInfo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@string/fontInfoSignUpFinish"
+                                    android:text="@string/textPetColorSignUpFinish2"
+                                    android:textAlignment="@integer/textAlignmentInfoSignUpFinish"
+                                    android:textColor="@color/textColorInfoSignUpFinish"
+                                    android:textSize="@dimen/sizeTextInfoSignUpFinish" />
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <EditText
+                                        android:id="@+id/petColor"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginVertical="@dimen/marginVFormularioLogin"
+                                        android:background="@drawable/backgroundFormularioLogin"
+                                        android:elegantTextHeight="@bool/elegantTextHeightHintSignUpFinish"
+                                        android:fontFamily="@string/fontHintSignUpFinish"
+                                        android:hint="@string/hintPetColorSignUpFinish2"
+                                        android:inputType="text"
+                                        android:minHeight="@dimen/minHeigtFormularioLogin"
+                                        android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
+                                        android:textAlignment="@integer/textAlignmentHintSignUpFinish"
+                                        android:textColor="@color/textColorHintTextSignUpFinish"
+                                        android:textColorHint="@color/naranja10"
+                                        android:textSize="@dimen/sizeTextHintSignUpFinish"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
+                                    <LinearLayout
+                                        android:id="@+id/resetText3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:paddingHorizontal="@dimen/paddingIconFormularioLogin"
+                                        android:paddingVertical="@dimen/paddingIconFormularioLogin"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/iconCancel"
+                                            tools:ignore="TooDeepLayout" />
+                                    </LinearLayout>
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/petRazaInfo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@string/fontInfoSignUpFinish"
+                                    android:text="@string/textPetRazaSignUpFinish2"
+                                    android:textAlignment="@integer/textAlignmentInfoSignUpFinish"
+                                    android:textColor="@color/textColorInfoSignUpFinish"
+                                    android:textSize="@dimen/sizeTextInfoSignUpFinish" />
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <EditText
+                                        android:id="@+id/petRaza"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginVertical="@dimen/marginVFormularioLogin"
+                                        android:background="@drawable/backgroundFormularioLogin"
+                                        android:elegantTextHeight="@bool/elegantTextHeightHintSignUpFinish"
+                                        android:fontFamily="@string/fontHintSignUpFinish"
+                                        android:hint="@string/hintPetRazaSignUpFinish2"
+                                        android:inputType="text"
+                                        android:minHeight="@dimen/minHeigtFormularioLogin"
+                                        android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
+                                        android:textAlignment="@integer/textAlignmentHintSignUpFinish"
+                                        android:textColor="@color/textColorHintTextSignUpFinish"
+                                        android:textColorHint="@color/naranja10"
+                                        android:textSize="@dimen/sizeTextHintSignUpFinish"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
+                                    <LinearLayout
+                                        android:id="@+id/resetText4"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:paddingHorizontal="@dimen/paddingIconFormularioLogin"
+                                        android:paddingVertical="@dimen/paddingIconFormularioLogin"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/iconCancel"
+                                            tools:ignore="TooDeepLayout" />
+                                    </LinearLayout>
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/petEstadoInfo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@string/fontInfoSignUpFinish"
+                                    android:text="@string/textPetEstadoSignUpFinish2"
+                                    android:textAlignment="@integer/textAlignmentInfoSignUpFinish"
+                                    android:textColor="@color/textColorInfoSignUpFinish"
+                                    android:textSize="@dimen/sizeTextInfoSignUpFinish" />
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <EditText
+                                        android:id="@+id/petEstado"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginVertical="@dimen/marginVFormularioLogin"
+                                        android:background="@drawable/backgroundFormularioLogin"
+                                        android:elegantTextHeight="@bool/elegantTextHeightHintSignUpFinish"
+                                        android:fontFamily="@string/fontHintSignUpFinish"
+                                        android:hint="@string/hintPetEstadoSignUpFinish2"
+                                        android:inputType="text"
+                                        android:minHeight="@dimen/minHeigtFormularioLogin"
+                                        android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
+                                        android:textAlignment="@integer/textAlignmentHintSignUpFinish"
+                                        android:textColor="@color/textColorHintTextSignUpFinish"
+                                        android:textColorHint="@color/naranja10"
+                                        android:textSize="@dimen/sizeTextHintSignUpFinish"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
+
+                                    <LinearLayout
+                                        android:id="@+id/resetText5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:paddingHorizontal="@dimen/paddingIconFormularioLogin"
+                                        android:paddingVertical="@dimen/paddingIconFormularioLogin"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/iconCancel"
+                                            tools:ignore="TooDeepLayout" />
+                                    </LinearLayout>
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/decorationIMG"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
                                 <ImageView
                                     android:id="@+id/imageView"
                                     android:layout_width="82dp"
                                     android:layout_height="83dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
                                     app:srcCompat="@drawable/pets_0"
-                                    tools:layout_editor_absoluteX="265dp"
-                                    tools:layout_editor_absoluteY="20dp"
                                     tools:ignore="MissingConstraints" />
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/petInfoName"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@string/fontInfoSignUpFinish"
-                                android:text="@string/textPetSignUpFinish2"
-                                android:textAlignment="@integer/textAlignmentInfoSignUpFinish"
-                                android:textColor="@color/textColorInfoSignUpFinish"
-                                android:textSize="@dimen/sizeTextInfoSignUpFinish" />
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <EditText
-                                    android:id="@+id/petName"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginVertical="@dimen/marginVFormularioLogin"
-                                    android:background="@drawable/backgroundFormularioLogin"
-                                    android:elegantTextHeight="@bool/elegantTextHeightHintSignUpFinish"
-                                    android:fontFamily="@string/fontHintSignUpFinish"
-                                    android:hint="@string/hintPetSignUpFinish2"
-                                    android:inputType="textPersonName"
-                                    android:minHeight="@dimen/minHeigtFormularioLogin"
-                                    android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
-                                    android:textAlignment="@integer/textAlignmentHintSignUpFinish"
-                                    android:textColor="@color/textColorHintTextSignUpFinish"
-                                    android:textColorHint="@color/naranja10"
-                                    android:textSize="@dimen/sizeTextHintSignUpFinish"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
-
-                                <LinearLayout
-                                    android:id="@+id/resetText1"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:paddingHorizontal="@dimen/paddingIconFormularioLogin"
-                                    android:paddingVertical="@dimen/paddingIconFormularioLogin"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:background="@drawable/iconCancel"
-                                        tools:ignore="TooDeepLayout" />
-                                </LinearLayout>
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/petEdadInfo"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@string/fontInfoSignUpFinish"
-                                android:text="@string/textPetEdadSignUpFinish2"
-                                android:textAlignment="@integer/textAlignmentInfoSignUpFinish"
-                                android:textColor="@color/textColorInfoSignUpFinish"
-                                android:textSize="@dimen/sizeTextInfoSignUpFinish" />
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <EditText
-                                    android:id="@+id/petEdad"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginVertical="@dimen/marginVFormularioLogin"
-                                    android:background="@drawable/backgroundFormularioLogin"
-                                    android:elegantTextHeight="@bool/elegantTextHeightHintSignUpFinish"
-                                    android:fontFamily="@string/fontHintSignUpFinish"
-                                    android:hint="@string/hintPetEdadSignUpFinish2"
-                                    android:inputType="number"
-                                    android:minHeight="@dimen/minHeigtFormularioLogin"
-                                    android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
-                                    android:textAlignment="@integer/textAlignmentHintSignUpFinish"
-                                    android:textColor="@color/textColorHintTextSignUpFinish"
-                                    android:textColorHint="@color/naranja10"
-                                    android:textSize="@dimen/sizeTextHintSignUpFinish"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
-
-                                <LinearLayout
-                                    android:id="@+id/resetText2"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:paddingHorizontal="@dimen/paddingIconFormularioLogin"
-                                    android:paddingVertical="@dimen/paddingIconFormularioLogin"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:background="@drawable/iconCancel"
-                                        tools:ignore="TooDeepLayout" />
-                                </LinearLayout>
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/petColorInfo"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@string/fontInfoSignUpFinish"
-                                android:text="@string/textPetColorSignUpFinish2"
-                                android:textAlignment="@integer/textAlignmentInfoSignUpFinish"
-                                android:textColor="@color/textColorInfoSignUpFinish"
-                                android:textSize="@dimen/sizeTextInfoSignUpFinish" />
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <EditText
-                                    android:id="@+id/petColor"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginVertical="@dimen/marginVFormularioLogin"
-                                    android:background="@drawable/backgroundFormularioLogin"
-                                    android:elegantTextHeight="@bool/elegantTextHeightHintSignUpFinish"
-                                    android:fontFamily="@string/fontHintSignUpFinish"
-                                    android:hint="@string/hintPetColorSignUpFinish2"
-                                    android:inputType="text"
-                                    android:minHeight="@dimen/minHeigtFormularioLogin"
-                                    android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
-                                    android:textAlignment="@integer/textAlignmentHintSignUpFinish"
-                                    android:textColor="@color/textColorHintTextSignUpFinish"
-                                    android:textColorHint="@color/naranja10"
-                                    android:textSize="@dimen/sizeTextHintSignUpFinish"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
-
-                                <LinearLayout
-                                    android:id="@+id/resetText3"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:paddingHorizontal="@dimen/paddingIconFormularioLogin"
-                                    android:paddingVertical="@dimen/paddingIconFormularioLogin"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:background="@drawable/iconCancel"
-                                        tools:ignore="TooDeepLayout" />
-                                </LinearLayout>
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/petRazaInfo"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@string/fontInfoSignUpFinish"
-                                android:text="@string/textPetRazaSignUpFinish2"
-                                android:textAlignment="@integer/textAlignmentInfoSignUpFinish"
-                                android:textColor="@color/textColorInfoSignUpFinish"
-                                android:textSize="@dimen/sizeTextInfoSignUpFinish" />
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <EditText
-                                    android:id="@+id/petRaza"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginVertical="@dimen/marginVFormularioLogin"
-                                    android:background="@drawable/backgroundFormularioLogin"
-                                    android:elegantTextHeight="@bool/elegantTextHeightHintSignUpFinish"
-                                    android:fontFamily="@string/fontHintSignUpFinish"
-                                    android:hint="@string/hintPetRazaSignUpFinish2"
-                                    android:inputType="text"
-                                    android:minHeight="@dimen/minHeigtFormularioLogin"
-                                    android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
-                                    android:textAlignment="@integer/textAlignmentHintSignUpFinish"
-                                    android:textColor="@color/textColorHintTextSignUpFinish"
-                                    android:textColorHint="@color/naranja10"
-                                    android:textSize="@dimen/sizeTextHintSignUpFinish"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
-
-                                <LinearLayout
-                                    android:id="@+id/resetText4"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:paddingHorizontal="@dimen/paddingIconFormularioLogin"
-                                    android:paddingVertical="@dimen/paddingIconFormularioLogin"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:background="@drawable/iconCancel"
-                                        tools:ignore="TooDeepLayout" />
-                                </LinearLayout>
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/petEstadoInfo"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@string/fontInfoSignUpFinish"
-                                android:text="@string/textPetEstadoSignUpFinish2"
-                                android:textAlignment="@integer/textAlignmentInfoSignUpFinish"
-                                android:textColor="@color/textColorInfoSignUpFinish"
-                                android:textSize="@dimen/sizeTextInfoSignUpFinish" />
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <EditText
-                                    android:id="@+id/petEstado"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginVertical="@dimen/marginVFormularioLogin"
-                                    android:background="@drawable/backgroundFormularioLogin"
-                                    android:elegantTextHeight="@bool/elegantTextHeightHintSignUpFinish"
-                                    android:fontFamily="@string/fontHintSignUpFinish"
-                                    android:hint="@string/hintPetEstadoSignUpFinish2"
-                                    android:inputType="text"
-                                    android:minHeight="@dimen/minHeigtFormularioLogin"
-                                    android:paddingHorizontal="@dimen/paddingHorizontalFormularioLogin"
-                                    android:textAlignment="@integer/textAlignmentHintSignUpFinish"
-                                    android:textColor="@color/textColorHintTextSignUpFinish"
-                                    android:textColorHint="@color/naranja10"
-                                    android:textSize="@dimen/sizeTextHintSignUpFinish"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    tools:ignore="Autofill,UnusedAttribute,TextContrastCheck" />
-
-                                <LinearLayout
-                                    android:id="@+id/resetText5"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:paddingHorizontal="@dimen/paddingIconFormularioLogin"
-                                    android:paddingVertical="@dimen/paddingIconFormularioLogin"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:background="@drawable/iconCancel"
-                                        tools:ignore="TooDeepLayout" />
-                                </LinearLayout>
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </LinearLayout>
 

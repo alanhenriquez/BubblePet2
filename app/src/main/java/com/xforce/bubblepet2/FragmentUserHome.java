@@ -2,12 +2,19 @@ package com.xforce.bubblepet2;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.xforce.bubblepet2.adapters.TargetaPet;
 import com.xforce.bubblepet2.dataFromDataBase.GetDataUser;
 
 /**
@@ -62,16 +69,33 @@ public class FragmentUserHome extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_home, container, false);
+
         GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.userName).setValuePath("PerfilData/user").getData();
         GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.userMail).setValuePath("CountData/userMail").getData();
         GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.biografia_perfil_content).setValuePath("PerfilData/userName").getData();
-        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_1).setValuePath("PetData/petName").getData();
-        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_2).setValuePath("PetData/petEge").getData();
-        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_3).setValuePath("PetData/petColor").getData();
-        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_4).setValuePath("PetData/petBreed").getData();
-        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_5).setValuePath("PetData/petHealth").getData();
+        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_1).setValuePath("PetData/nombre").getData();
+        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_2).setValuePath("PetData/edad").getData();
+        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_3).setValuePath("PetData/color").getData();
+        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_4).setValuePath("PetData/raza").getData();
+        GetDataUser.DataOnFragment.build(view).setElementbyId(R.id.text_targeta_pet_content_info_5).setValuePath("PetData/salud").getData();
         GetDataUser.DataOnFragment.build(view,FragmentUserHome.this).setElementbyId(R.id.imgPhoto).setValuePath("ImageData/imgPerfil/ImageMain").getData();
         GetDataUser.DataOnFragment.build(view,FragmentUserHome.this).setElementbyId(R.id.imagePet).setValuePath("ImageData/imgPetPerfil/ImageMain").getData();
+
+
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(GetDataUser.DataOnActivity.getUserId()).child("PetData");
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                TargetaPet targetaPet = snapshot.getValue(TargetaPet.class);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         return view;
     }

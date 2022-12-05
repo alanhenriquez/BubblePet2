@@ -180,14 +180,36 @@ public class EditProfile extends AppCompatActivity {
             StorageReference folder = FirebaseStorage.getInstance().getReference().child("Users").child(id);
             final StorageReference file_name = folder.child(imageUri.getLastPathSegment());
             file_name.putFile(imageUri).addOnProgressListener(taskSnapshot -> {
+
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()
                         / taskSnapshot.getTotalByteCount());
                 progressDialog.setMessage("Exportando al " + (int)progress + "%");
+
             }).addOnSuccessListener(taskSnapshot -> file_name.getDownloadUrl().addOnSuccessListener(uri -> {
                 //Enviamos a la base de datos la url de la imagen
-                setDataImageBase(String.valueOf(uri));
+
+
+                Map<String, Object> data1 = new HashMap<>();
+                data1.put("ImageMain", String.valueOf(uri));
+                GetDataUser
+                        .DataOnActivity
+                        .build(getApplicationContext(),EditProfile.this)
+                        .setChangeActivity(MainActivity.class)
+                        .setChild(data1)
+                        .setValuePath("ImageData/imgPerfil")
+                        .uploadData();
+
+                Map<String, Object> data2 = new HashMap<>();
+                data2.put("imagen"+(System.currentTimeMillis() / 10), String.valueOf(uri));
+                GetDataUser
+                        .DataOnActivity
+                        .build(getApplicationContext(),EditProfile.this)
+                        .setChild(data2)
+                        .copyPasteDataBase("ImageData/uploadeds/user","ImageData/uploadeds/user");
+
+
+                msgToast("Imagen subida correctamente");
                 progressDialog.dismiss();
-                msgToast("Se subio correctamente");
             })).addOnFailureListener(e -> {
                 // Error, Image not uploaded
                 progressDialog.dismiss();
@@ -197,56 +219,9 @@ public class EditProfile extends AppCompatActivity {
         }
     }
 
-
-
-    /*Agregamos la Url de la imagen a la base de datos*/
-    private void setDataImageBase(String link){
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("ImageMain", String.valueOf(link));
-        GetDataUser.DataOnActivity
-                .build(getApplicationContext(),EditProfile.this)
-                .setChangeActivity(MainActivity.class)
-                .setMessage("Datos actualizados ;D")
-                .setValuePath("ImageData/imgPerfil")
-                .setChild(data)
-                .uploadData();
-
-        Map<String, Object> data2 = new HashMap<>();
-        data2.put("imagen"+(System.currentTimeMillis() / 10), String.valueOf(link));
-        GetDataUser
-                .DataOnActivity
-                .build(getApplicationContext(),EditProfile.this).setChild(data2)
-                .copyPasteDataBase("ImageData/uploadeds","ImageData/uploadeds");
-
-    }
     /*Termina codigo de la seleccion de imagen y envio a la base de datos*/
     /*--------------------*/
 
-
-
-
-
-    /*Convertimos a string el contenido de los campos de texto*/
-    private void getString(){
-        userString = user.getText().toString();
-        userNameString = userName.getText().toString();
-        String userPasswordString = userPassword.getText().toString();
-    }
-
-
-    /*Agregamos la informacion a la base de datos*/
-    private void setDataBase(){
-        Map<String, Object> data = new HashMap<>();
-        data.put("user", userString);
-        data.put("userName", userNameString);
-        String id = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
-        userDataBase.child("Users").child(id).child("PerfilData").setValue(data).addOnCompleteListener(task1 -> msgToast("Datos actualizados"));
-    }
-    /*Eliminamos al usuario*/
-    private void DeleteUser() {
-
-    }
 
 
     /*Mostramos la contraseña del campo de texto*/

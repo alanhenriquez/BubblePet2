@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,6 +27,8 @@ import com.google.firebase.storage.StorageReference;
 import com.xforce.bubblepet2.adapters.TargetaPet;
 import com.xforce.bubblepet2.dataFromDataBase.GetDataUser;
 import com.xforce.bubblepet2.helpers.ChangeActivity;
+import com.xforce.bubblepet2.helpers.msgToast;
+import com.xforce.bubblepet2.interfaces.CallbackDataUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,11 +78,11 @@ public class EditPetProfile extends AppCompatActivity {
 
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(GetDataUser.DataOnActivity.getUserId()).child("PetData");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 TargetaPet targeta = snapshot.getValue(TargetaPet.class);
-                Glide.with(getApplicationContext()).load(targeta.getImagen()).into(contImagePet);
+                Glide.with(getApplicationContext()).load(Objects.requireNonNull(targeta).getImagen()).into(contImagePet);
                 petName.setText(targeta.getNombre());
                 petAge.setText(targeta.getEdad());
                 petColor.setText(targeta.getColor());
@@ -94,9 +97,11 @@ public class EditPetProfile extends AppCompatActivity {
         });
 
 
-        DatabaseReference firebaseDatabase = GetDataUser.DataOnActivity.getInstanceFD().getReference("targetaFeed");
-        DatabaseReference firebaseDatabase2 = GetDataUser.DataOnActivity.getInstanceFD().getReference("Users").child(GetDataUser.DataOnActivity.getUserId()).child("PetData");
-
+        ResetText(btResetTextName,petName);/*Reiniciamos el texto*/
+        ResetText(btResetTextEge,petAge);/*Reiniciamos el texto*/
+        ResetText(btResetTextColor,petColor);/*Reiniciamos el texto*/
+        ResetText(btResetTextBreed,petBreed);/*Reiniciamos el texto*/
+        ResetText(btResetTextHealth,petHealth);/*Reiniciamos el texto*/
         saveDatosButton.setOnClickListener(v ->{
             petNameString = petName.getText().toString();
             petEgeString = petAge.getText().toString();
@@ -104,62 +109,62 @@ public class EditPetProfile extends AppCompatActivity {
             petBreedString = petBreed.getText().toString();
             petHealthString = petHealth.getText().toString();
 
-
             GetDataUser
                     .DataOnActivity
-                    .getInstanceFD()
-                    .getReference("temp"+GetDataUser.DataOnActivity.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    .build(getApplicationContext(),EditPetProfile.this)
+                    .setValuePath("ImageData/imgPetPerfil")
+                    .readData(new CallbackDataUser() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists()){
-                                String val = Objects.requireNonNull(snapshot.child("imagePetTargeta/ImageMain").getValue()).toString();
-                                firebaseDatabase2.setValue(new TargetaPet(val, petNameString, petEgeString, petColorString, petBreedString, petHealthString));
-                                firebaseDatabase.push().setValue(new TargetaPet(val, petNameString, petEgeString, petColorString, petBreedString, petHealthString));
-                            }
+                        public void onReadData(DataSnapshot value) {
 
                         }
 
                         @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                        public void onChildrenCount(int count) {
 
                         }
+
+                        @Override
+                        public void onChildrenTotalCount(int totalCount) {
+
+                        }
+
+                        @Override
+                        public void onHashMapValue(Map<String, Object> map) {
+
+                        }
+
+                        @Override
+                        public void onHashMapValue(String key, Object value) {
+                            Map<String,Object> map = new HashMap<>();
+                            map.put("user"+(System.currentTimeMillis() / 10),GetDataUser.DataOnActivity.getUserId());
+
+                            GetDataUser
+                                    .DataOnActivity.getInstanceFD()
+                                    .getReference("Users")
+                                    .child(GetDataUser.DataOnActivity.getUserId())
+                                    .child("PetData")
+                                    .setValue(new TargetaPet(value.toString(), petNameString, petEgeString, petColorString, petBreedString, petHealthString));
+
+                            GetDataUser
+                                    .DataOnActivity
+                                    .build(getApplicationContext(),EditPetProfile.this)
+                                    .setChild(map)
+                                    .copyPasteDataBase("targetaFeed","targetaFeed");
+
+                        }
+
                     });
-
-            GetDataUser
-                    .DataOnActivity
-                    .getInstanceFD()
-                    .getReference("temp"+GetDataUser.DataOnActivity.getUserId()).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists()){
-                                GetDataUser
-                                        .DataOnActivity
-                                        .getInstanceFD()
-                                        .getReference("temp"+GetDataUser.DataOnActivity.getUserId()).removeValue();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
 
             ChangeActivity.build(getApplicationContext(),MainActivity.class).start();
 
         });/*Actualizamos los datos del perfil*/
-        ResetText(btResetTextName,petName);/*Reiniciamos el texto*/
-        ResetText(btResetTextEge,petAge);/*Reiniciamos el texto*/
-        ResetText(btResetTextColor,petColor);/*Reiniciamos el texto*/
-        ResetText(btResetTextBreed,petBreed);/*Reiniciamos el texto*/
-        ResetText(btResetTextHealth,petHealth);/*Reiniciamos el texto*/
         changeImagePet.setOnClickListener(v ->{
 
             Intent i = new Intent();
             i.setAction(Intent.ACTION_GET_CONTENT);
             i.setType("image/*");
-            startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
+            startActivityForResult(Intent.createChooser(i, "Elige la foto de tu mascota"), SELECT_PICTURE);
 
         });/*Elegimos la nueva imagen de usuario*/
 
@@ -194,14 +199,29 @@ public class EditPetProfile extends AppCompatActivity {
                 progressDialog.setMessage("Exportando al " + (int)progress + "%");
 
             }).addOnSuccessListener(taskSnapshot -> file_name.getDownloadUrl().addOnSuccessListener(uri -> {
-
                 //Enviamos a la base de datos la url de la imagen
-                Map<String, Object> datas = new HashMap<>();
-                datas.put("ImageMain", String.valueOf(uri));
-                userDataBase.child("Users").child(id).child("ImageData").child("imgPetPerfil").setValue(datas);
-                userDataBase.child("temp"+GetDataUser.DataOnActivity.getUserId()).child("imagePetTargeta").setValue(datas);
+
+
+                Map<String, Object> data1 = new HashMap<>();
+                data1.put("ImageMain", String.valueOf(uri));
+                GetDataUser
+                        .DataOnActivity
+                        .build(getApplicationContext(),EditPetProfile.this)
+                        .setChild(data1)
+                        .setValuePath("ImageData/imgPetPerfil")
+                        .uploadData();
+
+                Map<String, Object> data2 = new HashMap<>();
+                data2.put("imagen"+(System.currentTimeMillis() / 10), String.valueOf(uri));
+                GetDataUser
+                        .DataOnActivity
+                        .build(getApplicationContext(),EditPetProfile.this)
+                        .setChild(data2)
+                        .copyPasteDataBase("ImageData/uploadeds","ImageData/uploadeds/pet");
+
                 msgToast("Imagen subida correctamente");
                 progressDialog.dismiss();
+
 
             })).addOnFailureListener(e -> {
                 // Error, Image not uploaded

@@ -381,10 +381,32 @@ public class GetDataUser {
             }
         }
 
+        private DataOnActivity(@NonNull View contextView){
+            if (isUserLogged()){
+                Activity activityNew = null;
+                this.userAuth = getInstanceFA();
+                this.userDataBase = getDataBaseRef();
+                this.id = getUserId();
+                this.context = contextView.getContext();
+                if (contextView.getContext() instanceof Activity){
+                    activityNew = (Activity) contextView.getContext();
+                    this.activity =  activityNew;
+                }
+            }
+            else {
+                Log.e("GetDataUser","[build] No se encontro a ningun usuario logeado en la sesión actual;");
+                Log.e("GetDataUser","[build] Sin ningun usuario logeado en Firebase no se podra trabajar con esta clase.");
+            }
+        }
+
         //Public static----------------------------------------
 
         public static DataOnActivity build(@NonNull Context context,Activity activity){
             return new DataOnActivity(context,activity);
+        }
+
+        public static DataOnActivity build(@NonNull View contextView){
+            return new DataOnActivity(contextView);
         }
 
         public static FirebaseAuth getInstanceFA(){
@@ -644,6 +666,8 @@ public class GetDataUser {
                     Log.e("GetDataUser","[uploadData] Es mediante ese dato que se podra acceder a la información especifica");
                 }
                 else {
+                    //Se requiere: .setValuePath() y .setChild()
+                    //Opcionales: .setChangeActivity(), .setMessage(), .logIt()
                     userDataBase.child("Users").child(id).child(elementPathValue).setValue(data).addOnCompleteListener(task -> {
                         if (isChangeActivity){
                             ChangeActivity.build(context,cls).start();
@@ -666,6 +690,8 @@ public class GetDataUser {
                     Log.e("GetDataUser","[uploadData] Es nesesario insertar el dato: .setValuePath(String _path)");
                     Log.e("GetDataUser","[uploadData] Es mediante ese dato que se podra acceder a la información especifica");
                 }else {
+                    //Se requiere: .setValuePath() y .setChild()
+                    //Opcionales: .setChangeActivity(), .setMessage(), .logIt()
                     userDataBase.child("Users").child(id).child(elementPathValue).setValue(dataString).addOnCompleteListener(task -> {
                         if (isChangeActivity){
                             ChangeActivity.build(context,cls).start();
@@ -755,6 +781,7 @@ public class GetDataUser {
                         @Override
                         public void onHashMapValue(String key, Object value) {
                             map.put(key,value);
+
                             if ((isObjectString || isChildMap) && !isValueString){
                                 data.putAll(map);
                                 userDataBase.child("Users").child(id).child(pathToPaste).setValue(data).addOnCompleteListener(task -> {
@@ -923,7 +950,7 @@ public class GetDataUser {
         }
 
         public void readData(CallbackDataUser myCallback) {
-            FirebaseDatabase.getInstance().getReference().child("Users").child(id).addValueEventListener(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference().child("Users").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (!snapshot.exists()) {
