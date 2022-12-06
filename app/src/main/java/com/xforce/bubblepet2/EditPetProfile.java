@@ -77,17 +77,17 @@ public class EditPetProfile extends AppCompatActivity {
         userDataBase = FirebaseDatabase.getInstance().getReference();
 
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(GetDataUser.DataOnActivity.getUserId()).child("PetData");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        //Creamos los datos iniciales
+        DatabaseReference databaseCreate1 = FirebaseDatabase.getInstance()
+                .getReference("Users")
+                .child(GetDataUser.DataOnActivity.getUserId())
+                .child("PetData");
+        databaseCreate1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                TargetaPet targeta = snapshot.getValue(TargetaPet.class);
-                Glide.with(getApplicationContext()).load(Objects.requireNonNull(targeta).getImagen()).into(contImagePet);
-                petName.setText(targeta.getNombre());
-                petAge.setText(targeta.getEdad());
-                petColor.setText(targeta.getColor());
-                petBreed.setText(targeta.getRaza());
-                petHealth.setText(targeta.getSalud());
+                if (!snapshot.exists()){
+                    databaseCreate1.setValue(new TargetaPet(" ", " ", " ", " ", " ", " "));
+                }
             }
 
             @Override
@@ -95,6 +95,55 @@ public class EditPetProfile extends AppCompatActivity {
 
             }
         });
+
+        DatabaseReference databaseCreate2 = FirebaseDatabase.getInstance()
+                .getReference("Users")
+                .child(GetDataUser.DataOnActivity.getUserId())
+                .child("ImageData/imgPetPerfil");
+        databaseCreate2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if (!snapshot.exists()){
+                    Map<String, Object> data1 = new HashMap<>();
+                    data1.put("ImageMain", " ");
+                    databaseCreate2.setValue(data1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+        //Leemos y cargamos los datos
+        DatabaseReference databaseRed = FirebaseDatabase.getInstance()
+                .getReference("Users")
+                .child(GetDataUser.DataOnActivity.getUserId())
+                .child("PetData");
+        databaseRed.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                TargetaPet targeta = snapshot.getValue(TargetaPet.class);
+                Glide.with(getApplicationContext()).load(Objects.requireNonNull(targeta).getImagen()).into(contImagePet);
+                petName.setText(targeta.getNombre());
+                petAge.setText(targeta.getEdad());
+                petColor.setText(targeta.getColor());
+                petBreed.setText(targeta.getRaza());
+                petHealth.setText(targeta.getSalud());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
 
         ResetText(btResetTextName,petName);/*Reiniciamos el texto*/
@@ -109,7 +158,37 @@ public class EditPetProfile extends AppCompatActivity {
             petBreedString = petBreed.getText().toString();
             petHealthString = petHealth.getText().toString();
 
-            GetDataUser
+            DatabaseReference firebaseRefCopy = FirebaseDatabase.getInstance().getReference().child("targetaFeed");
+            FirebaseDatabase.getInstance().getReference().child("targetaFeed").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (!snapshot.exists()) {
+                        Log.e("GetDataUser", "(Database error) Este usuario no existe; Se recomienda revisar su base de datos.");
+                    }
+                    else {
+                        for (DataSnapshot child: snapshot.getChildren()) {
+                            String value = child.getValue().toString();
+                            Map<String,Object> map = new HashMap<>();
+                            map.put(child.getKey(),child.getValue());
+                            map.put("user"+(System.currentTimeMillis() / 10),GetDataUser.DataOnActivity.getUserId());
+
+                            if (value.equals(String.valueOf(GetDataUser.DataOnActivity.getUserId()))){
+                                Log.d("GetDataUser","[copyPasteDataBase] No se agregara debido a que ya se encuentra enlistado.");
+                            }
+                            else {
+                                firebaseRefCopy.setValue(map);
+                            }
+
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.e("GetDataUser", "(Error) Obtención de datos cancelada; " + error);
+                }
+            });
+
+            /*GetDataUser
                     .DataOnActivity
                     .build(getApplicationContext(),EditPetProfile.this)
                     .setValuePath("ImageData/imgPetPerfil")
@@ -130,11 +209,6 @@ public class EditPetProfile extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onHashMapValue(Map<String, Object> map) {
-
-                        }
-
-                        @Override
                         public void onHashMapValue(String key, Object value) {
                             Map<String,Object> map = new HashMap<>();
                             map.put("user"+(System.currentTimeMillis() / 10),GetDataUser.DataOnActivity.getUserId());
@@ -149,13 +223,14 @@ public class EditPetProfile extends AppCompatActivity {
                             GetDataUser
                                     .DataOnActivity
                                     .build(getApplicationContext(),EditPetProfile.this)
-                                    .setChild(map)
+                                    .setChild(map).rootPath(GetDataUser.DataOnActivity.getDataBaseRef().toString()+"/targetaFeed")
                                     .copyPasteDataBase("targetaFeed","targetaFeed");
 
                         }
 
                     });
 
+            */
             ChangeActivity.build(getApplicationContext(),MainActivity.class).start();
 
         });/*Actualizamos los datos del perfil*/
@@ -202,27 +277,60 @@ public class EditPetProfile extends AppCompatActivity {
                 //Enviamos a la base de datos la url de la imagen
 
 
+                //Enviamos a: ImageData/imgPetPerfil
                 Map<String, Object> data1 = new HashMap<>();
                 data1.put("ImageMain", String.valueOf(uri));
-                GetDataUser
-                        .DataOnActivity
-                        .build(getApplicationContext(),EditPetProfile.this)
-                        .setChild(data1)
-                        .setValuePath("ImageData/imgPetPerfil")
-                        .uploadData();
+                DatabaseReference databaseSet1 = FirebaseDatabase.getInstance()
+                        .getReference("Users")
+                        .child(GetDataUser.DataOnActivity.getUserId())
+                        .child("ImageData/imgPetPerfil");
+                databaseSet1.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        databaseSet1.setValue(data1);
+                    }
 
-                Map<String, Object> data2 = new HashMap<>();
-                data2.put("imagen"+(System.currentTimeMillis() / 10), String.valueOf(uri));
-                GetDataUser
-                        .DataOnActivity
-                        .build(getApplicationContext(),EditPetProfile.this)
-                        .setChild(data2)
-                        .copyPasteDataBase("ImageData/uploadeds","ImageData/uploadeds/pet");
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+                //Enviamos a: ImageData/uploadeds/pet
+                DatabaseReference databaseSet2 = FirebaseDatabase.getInstance()
+                        .getReference("Users")
+                        .child(GetDataUser.DataOnActivity.getUserId())
+                        .child("ImageData/uploadeds/pet");
+                databaseSet2.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        if (!snapshot.exists()){
+                            data1.clear();
+                            data1.put("imagen"+(System.currentTimeMillis() / 10), String.valueOf(uri));
+                            databaseSet2.setValue(data1);
+                        }
+                        else {
+                            data1.clear();
+                            data1.put("imagen"+(System.currentTimeMillis() / 10), String.valueOf(uri));
+                            GetDataUser
+                                    .DataOnActivity
+                                    .build(getApplicationContext(),EditPetProfile.this)
+                                    .setChild(data1)
+                                    .copyPasteDataBase("ImageData/uploadeds/pet","ImageData/uploadeds/pet");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
 
                 msgToast("Imagen subida correctamente");
                 progressDialog.dismiss();
-
-
             })).addOnFailureListener(e -> {
                 // Error, Image not uploaded
                 progressDialog.dismiss();

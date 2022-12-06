@@ -349,7 +349,7 @@ public class GetDataUser {
         ImageView imageView,contImageUser;
         Map<String, Object> data = new HashMap<>();
         String id,val,elementPathValue,message,objectString,valueString,credentialEmail,
-                credentialPassword, deleteFile;
+                credentialPassword, deleteFile, rootPath;
         int elementIdValue,SELECT_PICTURE = 200;
         boolean elementId = false;
         boolean elementPath = false;
@@ -361,6 +361,7 @@ public class GetDataUser {
         boolean useCredentialEmail = false;
         boolean useCredentialPassword = false;
         boolean useLogIt = false;
+        boolean useRootPath = false;
         boolean useDeleteFile = false;
         FirebaseAuth userAuth;
         DatabaseReference userDataBase;
@@ -513,6 +514,12 @@ public class GetDataUser {
 
         public DataOnActivity logIt(boolean result){
             this.useLogIt = result;
+            return this;
+        }
+
+        public DataOnActivity rootPath(String fullRootPath){
+            this.rootPath = fullRootPath;
+            this.useRootPath = true;
             return this;
         }
 
@@ -752,75 +759,230 @@ public class GetDataUser {
         }
 
         public void copyPasteDataBase(String pathToCopy,String pathToPaste){
-            Map<String,Object> map = new HashMap<>();
-            GetDataUser
-                    .DataOnActivity
-                    .build(context,activity)
-                    .setValuePath(pathToCopy)
-                    .readData(new CallbackDataUser() {
-                        @Override
-                        public void onReadData(DataSnapshot value) {
+            if (useRootPath){
+                Map<String,Object> map = new HashMap<>();
+                GetDataUser
+                        .DataOnActivity
+                        .build(context,activity)
+                        .rootPath(rootPath)
+                        .readData(new CallbackDataUser() {
+                            @Override
+                            public void onReadData(DataSnapshot value) {
 
-                        }
-
-                        @Override
-                        public void onChildrenCount(int count) {
-
-                        }
-
-                        @Override
-                        public void onChildrenTotalCount(int totalCount) {
-
-                        }
-
-                        @Override
-                        public void onHashMapValue(Map<String, Object> map) {
-
-                        }
-
-                        @Override
-                        public void onHashMapValue(String key, Object value) {
-                            map.put(key,value);
-
-                            if ((isObjectString || isChildMap) && !isValueString){
-                                data.putAll(map);
-                                userDataBase.child("Users").child(id).child(pathToPaste).setValue(data).addOnCompleteListener(task -> {
-                                    if (isChangeActivity){
-                                        ChangeActivity.build(context,cls).start();
-                                    }
-
-                                    if (isSetMessage){
-                                        msgToast.build(context).message(message);
-                                    }
-
-                                    if (useLogIt){
-                                        Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios con childs agregados");
-                                    }
-
-                                });
                             }
-                            else if (isObjectString || isChildMap){
-                                Log.e("GetDataUser","[copyPasteDataBase] No es válido introducir los datos ingresados desde: setChild(@NonNull String string)");
+
+                            @Override
+                            public void onChildrenCount(int count) {
+
                             }
-                            else {
-                                userDataBase.child("Users").child(id).child(pathToPaste).setValue(map).addOnCompleteListener(task -> {
-                                    if (isChangeActivity){
-                                        ChangeActivity.build(context,cls).start();
-                                    }
 
-                                    if (isSetMessage){
-                                        msgToast.build(context).message(message);
-                                    }
+                            @Override
+                            public void onChildrenTotalCount(int totalCount) {
 
-                                    if (useLogIt){
-                                        Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios sin childs agregados");
-                                    }
-
-                                });
                             }
-                        }
 
-                    });
+                            @Override
+                            public void onHashMapValue(String key, Object value) {
+                                if (value.equals(String.valueOf(GetDataUser.DataOnActivity.getUserId()))){
+                                    Log.d("GetDataUser","[copyPasteDataBase] No se agregara debido a que ya se encuentra enlistado.");
+                                }
+                                else {
+                                    if (useRootPath){
+                                        map.put(key,value);
+                                        if ((isObjectString || isChildMap) && !isValueString){
+                                            data.putAll(map);
+                                            userDataBase.child(rootPath).setValue(data).addOnCompleteListener(task -> {
+                                                if (isChangeActivity){
+                                                    ChangeActivity.build(context,cls).start();
+                                                }
+
+                                                if (isSetMessage){
+                                                    msgToast.build(context).message(message);
+                                                }
+
+                                                if (useLogIt){
+                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios con childs agregados");
+                                                }
+
+                                            });
+                                        }
+                                        else if (isObjectString || isChildMap){
+                                            Log.e("GetDataUser","[copyPasteDataBase] No es válido introducir los datos ingresados desde: setChild(@NonNull String string)");
+                                        }
+                                        else {
+                                            userDataBase.child(rootPath).setValue(map).addOnCompleteListener(task -> {
+                                                if (isChangeActivity){
+                                                    ChangeActivity.build(context,cls).start();
+                                                }
+
+                                                if (isSetMessage){
+                                                    msgToast.build(context).message(message);
+                                                }
+
+                                                if (useLogIt){
+                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios sin childs agregados");
+                                                }
+
+                                            });
+                                        }
+                                    }
+                                    else {
+                                        String basicPath = "Users/"+id+pathToPaste;
+                                        map.put(key,value);
+                                        if ((isObjectString || isChildMap) && !isValueString){
+                                            data.putAll(map);
+                                            userDataBase.child(basicPath).setValue(data).addOnCompleteListener(task -> {
+                                                if (isChangeActivity){
+                                                    ChangeActivity.build(context,cls).start();
+                                                }
+
+                                                if (isSetMessage){
+                                                    msgToast.build(context).message(message);
+                                                }
+
+                                                if (useLogIt){
+                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios con childs agregados");
+                                                }
+
+                                            });
+                                        }
+                                        else if (isObjectString || isChildMap){
+                                            Log.e("GetDataUser","[copyPasteDataBase] No es válido introducir los datos ingresados desde: setChild(@NonNull String string)");
+                                        }
+                                        else {
+                                            userDataBase.child(basicPath).setValue(map).addOnCompleteListener(task -> {
+                                                if (isChangeActivity){
+                                                    ChangeActivity.build(context,cls).start();
+                                                }
+
+                                                if (isSetMessage){
+                                                    msgToast.build(context).message(message);
+                                                }
+
+                                                if (useLogIt){
+                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios sin childs agregados");
+                                                }
+
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+
+                        });
+            }else {
+                Map<String,Object> map = new HashMap<>();
+                GetDataUser
+                        .DataOnActivity
+                        .build(context,activity)
+                        .setValuePath(pathToCopy)
+                        .readData(new CallbackDataUser() {
+                            @Override
+                            public void onReadData(DataSnapshot value) {
+
+                            }
+
+                            @Override
+                            public void onChildrenCount(int count) {
+
+                            }
+
+                            @Override
+                            public void onChildrenTotalCount(int totalCount) {
+
+                            }
+
+                            @Override
+                            public void onHashMapValue(String key, Object value) {
+                                if (value.equals(String.valueOf(GetDataUser.DataOnActivity.getUserId()))){
+                                    Log.d("GetDataUser","[copyPasteDataBase] No se agregara debido a que ya se encuentra enlistado.");
+                                }
+                                else {
+                                    if (useRootPath){
+                                        map.put(key,value);
+                                        if ((isObjectString || isChildMap) && !isValueString){
+                                            data.putAll(map);
+                                            userDataBase.child(rootPath).setValue(data).addOnCompleteListener(task -> {
+                                                if (isChangeActivity){
+                                                    ChangeActivity.build(context,cls).start();
+                                                }
+
+                                                if (isSetMessage){
+                                                    msgToast.build(context).message(message);
+                                                }
+
+                                                if (useLogIt){
+                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios con childs agregados");
+                                                }
+
+                                            });
+                                        }
+                                        else if (isObjectString || isChildMap){
+                                            Log.e("GetDataUser","[copyPasteDataBase] No es válido introducir los datos ingresados desde: setChild(@NonNull String string)");
+                                        }
+                                        else {
+                                            userDataBase.child(rootPath).setValue(map).addOnCompleteListener(task -> {
+                                                if (isChangeActivity){
+                                                    ChangeActivity.build(context,cls).start();
+                                                }
+
+                                                if (isSetMessage){
+                                                    msgToast.build(context).message(message);
+                                                }
+
+                                                if (useLogIt){
+                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios sin childs agregados");
+                                                }
+
+                                            });
+                                        }
+                                    }
+                                    else {
+                                        String basicPath = "Users/"+id+pathToPaste;
+                                        map.put(key,value);
+                                        if ((isObjectString || isChildMap) && !isValueString){
+                                            data.putAll(map);
+                                            userDataBase.child(basicPath).setValue(data).addOnCompleteListener(task -> {
+                                                if (isChangeActivity){
+                                                    ChangeActivity.build(context,cls).start();
+                                                }
+
+                                                if (isSetMessage){
+                                                    msgToast.build(context).message(message);
+                                                }
+
+                                                if (useLogIt){
+                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios con childs agregados");
+                                                }
+
+                                            });
+                                        }
+                                        else if (isObjectString || isChildMap){
+                                            Log.e("GetDataUser","[copyPasteDataBase] No es válido introducir los datos ingresados desde: setChild(@NonNull String string)");
+                                        }
+                                        else {
+                                            userDataBase.child(basicPath).setValue(map).addOnCompleteListener(task -> {
+                                                if (isChangeActivity){
+                                                    ChangeActivity.build(context,cls).start();
+                                                }
+
+                                                if (isSetMessage){
+                                                    msgToast.build(context).message(message);
+                                                }
+
+                                                if (useLogIt){
+                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios sin childs agregados");
+                                                }
+
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+
+                        });
+            }
+
         }
 
         public void deleteAllFiles(String filesPath){
@@ -841,11 +1003,6 @@ public class GetDataUser {
 
                         @Override
                         public void onChildrenTotalCount(int totalCount) {
-
-                        }
-
-                        @Override
-                        public void onHashMapValue(Map<String, Object> map) {
 
                         }
 
@@ -950,19 +1107,49 @@ public class GetDataUser {
         }
 
         public void readData(CallbackDataUser myCallback) {
-            FirebaseDatabase.getInstance().getReference().child("Users").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (!snapshot.exists()) {
-                        Log.e("GetDataUser", "(Database error) Este usuario no existe; Se recomienda revisar su base de datos.");
-                    }else {
-                        if (!elementPath){
-                            Log.e("GetDataUser", "(Error) Falta proporcionar el dato .setValuePath(@NonNull String path); Asegurece de que este correcto el path ingresado");
-                        }else{
-                            if (!snapshot.child(elementPathValue).exists()){
-                                Log.e("GetDataUser", "(Path error) Esta ruta no existe; Asegurece de que este correcto el path ingresado en .setValuePath(@NonNull String path)");
+            if (useRootPath){
+                FirebaseDatabase.getInstance().getReference().child(rootPath).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (!snapshot.exists()) {
+                            Log.e("GetDataUser", "(Database error) Este usuario no existe; Se recomienda revisar su base de datos.");
+                        }
+                        else {
+                            for (int i = 0;i<snapshot.getChildrenCount(); i++){
+                                if (useLogIt){Log.i("GetDataUser","[onChildrenCount]= Esta ruta seleccionada contiene: " + i + "Sub elementos");}
+                                myCallback.onChildrenCount(i);
                             }
-                            else {
+                            for (DataSnapshot child: snapshot.getChildren()) {
+                                Map<String, Object> values = new HashMap<>();
+                                values.put(child.getKey(),child.getValue());
+                                if (useLogIt){Log.i("GetDataUser","[onHashMapValue]= " + values);}
+                                myCallback.onHashMapValue(child.getKey(),child.getValue());
+                            }
+                            for (DataSnapshot child: snapshot.getChildren()) {
+                                if (useLogIt){Log.i("GetDataUser","[onReadData]= " + child);}
+                                myCallback.onReadData(child);
+                            }
+
+                            if (useLogIt){Log.i("GetDataUser","[onChildrenTotalCount]= " + Math.toIntExact(snapshot.getChildrenCount()));}
+                            myCallback.onChildrenTotalCount(Math.toIntExact(snapshot.getChildrenCount()));
+
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("GetDataUser", "(Error) Obtención de datos cancelada; " + error);
+                    }
+                });
+            }
+            else {
+                FirebaseDatabase.getInstance().getReference().child("Users").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (!snapshot.exists()) {
+                            Log.e("GetDataUser", "(Database error) Este usuario no existe; Se recomienda revisar su base de datos.");
+                        }
+                        else {
+                            if (elementPath && snapshot.child(elementPathValue).exists()){
                                 for (int i = 0;i<snapshot.child(elementPathValue).getChildrenCount(); i++){
                                     if (useLogIt){Log.i("GetDataUser","[onChildrenCount]= Esta ruta seleccionada contiene: " + i + " elementos");}
                                     myCallback.onChildrenCount(i);
@@ -981,15 +1168,18 @@ public class GetDataUser {
                                 if (useLogIt){Log.i("GetDataUser","[onChildrenTotalCount]= " + Math.toIntExact(snapshot.child(elementPathValue).getChildrenCount()));}
                                 myCallback.onChildrenTotalCount(Math.toIntExact(snapshot.child(elementPathValue).getChildrenCount()));
 
+                            }else{
+                                Log.e("GetDataUser", "[readData] Asegurece de que este correcto el path ingresado en .setValuePath(@NonNull String path); Esta ruta no existe ");
                             }
                         }
                     }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Log.e("GetDataUser", "(Error) Obtención de datos cancelada; " + error);
-                }
-            });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("GetDataUser", "(Error) Obtención de datos cancelada; " + error);
+                    }
+                });
+            }
+
         }
 
 

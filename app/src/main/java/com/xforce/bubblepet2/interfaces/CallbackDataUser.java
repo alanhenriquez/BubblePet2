@@ -11,7 +11,6 @@ public interface CallbackDataUser {
 
     void onChildrenTotalCount(int totalCount);
 
-    void onHashMapValue(Map<String, Object> map);
-
     void onHashMapValue(String key, Object value);
 }
+
