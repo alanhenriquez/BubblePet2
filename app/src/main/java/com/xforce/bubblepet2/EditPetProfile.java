@@ -158,7 +158,20 @@ public class EditPetProfile extends AppCompatActivity {
             petBreedString = petBreed.getText().toString();
             petHealthString = petHealth.getText().toString();
 
-            DatabaseReference firebaseRefCopy = FirebaseDatabase.getInstance().getReference().child("targetaFeed");
+            Map<String,Object> set = new HashMap<>();
+            set.put("user"+System.currentTimeMillis(),GetDataUser.DataOnActivity.getUserId());
+            /*GetDataUser.DataOnActivity
+                    .build(getApplicationContext(),EditPetProfile.this)
+                    .pushChildren("targetaFeed",set,false);*/
+
+            GetDataUser
+                    .DataOnActivity
+                    .build(getApplicationContext(),EditPetProfile.this)
+                    .send(true,true,"test","test1","n12","values nuevos");
+
+
+
+            /*DatabaseReference firebaseRefCopy = FirebaseDatabase.getInstance().getReference().child("targetaFeed");
             FirebaseDatabase.getInstance().getReference().child("targetaFeed").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -175,6 +188,7 @@ public class EditPetProfile extends AppCompatActivity {
                             if (value.equals(String.valueOf(GetDataUser.DataOnActivity.getUserId()))){
                                 Log.d("GetDataUser","[copyPasteDataBase] No se agregara debido a que ya se encuentra enlistado.");
                             }
+
                             else {
                                 firebaseRefCopy.setValue(map);
                             }
@@ -188,7 +202,7 @@ public class EditPetProfile extends AppCompatActivity {
                 }
             });
 
-            /*GetDataUser
+            GetDataUser
                     .DataOnActivity
                     .build(getApplicationContext(),EditPetProfile.this)
                     .setValuePath("ImageData/imgPetPerfil")
@@ -230,8 +244,9 @@ public class EditPetProfile extends AppCompatActivity {
 
                     });
 
-            */
-            ChangeActivity.build(getApplicationContext(),MainActivity.class).start();
+
+            ChangeActivity.build(getApplicationContext(),MainActivity.class).start();*/
+
 
         });/*Actualizamos los datos del perfil*/
         changeImagePet.setOnClickListener(v ->{
