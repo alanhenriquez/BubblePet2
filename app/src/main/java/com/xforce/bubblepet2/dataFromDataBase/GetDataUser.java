@@ -366,7 +366,7 @@ public class GetDataUser {
         FirebaseAuth userAuth;
         DatabaseReference userDataBase;
 
-        //Privates---------------------------------------------
+        //Privates DataOnActivity------------------------------
 
         private DataOnActivity(@NonNull Context contextView, Activity activity){
             if (isUserLogged()){
@@ -686,83 +686,52 @@ public class GetDataUser {
                             //EN CASO DE QUE LA KEY SEA LA MISMA
                             if (Objects.equals(childCopy.getKey(),sendKey)){
                                 mismaKey[0] = true;
-                                Log.d("GetDataUser", "SI EXISTE LA MISMA KEY");
                             }
 
                             //EN CASO DE QUE EL VALOR SEA EL MISMO
                             if (Objects.equals(childCopy.getValue(),sendValue)){
                                 mismaValor[0] = true;
-                                Log.d("GetDataUser", "SI EXISTE EL MISMO VALOR");
                             }
                         }
 
-                        if ((sameKey && sameValue) && (mismaKey[0] && mismaValor[0])){
-                            //True, True, True, True
-                            Log.d("GetDataUser", "[send] Su (key) y su (value) son identicos a la ruta para copiar; Procesando...");
-                            if (pathCopy.equals(pathPaste)){
-                                elementResult.putAll(elementCopyPath);
-                                elementResult.putAll(elementNew);
-                                firebaseRefPaste.child(pushValue).setValue(elementResult);
-                            }
-                            else {
-                                firebaseRefPaste.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        if (snapshot.exists()){
-                                            elementResult.putAll(elementCopyPath);
-                                            elementResult.putAll(elementNew);
-                                            firebaseRefPaste.child(pushValue).setValue(elementResult).addOnCompleteListener(task -> {
-                                                Log.d("GetDataUser", "[send] Sus keys y valores an sido duplicados y pegados exitosamente.");
-                                                Log.d("GetDataUser", "[send] Se ubican en la direccion: " + firebaseRef + pushValue + " de su base de datos Firebase");
-                                            });
-                                        }
-                                        else {
-                                            elementResult.putAll(elementCopyPath);
-                                            elementResult.putAll(elementNew);
-                                            firebaseRef.child(pathPaste).child(pushValue).setValue(elementResult).addOnCompleteListener(task -> {
-                                                Log.d("GetDataUser", "[send] Sus keys y valores an sido duplicados y pegados exitosamente.");
-                                                Log.d("GetDataUser", "[send] se ubican en: " + firebaseRef + pushValue);
-                                            });
-                                        }
-                                    }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
 
-                                    }
-                                });
-                            }
+                        if ((sameKey && sameValue)){
+                            //True, True
+                            Log.d("GetDataUser", "[send] Su (key) y su (value) están siendo analizados; Procesando...");
+                            sendTT(pathCopy,pathPaste,pushValue,elementResult,elementNew,elementCopyPath,firebaseRefPaste,firebaseRef);
                         }
 
-                        if ((sameKey && sameValue) && (!mismaKey[0] && mismaValor[0])){
-                            Log.d("GetDataUser", "True, True, False, True");
+                        //-------------------------------------------------------------
+
+                        if ((!sameKey && sameValue) && (mismaKey[0] && mismaValor[0])){
+                            //"False, True, True, True
+                            Log.e("GetDataUser", "[send] Su (value) y su (key) son iguales a los valores de la ruta para copiar; No se efectuara proceso");
+                            Log.e("GetDataUser", "[send] Modifique la key a enviar, o, cambie el campo condición de (sameKey) a True");
                         }
 
-                        if ((sameKey && sameValue) && (mismaKey[0] && !mismaValor[0])){
-                            Log.d("GetDataUser", "True, True, True, False");
+                        if ((!sameKey && sameValue) && (mismaKey[0] && !mismaValor[0])){
+                            //"False, True, True, False
+                            Log.e("GetDataUser", "[send] Su (key) es igual a las (key) de la ruta para copiar; No se efectuara proceso");
+                            Log.e("GetDataUser", "[send] Modifique la key a enviar, o, cambie el campo condición de (sameKey) a True");
                         }
 
-                        if ((sameKey && sameValue) && (!mismaKey[0] && !mismaValor[0])){
-                            Log.d("GetDataUser", "True, True, False, False");
+                        if ((!sameKey && sameValue) && (!mismaKey[0] && mismaValor[0])){
+                            //"False, True, False, True
+                            Log.e("GetDataUser", "[send] Su (key) es igual a las (key) de la ruta para copiar; No se efectuara proceso");
+                            sendFT(pathCopy,pathPaste,pushValue,elementResult,elementNew,elementCopyPath,firebaseRefPaste,firebaseRef);
+                        }
+
+                        if ((!sameKey && sameValue) && (!mismaKey[0] && !mismaValor[0])){
+                            //"False, True, False, False
+                            Log.e("GetDataUser", "[send] Su (key) y su (value) es igual a las (key) de la ruta para copiar; No se efectuara proceso");
+                            Log.e("GetDataUser", "[send] Modifique la key a enviar, o, cambie el campo condición de (sameKey) a True");
                         }
 
 
 
-                        /*firebaseRefPaste.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.exists()){
-                                    for (DataSnapshot childPaste: snapshot.getChildren()){
-                                        elementPastePath.put(childPaste.getKey(),childPaste.getValue());
-                                    }
-                                }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });*/
 
                     }
                 }
@@ -1421,6 +1390,87 @@ public class GetDataUser {
             }
 
         }
+
+
+
+        //Privates for public void send------------------------
+
+        private void sendTT(String pathCopy, String pathPaste, String pushValue, Map<String,Object> elementResult, Map<String,Object> elementNew, Map<String,Object> elementCopyPath, DatabaseReference firebaseRefPaste, DatabaseReference firebaseRef){
+            elementResult.putAll(elementCopyPath);
+            elementResult.putAll(elementNew);
+
+            if (pathCopy.equals(pathPaste)){
+                firebaseRefPaste.child(pushValue).setValue(elementResult).addOnCompleteListener(task -> {
+                    Log.d("GetDataUser", "[send] Sus (key) y sus (value) an sido duplicados y pegados exitosamente en la ruta a pegar de su base de datos Firebase.");
+                });
+            }
+            else {
+                firebaseRefPaste.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()){
+                            firebaseRefPaste.child(pushValue).setValue(elementResult).addOnCompleteListener(task -> {
+                                Log.d("GetDataUser", "[send] Sus (key) y sus (value) an sido duplicados y pegados exitosamente en la ruta a pegar de su base de datos Firebase.");
+                            });
+                        }
+                        else {
+                            firebaseRef.child(pathPaste).child(pushValue).setValue(elementResult).addOnCompleteListener(task -> {
+                                Log.d("GetDataUser", "[send] Sus (key) y sus (value) an sido duplicados y pegados exitosamente en la ruta a pegar de su base de datos Firebase.");
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        }
+
+        private void sendFT(String pathCopy,
+                            String pathPaste,
+                            String pushValue,
+                            Map<String,Object> elementResult,
+                            Map<String,Object> elementNew,
+                            Map<String,Object> elementCopyPath,
+                            DatabaseReference firebaseRefPaste,
+                            DatabaseReference firebaseRef){
+            if (pathCopy.equals(pathPaste)){
+                elementResult.putAll(elementCopyPath);
+                elementResult.putAll(elementNew);
+                firebaseRefPaste.child(pushValue).setValue(elementResult).addOnCompleteListener(task -> {
+                    Log.d("GetDataUser", "[send] Sus keys y valores an sido duplicados y pegados exitosamente en la ruta a pegar de su base de datos Firebase.");
+                });;
+            }
+            else {
+                firebaseRefPaste.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()){
+                            elementResult.putAll(elementCopyPath);
+                            elementResult.putAll(elementNew);
+                            firebaseRefPaste.child(pushValue).setValue(elementResult).addOnCompleteListener(task -> {
+                                Log.d("GetDataUser", "[send] Sus keys y valores an sido duplicados y pegados exitosamente en la ruta a pegar de su base de datos Firebase.");
+                            });
+                        }
+                        else {
+                            elementResult.putAll(elementCopyPath);
+                            elementResult.putAll(elementNew);
+                            firebaseRef.child(pathPaste).child(pushValue).setValue(elementResult).addOnCompleteListener(task -> {
+                                Log.d("GetDataUser", "[send] Sus keys y valores an sido duplicados y pegados exitosamente en la ruta a pegar de su base de datos Firebase.");
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        }
+
 
 
     }

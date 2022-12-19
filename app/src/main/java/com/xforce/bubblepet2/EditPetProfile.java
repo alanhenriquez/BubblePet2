@@ -167,7 +167,7 @@ public class EditPetProfile extends AppCompatActivity {
             GetDataUser
                     .DataOnActivity
                     .build(getApplicationContext(),EditPetProfile.this)
-                    .send(true,true,"test","test1","n12","values nuevos");
+                    .send(true,true,"test","test1","n1","val");
 
 
 
