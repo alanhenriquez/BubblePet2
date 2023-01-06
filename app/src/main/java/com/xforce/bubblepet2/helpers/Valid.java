@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 
 public class Valid {
 
+    public Valid() {
+    }
 
     //Public static------------------------------------
 
