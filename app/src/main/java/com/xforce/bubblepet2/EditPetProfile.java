@@ -164,10 +164,7 @@ public class EditPetProfile extends AppCompatActivity {
                     .build(getApplicationContext(),EditPetProfile.this)
                     .pushChildren("targetaFeed",set,false);*/
 
-            GetDataUser
-                    .DataOnActivity
-                    .build(getApplicationContext(),EditPetProfile.this)
-                    .send(Boolean.parseBoolean(petBreedString),Boolean.parseBoolean(petHealthString),"test","test",petNameString,petColorString);
+            GetDataUser.DataOnActivity.send(Boolean.parseBoolean(petBreedString),Boolean.parseBoolean(petHealthString),"test",petNameString,petColorString);
 
 
 
@@ -313,35 +310,12 @@ public class EditPetProfile extends AppCompatActivity {
 
 
                 //Enviamos a: ImageData/uploadeds/pet
-                DatabaseReference databaseSet2 = FirebaseDatabase.getInstance()
-                        .getReference("Users")
-                        .child(GetDataUser.DataOnActivity.getUserId())
-                        .child("ImageData/uploadeds/pet");
-                databaseSet2.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                        if (!snapshot.exists()){
-                            data1.clear();
-                            data1.put("imagen"+(System.currentTimeMillis() / 10), String.valueOf(uri));
-                            databaseSet2.setValue(data1);
-                        }
-                        else {
-                            data1.clear();
-                            data1.put("imagen"+(System.currentTimeMillis() / 10), String.valueOf(uri));
-                            GetDataUser
-                                    .DataOnActivity
-                                    .build(getApplicationContext(),EditPetProfile.this)
-                                    .setChild(data1)
-                                    .copyPasteDataBase("ImageData/uploadeds/pet","ImageData/uploadeds/pet");
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                GetDataUser.DataOnActivity.send(
+                        false,
+                        false,
+                        GetDataUser.DataOnActivity.getUserPath()+"ImageData/uploadeds/pet",
+                        "imagen"+(System.currentTimeMillis() / 10),String.valueOf(uri));
 
 
                 msgToast("Imagen subida correctamente");

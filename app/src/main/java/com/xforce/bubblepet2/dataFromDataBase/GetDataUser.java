@@ -39,6 +39,8 @@ import com.xforce.bubblepet2.interfaces.CallbackDataUser;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GetDataUser {
 
@@ -410,6 +412,10 @@ public class GetDataUser {
             return new DataOnActivity(contextView);
         }
 
+        public static DatabaseReference getDataBaseRef(){
+            return FirebaseDatabase.getInstance().getReference();
+        }
+
         public static FirebaseAuth getInstanceFA(){
             return FirebaseAuth.getInstance();
 
@@ -420,16 +426,8 @@ public class GetDataUser {
 
         }
 
-        public static DatabaseReference getDataBaseRef(){
-            return FirebaseDatabase.getInstance().getReference();
-        }
-
         public static FirebaseDatabase getDataBase(){
             return FirebaseDatabase.getInstance().getReference().getDatabase();
-        }
-
-        public static StorageReference getStorageRef(){
-            return FirebaseStorage.getInstance().getReference();
         }
 
         public static FirebaseUser getCurrentUser(){
@@ -437,14 +435,23 @@ public class GetDataUser {
 
         }
 
-        public static String getUserId(){
-            return getCurrentUser().getUid();
-
+        public static StorageReference getStorageRef(){
+            return FirebaseStorage.getInstance().getReference();
         }
 
         public static boolean isUserLogged(){
             final FirebaseUser user = getCurrentUser();
             return user != null;
+        }
+
+        public static String getUserId(){
+            return getCurrentUser().getUid();
+
+        }
+
+        public static String getUserPath(){
+            return "Users/"+getUserId()+"/";
+
         }
 
         //Public DataOnActivity------------------------------------------
@@ -527,152 +534,108 @@ public class GetDataUser {
             if (URLValidator.isValid(url)){
                 this.deleteFile = url;
                 this.useDeleteFile = true;
-                return this;
             }
             else {
                 this.useDeleteFile = false;
                 Log.e("GetDataUser","[pathFileToDelete] Asegurece de que la url sea valida");
-                return this;
             }
+            return this;
         }
 
         //Public void------------------------------------------
 
-        public void copyPasteData(String pathToCopy,String pathToPaste,boolean createPathToPaste){
-            Map<String,Object> valuesCopied = new HashMap<>();
-            DatabaseReference firebaseRefCopy = FirebaseDatabase.getInstance().getReference().child(pathToCopy);
-            DatabaseReference firebaseRefPaste = FirebaseDatabase.getInstance().getReference().child(pathToPaste);
+        public static void copyPaste(String pathCopy,String pathPaste){
+            //Mediante esta función podrás copiar y pegar los datos de
+            // una referencia a otra. Lo único que debes hacer es, proveer
+            // de una ruta a copiar, y, una ruta a pegar, ambas desde Firebase Realtime Database.
+            //
+            //Ejemplo 1: copyPaste("usuario","usuario")
+            //Ejemplo 2: copyPaste("usuario","usuario/datos")
+            //Ejemplo 3: copyPaste("usuario","nuevo")
+            //Ejemplo 4: copyPaste("nuevo","usuario/datos/nuevos")
+
+            Map<String,Object> elementCopyPath = new HashMap<>();
+            DatabaseReference firebaseRefCopy = FirebaseDatabase.getInstance().getReference().child(pathCopy);
+            DatabaseReference firebaseRefPaste = FirebaseDatabase.getInstance().getReference().child(pathPaste);
+            DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
             firebaseRefCopy.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (!snapshot.exists()) {
-                        Log.e("GetDataUser", "[copyPasteData] Esta ruta a copiar no existe; Se recomienda revisar la ruta de su base de datos.");
-                    }
-                    else {
-                        for (DataSnapshot child: snapshot.getChildren()) {
-                            valuesCopied.put(child.getKey(),child.getValue());
-                            firebaseRefPaste.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (!snapshot.exists() && createPathToPaste){
-                                        FirebaseDatabase.getInstance().getReference().child(pathToPaste).setValue(valuesCopied);
-                                        Log.d("GetDataUser", "[copyPasteData] Se copiaron y crearon las referencias correctamente.");
-                                    }
-                                    else if (!snapshot.exists() && !createPathToPaste){
-                                        Log.e("GetDataUser", "[copyPasteData] La referencia a insertar datos no existe; Revisar sus rutas en su base de datos");
-                                    }
-                                    else {
-                                        firebaseRefPaste.setValue(valuesCopied);
-                                        Log.d("GetDataUser", "[copyPasteData] Se copiaron las referencias correctamente.");
-                                    }
-                                }
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
+                    if (snapshot.exists()) {
+                        for (DataSnapshot childCopy: snapshot.getChildren()) {
+                            elementCopyPath.put(childCopy.getKey(),childCopy.getValue());
                         }
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Log.e("GetDataUser", "(Error) Obtención de datos cancelada; " + error);
-                }
-            });
-        }
 
-        public void pushChildren(String pathToPush, Object value, boolean duplicate){
-            Map<String,Object> childsO = new HashMap<>();
-            Map<String,Object> childsN = new HashMap<>();
-            Map<String,Object> resultFinal = new HashMap<>();
-            DatabaseReference firebaseRefNew = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference firebaseRefPush = FirebaseDatabase.getInstance().getReference().child(pathToPush);
-            firebaseRefPush.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (!snapshot.exists()){
-                        Log.e("GetDataUser","[pushChildren] La ruta a insertar dato no existe; Verificar la ruta de su base de datos");
-                    }
-                    else {
-                        if (duplicate){
-                            firebaseRefNew.child("temp").setValue(value);
-                            firebaseRefNew.child("temp").addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    for (DataSnapshot child: snapshot.getChildren()){
-                                        Map<String,Object> map = new HashMap<>();
-                                        map.put(child.getKey(),child.getValue());
-                                        firebaseRefPush.push().setValue(map);
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
+                        if (pathCopy.equals(pathPaste)){
+                            firebaseRefPaste.setValue(elementCopyPath).addOnCompleteListener(task -> {
+                                Log.d("GetDataUser", "[copyPasteData] Se copiaron, e, insertaron los datos correctamente.");
                             });
                         }
                         else {
-                            for (DataSnapshot childsOriginals: snapshot.getChildren()){
-                                childsO.put(childsOriginals.getKey(),childsOriginals.getValue());
-                                firebaseRefNew.child("temp").child("originals").setValue(childsO);
-                                firebaseRefNew.child("temp").child("nuevo").setValue(value);
-                                firebaseRefNew.child("temp").child("nuevo").addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        for (DataSnapshot childsNews: snapshot.getChildren()){
-                                            childsN.put(childsNews.getKey(),childsNews.getValue());
-                                            childsO.clear();
-                                            firebaseRefNew.child("temp").child("originals").addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                    for (DataSnapshot childsOriginalsReals: snapshot.getChildren()){
-                                                        childsO.put(childsOriginalsReals.getKey(),childsOriginalsReals.getValue());
-                                                        if (Objects.equals(childsO.get(childsOriginals.getKey()), childsN.get(childsNews.getKey()))){
-                                                            Log.e("GetDataUser","[pushChildren] Valores identicos; No se insertarán");
-                                                        }
-                                                        else {
-                                                            resultFinal.putAll(childsO);
-                                                            resultFinal.putAll(childsN);
-                                                            /*firebaseRefPush.setValue(resultFinal);*/
-                                                            Log.d("GetDataUser","[pushChildren] Valor agregado sin duplicados");
-                                                        }
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                                }
-                                            });
-                                        }
+                            firebaseRefPaste.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()){
+                                        firebaseRefPaste.setValue(elementCopyPath).addOnCompleteListener(task -> {
+                                            Log.d("GetDataUser", "[copyPasteData] Se copiaron, e, insertaron los datos correctamente.");
+                                        });
                                     }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
+                                    else {
+                                        firebaseRef.child(pathPaste).setValue(elementCopyPath).addOnCompleteListener(task -> {
+                                            Log.d("GetDataUser", "[copyPasteData] Se copiaron, crearon, e, insertaron los datos correctamente.");
+                                        });
                                     }
-                                });
-                            }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                         }
+
                     }
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    Log.e("GetDataUser", "[copyPasteData] Error en la obtención de datos " + error);
                 }
             });
         }
 
-        public void send(boolean sameKey,boolean sameValue,String pathCopy, String pathPaste, String sendKey, String sendValue){
+        public static void send(boolean sameKey, boolean sameValue, String pathSend, String sendKey, Object sendValue){
+            //Mediante esta función podrás enviar los datos de una referencia a
+            // a otra, ambas desde Firebase Realtime Database. Además de que podrás
+            // tener evaluaciones internas para evitar repetir datos.
+            //
+            //Es pertinente mencionar que los parámetros a recoger son:
+            // 1 = boolean sameKey: indica si quieres aceptar el envío de la misma (key).
+            // 2 = boolean sameValue: indica si quieres aceptar el envío de los mismos (value).
+            // 3 = String pathSend: indica la referencia a copiar y, a, enviar los datos.
+            // 4 = String sendKey: indica el (key) a enviar.
+            // 5 = Object sendValue: indica el (value) a enviar.
+            //
+            //Ejemplo 1: send(true, true, "usuario", "nuevo", "mensaje nuevo")
+            // Indicamos que permitimos enviar el mismo valor, y, la misma key, dentro
+            // de la ruta "usuario" en caso de que se cumpla la evaluación.
+            // Enviando como (key):nuevo y (value):"mensaje nuevo". Si no surge ningún error
+            // entonces se enviará correctamente la información, de lo contrario revisar
+            // mensaje en consola
+            //
+            //Ejemplo 2: send(false, true, "usuario", "nuevo", "mensaje nuevo")
+            // Indicamos que permitimos enviar el mismo valor, pero, no la misma key, dentro
+            // de la ruta "usuario" en caso de que se cumpla la evaluación.
+            // Se envia como (key):nuevo y (value):"mensaje nuevo". Si no surge ningún error
+            // entonces se enviará correctamente la información, de lo contrario revisar
+            // mensaje en consola
+
             final boolean[] mismaKey = {false};
             final boolean[] mismaValor = {false};
             Map<String,Object> elementCopyPath = new HashMap<>();
             Map<String,Object> elementNew = new HashMap<>();
             Map<String,Object> elementResult = new HashMap<>();
-            DatabaseReference firebaseRefCopy = FirebaseDatabase.getInstance().getReference().child(pathCopy);
-            DatabaseReference firebaseRefPaste = FirebaseDatabase.getInstance().getReference().child(pathPaste);
+            Map<String,Object> createdBase = new HashMap<>();
+            DatabaseReference firebaseRefCopy = FirebaseDatabase.getInstance().getReference().child(pathSend);
             DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReference();
             elementNew.put(sendKey,sendValue);
             firebaseRefCopy.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -692,49 +655,153 @@ public class GetDataUser {
                             }
                         }
                         Log.d("GetDataUser", "[send] Su (key) y su (value) están siendo analizados; Procesando...");
+                        elementResult.putAll(elementCopyPath);
+                        elementResult.putAll(elementNew);
 
-                        if ((sameKey && sameValue) && (mismaKey[0] && mismaValor[0])){
-                            //True, True
+
+
+                        //sendTT ***** estrellas(5)
+                        if ((sameKey && sameValue) && ((!mismaKey[0] && !mismaValor[0]) || (!mismaKey[0]) || (!mismaValor[0]))){
+                            firebaseRefCopy.setValue(elementResult).addOnCompleteListener(task -> {
+                                Log.d("GetDataUser", "[sendTT] Sus (key) y sus (value) an sido insertados exitosamente en la ruta a pegar de su base de datos Firebase.");
+                            });
+                        }
+                        else if (sameKey && sameValue){
                             Log.d("GetDataUser", "[sendTT] Valores identicos detectados");
-                        } else {
-                            //True, True
+                        }
+                        else {
                             Log.d("GetDataUser", "[sendTT] No cumple los requisitos");
                         }
 
-                        if ((!sameKey && sameValue) && (!mismaKey[0] && mismaValor[0])){
-                            //False, True, False, True
-                            sendFT(pathCopy,pathPaste,elementResult,elementNew,elementCopyPath,firebaseRefPaste,firebaseRef);
-                        } else {
-                            //False, True
+
+
+                        //sendFT ***** estrellas(5)
+                        if ((!sameKey && sameValue) && !mismaKey[0]){
+                            firebaseRefCopy.setValue(elementResult).addOnCompleteListener(task -> {
+                                Log.d("GetDataUser", "[sendFT] Sus (key) y sus (value) an sido insertados exitosamente en la ruta a pegar de su base de datos Firebase.");
+                            });
+                        }
+                        else if ((!sameKey && sameValue) && !mismaValor[0]){
+                            Log.d("GetDataUser", "[sendFT] No cumple los requisitos; Existen (key) identicos.");
+                        }
+                        else if (!sameKey && sameValue){
+                            Log.d("GetDataUser", "[sendFT] No cumple los requisitos; Existen (key) y (value) identicos.");
+                        }
+                        else {
                             Log.d("GetDataUser", "[sendFT] No cumple los requisitos");
                         }
 
-                        if ((sameKey && !sameValue) && (mismaKey[0] && !mismaValor[0])){
-                            //True, False, True, False
-                            sendTF(pathCopy,pathPaste,elementResult,elementNew,elementCopyPath,firebaseRefPaste,firebaseRef);
-                        } else {
-                            //True, False
+
+
+                        //sendTF ***** estrellas(5)
+                        if ((sameKey && !sameValue) && (!mismaValor[0])){
+                            firebaseRefCopy.setValue(elementResult).addOnCompleteListener(task -> {
+                                Log.d("GetDataUser", "[sendTF] Sus (key) y sus (value) an sido insertados exitosamente en la ruta a pegar de su base de datos Firebase.");
+                            });
+                        }
+                        else if ((sameKey && !sameValue) && !mismaKey[0]){
+                            Log.d("GetDataUser", "[sendTF] No cumple los requisitos; Existen (value) identicos.");
+                        }
+                        else if (sameKey && !sameValue){
+                            Log.d("GetDataUser", "[sendTF] No cumple los requisitos; Existen (key) y (value) identicos.");
+                        }
+                        else {
                             Log.d("GetDataUser", "[sendTF] No cumple los requisitos");
                         }
 
+
+
+                        //sendFF ***** estrellas(5)
                         if ((!sameKey && !sameValue) && (!mismaKey[0] && !mismaValor[0])){
-                            //False, False, False, False
-                            sendFF(pathCopy,pathPaste,elementResult,elementNew,elementCopyPath,firebaseRefPaste,firebaseRef);
-                        } else {
-                            //False, False
+                            firebaseRefCopy.setValue(elementResult).addOnCompleteListener(task -> {
+                                Log.d("GetDataUser", "[sendFF] Sus (key) y sus (value) an sido insertados exitosamente en la ruta a pegar de su base de datos Firebase.");
+                            });
+                        }
+                        else if ((!sameKey && !sameValue) && !mismaKey[0]){
+                            Log.d("GetDataUser", "[sendFF] No cumple los requisitos; Existen (value) identicos.");
+                        }
+                        else if ((!sameKey && !sameValue) && !mismaValor[0]){
+                            Log.d("GetDataUser", "[sendFF] No cumple los requisitos; Existen (key) identicos.");
+                        }
+                        else if (!sameKey && !sameValue){
+                            Log.d("GetDataUser", "[sendFF] No cumple los requisitos; Existen (key) y (value) identicos.");
+                        }
+                        else {
                             Log.d("GetDataUser", "[sendFF] No cumple los requisitos");
                         }
 
 
                     }
+                    else {
+                        Log.d("GetDataUser", "[send] La referencia a copiar no existe; Creando referencia...");
+                        createdBase.put("created","nuevo");
+                        firebaseRef.child(pathSend).setValue(createdBase);
+                        send(sameKey,sameValue,pathSend,sendKey,sendValue);
+                        GetDataUser.DataOnActivity.deleteToChild(pathSend+"/created");
+                    }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    Log.d("GetDataUser", "[send] Error en la obtención de datos "+ error);
                 }
             });
         }
+
+        public static void deleteToChild(String pathDelete){
+            //Mediante esta función podrás borrar un nodo child, de tu base de datos
+            // Firebase Realtime Database.
+            // una referencia a otra. Lo único que debes hacer es, proveer
+            // de una ruta a copiar, y, una ruta a pegar, ambas desde Firebase Realtime Database.
+            //
+            //Ejemplo 1: copyPaste("usuario","usuario")
+            //Ejemplo 2: copyPaste("usuario","usuario/datos")
+            //Ejemplo 3: copyPaste("usuario","nuevo")
+            //Ejemplo 4: copyPaste("nuevo","usuario/datos/nuevos")
+
+            DatabaseReference firebaseRefDelete = FirebaseDatabase.getInstance().getReference().child(pathDelete);
+            firebaseRefDelete.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()){
+                        firebaseRefDelete.removeValue().addOnCompleteListener(task ->
+                                Log.d("GetDataUser","[removeChild] Referencia eliminada correctamente"));
+                    }
+                    else {
+                        Log.d("GetDataUser","[removeChild] Esta referencia no existe");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.d("GetDataUser","[removeChild] Error en la obtención de datos"+ error);
+                }
+            });
+        }
+
+        public static void createFirebaseUserWithEmailAndPassword(String email, String password){
+            String emailRegex = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
+            String passwordRegex = "^.{6,}$";
+
+            if (!email.matches(emailRegex)) {
+                Log.e("GetDataUser", "[createFirebaseUserWithEmailAndPassword] Email no válido");
+                return;
+            }
+
+            if (!password.matches(passwordRegex)) {
+                Log.e("GetDataUser", "[createFirebaseUserWithEmailAndPassword] Contraseña no válida (debe tener al menos 6 caracteres)");
+                return;
+            }
+
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(task -> {
+                Log.i("GetDataUser", "[createFirebaseUserWithEmailAndPassword] Usuario creado con éxito");
+            }).addOnFailureListener(task -> {
+                Log.e("GetDataUser", "[createFirebaseUserWithEmailAndPassword] Error al crear el usuario");
+            });
+        }
+
+
 
 
 
@@ -958,232 +1025,6 @@ public class GetDataUser {
             });
         }
 
-        public void copyPasteDataBase(String pathToCopy,String pathToPaste){
-            if (useRootPath){
-                Map<String,Object> map = new HashMap<>();
-                GetDataUser
-                        .DataOnActivity
-                        .build(context,activity)
-                        .rootPath(rootPath)
-                        .readData(new CallbackDataUser() {
-                            @Override
-                            public void onReadData(DataSnapshot value) {
-
-                            }
-
-                            @Override
-                            public void onChildrenCount(int count) {
-
-                            }
-
-                            @Override
-                            public void onChildrenTotalCount(int totalCount) {
-
-                            }
-
-                            @Override
-                            public void onHashMapValue(String key, Object value) {
-                                if (value.equals(String.valueOf(GetDataUser.DataOnActivity.getUserId()))){
-                                    Log.d("GetDataUser","[copyPasteDataBase] No se agregara debido a que ya se encuentra enlistado.");
-                                }
-                                else {
-                                    if (useRootPath){
-                                        map.put(key,value);
-                                        if ((isObjectString || isChildMap) && !isValueString){
-                                            data.putAll(map);
-                                            userDataBase.child(rootPath).setValue(data).addOnCompleteListener(task -> {
-                                                if (isChangeActivity){
-                                                    ChangeActivity.build(context,cls).start();
-                                                }
-
-                                                if (isSetMessage){
-                                                    msgToast.build(context).message(message);
-                                                }
-
-                                                if (useLogIt){
-                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios con childs agregados");
-                                                }
-
-                                            });
-                                        }
-                                        else if (isObjectString || isChildMap){
-                                            Log.e("GetDataUser","[copyPasteDataBase] No es válido introducir los datos ingresados desde: setChild(@NonNull String string)");
-                                        }
-                                        else {
-                                            userDataBase.child(rootPath).setValue(map).addOnCompleteListener(task -> {
-                                                if (isChangeActivity){
-                                                    ChangeActivity.build(context,cls).start();
-                                                }
-
-                                                if (isSetMessage){
-                                                    msgToast.build(context).message(message);
-                                                }
-
-                                                if (useLogIt){
-                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios sin childs agregados");
-                                                }
-
-                                            });
-                                        }
-                                    }
-                                    else {
-                                        String basicPath = "Users/"+id+pathToPaste;
-                                        map.put(key,value);
-                                        if ((isObjectString || isChildMap) && !isValueString){
-                                            data.putAll(map);
-                                            userDataBase.child(basicPath).setValue(data).addOnCompleteListener(task -> {
-                                                if (isChangeActivity){
-                                                    ChangeActivity.build(context,cls).start();
-                                                }
-
-                                                if (isSetMessage){
-                                                    msgToast.build(context).message(message);
-                                                }
-
-                                                if (useLogIt){
-                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios con childs agregados");
-                                                }
-
-                                            });
-                                        }
-                                        else if (isObjectString || isChildMap){
-                                            Log.e("GetDataUser","[copyPasteDataBase] No es válido introducir los datos ingresados desde: setChild(@NonNull String string)");
-                                        }
-                                        else {
-                                            userDataBase.child(basicPath).setValue(map).addOnCompleteListener(task -> {
-                                                if (isChangeActivity){
-                                                    ChangeActivity.build(context,cls).start();
-                                                }
-
-                                                if (isSetMessage){
-                                                    msgToast.build(context).message(message);
-                                                }
-
-                                                if (useLogIt){
-                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios sin childs agregados");
-                                                }
-
-                                            });
-                                        }
-                                    }
-                                }
-                            }
-
-                        });
-            }else {
-                Map<String,Object> map = new HashMap<>();
-                GetDataUser
-                        .DataOnActivity
-                        .build(context,activity)
-                        .setValuePath(pathToCopy)
-                        .readData(new CallbackDataUser() {
-                            @Override
-                            public void onReadData(DataSnapshot value) {
-
-                            }
-
-                            @Override
-                            public void onChildrenCount(int count) {
-
-                            }
-
-                            @Override
-                            public void onChildrenTotalCount(int totalCount) {
-
-                            }
-
-                            @Override
-                            public void onHashMapValue(String key, Object value) {
-                                if (value.equals(String.valueOf(GetDataUser.DataOnActivity.getUserId()))){
-                                    Log.d("GetDataUser","[copyPasteDataBase] No se agregara debido a que ya se encuentra enlistado.");
-                                }
-                                else {
-                                    if (useRootPath){
-                                        map.put(key,value);
-                                        if ((isObjectString || isChildMap) && !isValueString){
-                                            data.putAll(map);
-                                            userDataBase.child(rootPath).setValue(data).addOnCompleteListener(task -> {
-                                                if (isChangeActivity){
-                                                    ChangeActivity.build(context,cls).start();
-                                                }
-
-                                                if (isSetMessage){
-                                                    msgToast.build(context).message(message);
-                                                }
-
-                                                if (useLogIt){
-                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios con childs agregados");
-                                                }
-
-                                            });
-                                        }
-                                        else if (isObjectString || isChildMap){
-                                            Log.e("GetDataUser","[copyPasteDataBase] No es válido introducir los datos ingresados desde: setChild(@NonNull String string)");
-                                        }
-                                        else {
-                                            userDataBase.child(rootPath).setValue(map).addOnCompleteListener(task -> {
-                                                if (isChangeActivity){
-                                                    ChangeActivity.build(context,cls).start();
-                                                }
-
-                                                if (isSetMessage){
-                                                    msgToast.build(context).message(message);
-                                                }
-
-                                                if (useLogIt){
-                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios sin childs agregados");
-                                                }
-
-                                            });
-                                        }
-                                    }
-                                    else {
-                                        String basicPath = "Users/"+id+pathToPaste;
-                                        map.put(key,value);
-                                        if ((isObjectString || isChildMap) && !isValueString){
-                                            data.putAll(map);
-                                            userDataBase.child(basicPath).setValue(data).addOnCompleteListener(task -> {
-                                                if (isChangeActivity){
-                                                    ChangeActivity.build(context,cls).start();
-                                                }
-
-                                                if (isSetMessage){
-                                                    msgToast.build(context).message(message);
-                                                }
-
-                                                if (useLogIt){
-                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios con childs agregados");
-                                                }
-
-                                            });
-                                        }
-                                        else if (isObjectString || isChildMap){
-                                            Log.e("GetDataUser","[copyPasteDataBase] No es válido introducir los datos ingresados desde: setChild(@NonNull String string)");
-                                        }
-                                        else {
-                                            userDataBase.child(basicPath).setValue(map).addOnCompleteListener(task -> {
-                                                if (isChangeActivity){
-                                                    ChangeActivity.build(context,cls).start();
-                                                }
-
-                                                if (isSetMessage){
-                                                    msgToast.build(context).message(message);
-                                                }
-
-                                                if (useLogIt){
-                                                    Log.d("GetDataUser","[copyPasteDataBase] Se copiaron exitosamente los cambios sin childs agregados");
-                                                }
-
-                                            });
-                                        }
-                                    }
-                                }
-                            }
-
-                        });
-            }
-
-        }
 
 
 
@@ -1386,113 +1227,10 @@ public class GetDataUser {
 
 
 
-        //Privates for public void send------------------------
-
-
-
-        private void sendFT(String pathCopy, String pathPaste, Map<String,Object> elementResult, Map<String,Object> elementNew, Map<String,Object> elementCopyPath, DatabaseReference firebaseRefPaste, DatabaseReference firebaseRef){
-            elementResult.putAll(elementCopyPath);
-            elementResult.putAll(elementNew);
-
-            if (pathCopy.equals(pathPaste)){
-                firebaseRefPaste.setValue(elementResult).addOnCompleteListener(task -> {
-                    Log.d("GetDataUser", "[sendFT] Sus (key) y sus (value) an sido insertados exitosamente en la ruta a pegar de su base de datos Firebase.");
-                });
-            }
-            else {
-                firebaseRefPaste.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()){
-                            firebaseRefPaste.setValue(elementResult).addOnCompleteListener(task -> {
-                                Log.d("GetDataUser", "[sendFT] Sus (key) y sus (value) an sido insertados exitosamente en la ruta a pegar de su base de datos Firebase.");
-                            });
-                        }
-                        else {
-                            firebaseRef.child(pathPaste).setValue(elementResult).addOnCompleteListener(task -> {
-                                Log.d("GetDataUser", "[sendFT] Sus (key) y sus (value) an sido insertados exitosamente en la ruta a pegar de su base de datos Firebase.");
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
-        }
-
-        private void sendTF(String pathCopy, String pathPaste, Map<String,Object> elementResult, Map<String,Object> elementNew, Map<String,Object> elementCopyPath, DatabaseReference firebaseRefPaste, DatabaseReference firebaseRef){
-            elementResult.putAll(elementCopyPath);
-            elementResult.putAll(elementNew);
-
-            if (pathCopy.equals(pathPaste)){
-                firebaseRefPaste.setValue(elementResult).addOnCompleteListener(task -> {
-                    Log.d("GetDataUser", "[sendTF] Sus (key) y sus (value) an sido insertados exitosamente en la ruta a pegar de su base de datos Firebase.");
-                });
-            }
-            else {
-                firebaseRefPaste.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()){
-                            firebaseRefPaste.setValue(elementResult).addOnCompleteListener(task -> {
-                                Log.d("GetDataUser", "[sendTF] Sus (key) y sus (value) an sido insertados exitosamente en la ruta a pegar de su base de datos Firebase.");
-                            });
-                        }
-                        else {
-                            firebaseRef.child(pathPaste).setValue(elementResult).addOnCompleteListener(task -> {
-                                Log.d("GetDataUser", "[sendTF] Sus (key) y sus (value) an sido insertados exitosamente en la ruta a pegar de su base de datos Firebase.");
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
-        }
-
-        private void sendFF(String pathCopy, String pathPaste, Map<String,Object> elementResult, Map<String,Object> elementNew, Map<String,Object> elementCopyPath, DatabaseReference firebaseRefPaste, DatabaseReference firebaseRef){
-            elementResult.putAll(elementCopyPath);
-            elementResult.putAll(elementNew);
-
-            if (pathCopy.equals(pathPaste)){
-                firebaseRefPaste.setValue(elementResult).addOnCompleteListener(task -> {
-                    Log.d("GetDataUser", "[sendFF] Sus (key) y sus (value) an sido insertados exitosamente en la ruta a pegar de su base de datos Firebase.");
-                });
-            }
-            else {
-                firebaseRefPaste.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()){
-                            firebaseRefPaste.setValue(elementResult).addOnCompleteListener(task -> {
-                                Log.d("GetDataUser", "[sendFF] Sus (key) y sus (value) an sido insertados exitosamente en la ruta a pegar de su base de datos Firebase.");
-                            });
-                        }
-                        else {
-                            firebaseRef.child(pathPaste).setValue(elementResult).addOnCompleteListener(task -> {
-                                Log.d("GetDataUser", "[sendFF] Sus (key) y sus (value) an sido insertados exitosamente en la ruta a pegar de su base de datos Firebase.");
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
-        }
-
-
 
 
 
     }
+
 
 }

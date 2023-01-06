@@ -199,13 +199,13 @@ public class EditProfile extends AppCompatActivity {
                         .setValuePath("ImageData/imgPerfil")
                         .uploadData();
 
-                Map<String, Object> data2 = new HashMap<>();
-                data2.put("imagen"+(System.currentTimeMillis() / 10), String.valueOf(uri));
-                GetDataUser
-                        .DataOnActivity
-                        .build(getApplicationContext(),EditProfile.this)
-                        .setChild(data2)
-                        .copyPasteDataBase("ImageData/uploadeds/user","ImageData/uploadeds/user");
+
+                GetDataUser.DataOnActivity.send(
+                        false,
+                        false,
+                        GetDataUser.DataOnActivity.getUserPath()+"ImageData/uploadeds/user",
+                        "imagen"+(System.currentTimeMillis() / 10),String.valueOf(uri));
+
 
 
                 msgToast("Imagen subida correctamente");
