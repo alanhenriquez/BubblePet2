@@ -1,6 +1,6 @@
-package com.xforce.bubblepet2.TypeWords;
+package com.xforce.bubblepet2.helpers;
 
-public class BadWords {
+public class Words {
 
     private static final String[] BAD_WORDS = {
             "pendejo",
